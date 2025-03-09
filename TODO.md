@@ -62,3 +62,18 @@ Following these steps, you can implement a mechanism to search and launch the ri
 
 7. **Optional: Caching Results**: ✅
 	- Cache the results of the executable search for efficiency.
+
+# ------------------------------------------------------------------------------------ #
+# ------------------------------------------------------------------------------------ #
+# ------------------------------------------------------------------------------------ #
+# ------------------------------------------------------------------------------------ #
+
+# TODO : Check for valgrind errors. Actually having a lot of leak when ctrl+c\
+
+1. **Checking where it leaks**
+	- Use valgrind to see exactly what need to be freed.
+
+2. **Fix it**
+	- Just free the variables that need to be freed.
+	- main.c (prompt) ✅
+	- parser.c (command) ✅

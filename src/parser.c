@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:48:08 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/09 17:00:48 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/09 23:34:40 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,22 @@ void	parse_exec_command(char **command, char **env, int *status)
 	}
 }
 
+void	ft_free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
+/*	We splitting the line into command variable.
+	Then we need to read some docs to see what we should do.
+	Like the line contain a | we should redirect the output.
+	source : */
 void	parse_line(char *line, char **env)
 {
 	char	**command;
@@ -68,4 +84,5 @@ void	parse_line(char *line, char **env)
 	{
 		parse_exec_command(command, env, &status);
 	}
+	ft_free_split(command);
 }

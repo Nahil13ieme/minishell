@@ -12,20 +12,13 @@
 
 #include "../include/minishell.h"
 
-
-void	exec_command(char **command, char **env)
+static void	exec_relative(char **command, char **env)
 {
 	char	*path;
 	char	*token;
 	char	*cmd_path;
 	char	*full_path;
 
-	if (access(command[0], X_OK) == 0)
-	{
-		execve(command[0], command, env);
-		perror("execve");
-		exit(EXIT_FAILURE);
-	}
 	path = getenv("PATH");
 	token = ft_strtok(path, ":");
 	while (token != NULL)
@@ -38,12 +31,30 @@ void	exec_command(char **command, char **env)
 			execve(full_path, command, env);
 			perror("execve");
 			free(full_path);
+			free(token);
 			exit(EXIT_FAILURE);
 		}
 		free(full_path);
 		free(token);
 		token = ft_strtok(NULL, ":");
 	}
+}
+
+static void	exec_absolute(char **command, char **env)
+{
+	if (access(command[0], X_OK) == 0)
+	{
+		execve(command[0], command, env);
+		perror("execve");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	exec_command(char **command, char **env)
+{
+	exec_absolute(command, env);
+	exec_relative(command, env);
+	perror("execve");
 	ft_putstr_fd(command[0], 2);
 	ft_putstr_fd( ": command not found", 2);
 	ft_putchar_fd('\n', 2);

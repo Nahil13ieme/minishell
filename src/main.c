@@ -33,6 +33,29 @@ char	*get_username(void)
 	return (name);
 }
 
+char	*	make_prompt(void)
+{
+	char	*user;
+	char	*cur_path;
+	char	*tmp;
+	char	*prompt;
+
+	prompt = GREEN;
+	user = get_username();
+	user = ft_strjoin(user, "@minishell" WHITE ":" BLUE);
+	prompt = ft_strjoin(prompt, user);
+	free(user);
+	cur_path = getcwd(NULL, 0);
+	tmp = prompt;
+	prompt = ft_strjoin(prompt, cur_path);
+	free(tmp);
+	free(cur_path);
+	tmp = prompt;
+	prompt = ft_strjoin(prompt, " " WHITE);
+	free(tmp);
+	return (prompt);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	(void)ac;
@@ -40,22 +63,20 @@ int	main(int ac, char **av, char **env)
 	char	*line;
 	char	*prompt;
 	
-	env[0] = "SHELL=";
-	env[0] = ft_strjoin(env[0], getcwd(NULL, 0));
 	setup_parent_signal();
 	using_history();
 	while (1)
 	{
-		prompt = ft_strjoin(ft_strjoin(GREEN, get_username()), "@minishell" WHITE ":" BLUE);
-		prompt = ft_strjoin(prompt, getcwd(NULL, 0));
-		prompt = ft_strjoin(prompt, " " WHITE);
+		prompt = make_prompt();
 		line = readline(prompt);
+		free(prompt);
 		if (!line)
 			break ;
 		if (line[0] != '\0')
+		{
 			add_history(line);
-		parse_line(line, env);
-		free(prompt);
+			parse_line(line, env);
+		}
 		free(line);
 	}
 	return (0);

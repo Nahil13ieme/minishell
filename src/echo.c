@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:49:05 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/07 17:56:29 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/09 23:13:01 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exec_echo(char **command)
 
 	i = 1;
 	n = 0;
-	if (command[1][0] == '-')
+	if (command[1] && command[1][0] == '-')
 		{
 			if (command[1][1] == 'n' && command[1][2] == '\0')
 			{

@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:51:40 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/07 20:52:10 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/09 23:28:50 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,5 @@ void	exec_pwd(void)
 	}
 	ft_putstr_fd(path, 1);
 	ft_putchar_fd('\n', 1);
+	free(path);
 }
