@@ -33,7 +33,7 @@ char	*get_username(void)
 	return (name);
 }
 
-char	*	make_prompt(void)
+char	*make_prompt(void)
 {
 	char	*user;
 	char	*cur_path;
@@ -58,11 +58,11 @@ char	*	make_prompt(void)
 
 int	main(int ac, char **av, char **env)
 {
-	(void)ac;
-	(void)av;
 	char	*line;
 	char	*prompt;
-	
+
+	(void)ac;
+	(void)av;
 	setup_parent_signal();
 	using_history();
 	while (1)

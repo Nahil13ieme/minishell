@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:48:08 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/09 23:34:40 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/09 23:45:22 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	parse_exec_command(char **command, char **env, int *status)
 		setup_child_signal();
 		exec_command(command, env);
 		exit(EXIT_FAILURE);
-	} else if (pid > 0)
+	}
+	else if (pid > 0)
 	{
 		*status = parse_waitpid(pid);
 		printf("Status: %d\n", *status);
@@ -66,10 +67,12 @@ void	ft_free_split(char **split)
 	}
 	free(split);
 }
+
 /*	We splitting the line into command variable.
 	Then we need to read some docs to see what we should do.
 	Like the line contain a | we should redirect the output.
-	source : */
+	source :
+*/
 void	parse_line(char *line, char **env)
 {
 	char	**command;

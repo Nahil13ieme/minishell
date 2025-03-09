@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:58:56 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/07 23:43:50 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/09 23:42:51 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_builtins(char *command)
 		return (1);
 	if (ft_strncmp(command, "env", 4) == 0)
 		return (1);
-	if	(ft_strncmp(command, "exit", 5) == 0)
+	if (ft_strncmp(command, "exit", 5) == 0)
 		return (1);
 	return (0);
 }

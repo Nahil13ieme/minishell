@@ -56,7 +56,7 @@ void	exec_command(char **command, char **env)
 	exec_relative(command, env);
 	perror("execve");
 	ft_putstr_fd(command[0], 2);
-	ft_putstr_fd( ": command not found", 2);
+	ft_putstr_fd(": command not found", 2);
 	ft_putchar_fd('\n', 2);
 	exit(127);
 }
