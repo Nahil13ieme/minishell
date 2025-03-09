@@ -42,6 +42,7 @@ int	main(int ac, char **av, char **env)
 	
 	env[0] = "SHELL=";
 	env[0] = ft_strjoin(env[0], getcwd(NULL, 0));
+	setup_parent_signal();
 	using_history();
 	while (1)
 	{

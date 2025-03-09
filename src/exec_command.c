@@ -12,6 +12,7 @@
 
 #include "../include/minishell.h"
 
+
 void	exec_command(char **command, char **env)
 {
 	char	*path;
@@ -23,7 +24,7 @@ void	exec_command(char **command, char **env)
 	{
 		execve(command[0], command, env);
 		perror("execve");
-		return ;
+		exit(EXIT_FAILURE);
 	}
 	path = getenv("PATH");
 	token = ft_strtok(path, ":");
@@ -37,7 +38,7 @@ void	exec_command(char **command, char **env)
 			execve(full_path, command, env);
 			perror("execve");
 			free(full_path);
-			return ;
+			exit(EXIT_FAILURE);
 		}
 		free(full_path);
 		free(token);
@@ -46,6 +47,5 @@ void	exec_command(char **command, char **env)
 	ft_putstr_fd(command[0], 2);
 	ft_putstr_fd( ": command not found", 2);
 	ft_putchar_fd('\n', 2);
-	(void)env;
-	(void)command;
+	exit(127);
 }

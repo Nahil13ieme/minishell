@@ -37,6 +37,8 @@
 # define MAGENTA "\033[0;35m"
 # define WHITE "\033[0;37m"
 
+extern volatile sig_atomic_t	g_signal;
+
 /* ----------- Parser.c ----------- */
 void	parse_line(char *line, char **env);
 
@@ -73,5 +75,10 @@ void	exec_exit(char **command);
 
 /* ----------- ft_strtok.c ----------- */
 char	*ft_strtok(char *str, char *separators);
+
+/* ----------- signal_handling.c ----------- */
+void	signal_handler(int sig);
+void	setup_parent_signal(void);
+void	setup_child_signal(void);
 
 #endif //MINISHELL_H
