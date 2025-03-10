@@ -12,15 +12,15 @@
 
 #include "../include/minishell.h"
 
-static void	exec_relative(char **command, char **env)
+static void	exec_relative(char **command, char **env, char *path)
 {
-	char	*path;
 	char	*token;
 	char	*cmd_path;
 	char	*full_path;
+	char	*tmp;
 
-	path = getenv("PATH");
-	token = ft_strtok(path, ":");
+	tmp = ft_strdup(path);
+	token = ft_strtok(tmp, ":");
 	while (token != NULL)
 	{
 		cmd_path = ft_strjoin(token, "/");
@@ -31,13 +31,13 @@ static void	exec_relative(char **command, char **env)
 			execve(full_path, command, env);
 			perror("execve");
 			free(full_path);
-			free(token);
+			free(tmp);
 			exit(EXIT_FAILURE);
 		}
 		free(full_path);
-		free(token);
 		token = ft_strtok(NULL, ":");
 	}
+	free(tmp);
 }
 
 static void	exec_absolute(char **command, char **env)
@@ -52,8 +52,18 @@ static void	exec_absolute(char **command, char **env)
 
 void	exec_command(char **command, char **env)
 {
+	char	*path;
+
 	exec_absolute(command, env);
-	exec_relative(command, env);
+	path = getenv("PATH");
+	if (path == NULL)
+	{
+		ft_putstr_fd(command[0], 2);
+		ft_putstr_fd(": command not found", 2);
+		ft_putchar_fd('\n', 2);
+		exit(127);
+	}
+	exec_relative(command, env, path);
 	perror("execve");
 	ft_putstr_fd(command[0], 2);
 	ft_putstr_fd(": command not found", 2);

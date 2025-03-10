@@ -39,6 +39,29 @@
 
 extern volatile sig_atomic_t	g_signal;
 
+/* Simple command
+** @str: the command and its arguments
+** @nbr_args: the number of arguments
+** @nbr_ava_args: the number of available arguments
+*/
+typedef struct s_simple_command
+{
+	char	**command;
+	int		nbr_args;
+	int		nbr_ava_args;
+}	t_simple_command;
+
+typedef struct s_command
+{
+	int					nbr_ava_simple_cmds;
+	int					nbr_simple_cmds;
+	t_simple_command	**simple_cmds;
+	char				*outfile;
+	char				*infile;
+	char				*err_file;
+	int					bg;
+}	t_command;
+
 /* ----------- Parser.c ----------- */
 void	parse_line(char *line, char **env);
 

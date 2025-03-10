@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:04:00 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/09 23:44:14 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/10 02:25:33 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,23 @@ static int	ft_check_separators(char *str, char c)
 char	*ft_strtok(char *str, char *separators)
 {
 	char		*ret;
-	static char	*str_new;
-	int			i;
-	int			size_ret;
+	static char	*str_new = NULL;
 
 	if (str != NULL)
 		str_new = str;
-	else
-		str = str_new;
-	i = 0;
-	size_ret = 0;
-	if (!str_new || !str)
+	else if (str_new == NULL)
 		return (NULL);
-	while (str[i] && ft_check_separators(separators, str[i]))
-		i++;
-	while (str[i] && !ft_check_separators(separators, str[i]))
-	{
-		i++;
-		size_ret++;
-	}
-	ret = malloc(sizeof(char) * size_ret + 1);
-	if (!ret)
-		return (NULL);
-	ft_strlcpy(ret, str + i - size_ret, size_ret + 1);
-	str_new = str + i;
+	while (*str_new && ft_check_separators(separators, *str_new))
+		str_new++;
 	if (*str_new == '\0')
+	{
 		str_new = NULL;
+		return (NULL);
+	}
+	ret = str_new;
+	while (*str_new && !ft_check_separators(separators, *str_new))
+		str_new++;
+	if (*str_new)
+		*str_new++ = '\0';
 	return (ret);
 }

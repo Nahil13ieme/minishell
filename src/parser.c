@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:48:08 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/09 23:45:22 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/10 01:54:09 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,19 @@ void	ft_free_split(char **split)
 /*	We splitting the line into command variable.
 	Then we need to read some docs to see what we should do.
 	Like the line contain a | we should redirect the output.
-	source :
+	1 - Lexical analysis and parsing
+	2 - Brace Expansion
+	3 - Tilde Expansion
+	4 - Parameter Expansion
+	5 - Command Substitution
+	6 - Arithmetic Expansion
+	7 - Process Substitution
+	8 - Word Splitting
+	9 - Filename Expansion
+	10 - Quote
+	11 - Redirection
+	12 - Function Definition
+	13 - Command Execution
 */
 void	parse_line(char *line, char **env)
 {

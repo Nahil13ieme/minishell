@@ -10,6 +10,16 @@
 # getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 # tgetnum, tgetstr, tgoto, tputs
 
+
+# Source for making a shell :
+1.	 - https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
+2.   - https://github.com/kamalmarhubi/shell-workshop
+3.   - https://igupta.in/blog/writing-a-unix-shell-part-1/
+4.   - https://github.com/tokenrove/build-your-own-shell
+5.   - https://danishpraka.sh/posts/write-a-shell/
+6.   - https://www.gnu.org/software/libc/manual/html_mono/libc.html#Implementing-a-Shell
+7.   - https://aosabook.org/en/v1/bash.html
+
 # ------------------------------------------------------------------------------------ #
 # ------------------------------------------------------------------------------------ #
 # ------------------------------------------------------------------------------------ #
