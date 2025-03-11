@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:48:08 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/10 01:54:09 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:41:03 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	parse_exec_command(char **command, char **env, int *status)
 	else if (pid > 0)
 	{
 		*status = parse_waitpid(pid);
-		printf("Status: %d\n", *status);
 		g_signal = 0;
 	}
 	else
@@ -66,6 +65,107 @@ void	ft_free_split(char **split)
 		i++;
 	}
 	free(split);
+}
+
+static char	*extract_quote(char *line, int *i, char quote)
+{
+	int		start;
+	char	*ret;
+	int		len;
+
+	start = *i + 1;
+	(*i)++;
+	while (line[*i] && line[*i] != quote)
+		(*i)++;
+	if (line[*i] == quote)
+	{
+		len = *i - start;
+		ret = ft_substr(line, start, len);
+		(*i)++;
+		return (ret);
+	}
+	perror("unclosed quote");
+	return (NULL);
+}
+
+static char	*expand_variable(char *line)
+{
+	char	*var_name;
+	char	*var_value;
+
+	var_name = line + 1;
+	var_value = getenv(var_name);
+	if (var_value)
+	{
+		return (ft_strdup(var_value));
+	}
+	else
+	{
+		perror("variable not found");
+		return (NULL);
+	}
+}
+
+char	**tokenizer(char *line, char **env)
+{
+	char **tokens = NULL;
+	char *temp;
+	int i = 0;
+	int len = 0;
+
+	(void)env;
+	while (line[i])
+	{
+		while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
+			i++;
+		if (line[i] == '\0')
+			break;
+		if (line[i] == '\'')
+		{
+			temp = extract_quote(line, &i, '\'');
+			if (!temp)
+				return (ft_free_split(tokens), NULL);
+		}
+		else if (line[i] == '"')
+		{
+			temp = extract_quote(line, &i, '"');
+			if (!temp)
+				return (ft_free_split(tokens), NULL);
+			if (ft_strchr(temp, '$'))
+			{
+				char *expanded = expand_variable(temp);
+				free(temp);
+				temp = expanded;
+			}
+		}
+		else
+		{
+			int start = i;
+			while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != '\n'
+					&& line[i] != '\'')
+				i++;
+			if (i > start)
+			{
+				temp = ft_substr(line, start, i - start);
+				if (!temp)
+				return (ft_free_split(tokens), NULL);
+			}
+			else
+				continue;
+		}
+		if (temp && temp[0] == '\0')
+		{
+			free(temp);
+			continue;
+		}
+		len++;
+		tokens = ft_realloc(tokens, (len + 1) * sizeof(char *), len * sizeof(char *));
+		if (!tokens)
+			return (free(temp), NULL);
+		tokens[len - 1] = temp;
+		tokens[len] = NULL;
+	}
+	return (tokens);
 }
 
 /*	We splitting the line into command variable.
@@ -90,14 +190,21 @@ void	parse_line(char *line, char **env)
 	char	**command;
 	int		status;
 
-	command = ft_split(line, ' ');
-	if (check_builtins(command[0]))
+	command = tokenizer(line, env);
+	if (command)
 	{
-		exec_builtins(command, env);
+		if (check_builtins(command[0]))
+		{
+			exec_builtins(command, env);
+		}
+		else
+		{
+			parse_exec_command(command, env, &status);
+		}
+		ft_free_split(command);
 	}
 	else
 	{
-		parse_exec_command(command, env, &status);
+		ft_putstr_fd("Error: Invalid command\n", 2);
 	}
-	ft_free_split(command);
 }
