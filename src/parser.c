@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:48:08 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/11 16:41:03 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/11 21:20:53 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,35 @@ static char	*expand_variable(char *line)
 	}
 }
 
+static void	handle_double_quote(char **temp, char *line, int *i)
+{
+	char *expanded;
+
+	*temp = extract_quote(line, i, '"');
+	if (!*temp)
+	{
+		return ;
+	}
+	if (ft_strchr(*temp, '$'))
+	{
+		expanded = expand_variable(*temp);
+		free(*temp);
+		*temp = expanded;
+	}
+	
+}
+
 char	**tokenizer(char *line, char **env)
 {
-	char **tokens = NULL;
-	char *temp;
-	int i = 0;
-	int len = 0;
+	char	**tokens;
+	char	*temp;
+	int		i;
+	int		len;
 
 	(void)env;
+	tokens = NULL;
+	i = 0;
+	len = 0;
 	while (line[i])
 	{
 		while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
@@ -128,15 +149,23 @@ char	**tokenizer(char *line, char **env)
 		}
 		else if (line[i] == '"')
 		{
-			temp = extract_quote(line, &i, '"');
+			handle_double_quote(&temp, line, &i);
 			if (!temp)
 				return (ft_free_split(tokens), NULL);
-			if (ft_strchr(temp, '$'))
-			{
-				char *expanded = expand_variable(temp);
-				free(temp);
-				temp = expanded;
-			}
+		}
+		else if (line[i] == '$')
+		{
+			temp = expand_variable(line + i);
+			if (!temp)
+				return (ft_free_split(tokens), NULL);
+			i += ft_strlen(temp) - 1;
+		}
+		else if (line[i] == '|')
+		{
+			temp = ft_strdup("|");
+			if (!temp)
+				return (ft_free_split(tokens), NULL);
+			i++;
 		}
 		else
 		{
@@ -191,6 +220,8 @@ void	parse_line(char *line, char **env)
 	int		status;
 
 	command = tokenizer(line, env);
+	for(int i = 0; command[i]; i++)
+		printf("command : %s\n", command[i]);
 	if (command)
 	{
 		if (check_builtins(command[0]))
