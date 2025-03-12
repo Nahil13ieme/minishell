@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:48:08 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/11 21:20:53 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:49:47 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,141 +88,146 @@ static char	*extract_quote(char *line, int *i, char quote)
 	return (NULL);
 }
 
-static char	*expand_variable(char *line)
+static char	*expand_variable(char *line, int *i, char **env)
 {
 	char	*var_name;
 	char	*var_value;
+	int		end = 1;
 
-	var_name = line + 1;
-	var_value = getenv(var_name);
+	while (line[end] && (ft_isalnum(line[end]) || line[end] == '_'))
+		end++;
+	var_name = ft_substr(line, 1, end - 1);
+	if (!var_name)
+		return NULL;
+	*i += end;
+	var_value = get_my_env(env, var_name);
+	free(var_name);
 	if (var_value)
-	{
-		return (ft_strdup(var_value));
-	}
+		return ft_strdup(var_value);
 	else
 	{
-		perror("variable not found");
-		return (NULL);
+		return ft_strdup("");
 	}
 }
 
-static void	handle_double_quote(char **temp, char *line, int *i)
+static void	handle_double_quote(char **temp, char *line, int *i, char **env)
 {
-	char *expanded;
+	char	*expanded;
+	int		start = *i;
 
 	*temp = extract_quote(line, i, '"');
 	if (!*temp)
-	{
 		return ;
-	}
 	if (ft_strchr(*temp, '$'))
 	{
-		expanded = expand_variable(*temp);
+		expanded = expand_variable(*temp, &start, env);
 		free(*temp);
 		*temp = expanded;
 	}
-	
 }
 
-char	**tokenizer(char *line, char **env)
+char **tokenizer(char *line, char **env)
 {
-	char	**tokens;
-	char	*temp;
-	int		i;
-	int		len;
+	char **tokens = NULL;
+	int i = 0;
+	int len = 0;
 
-	(void)env;
-	tokens = NULL;
-	i = 0;
-	len = 0;
 	while (line[i])
 	{
 		while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
 			i++;
 		if (line[i] == '\0')
 			break;
-		if (line[i] == '\'')
+		char *current_token = NULL;
+		while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
 		{
-			temp = extract_quote(line, &i, '\'');
-			if (!temp)
-				return (ft_free_split(tokens), NULL);
-		}
-		else if (line[i] == '"')
-		{
-			handle_double_quote(&temp, line, &i);
-			if (!temp)
-				return (ft_free_split(tokens), NULL);
-		}
-		else if (line[i] == '$')
-		{
-			temp = expand_variable(line + i);
-			if (!temp)
-				return (ft_free_split(tokens), NULL);
-			i += ft_strlen(temp) - 1;
-		}
-		else if (line[i] == '|')
-		{
-			temp = ft_strdup("|");
-			if (!temp)
-				return (ft_free_split(tokens), NULL);
-			i++;
-		}
-		else
-		{
-			int start = i;
-			while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != '\n'
-					&& line[i] != '\'')
-				i++;
-			if (i > start)
+			char *segment = NULL;
+			
+			if (line[i] == '\'')
 			{
-				temp = ft_substr(line, start, i - start);
-				if (!temp)
-				return (ft_free_split(tokens), NULL);
+				segment = extract_quote(line, &i, '\'');
+				if (!segment)
+				{
+					if (current_token)
+						free(current_token);
+					return (ft_free_split(tokens), NULL);
+				}
+			}
+			else if (line[i] == '"')
+			{
+				handle_double_quote(&segment, line, &i, env);
+				if (!segment)
+				{
+					if (current_token)
+						free(current_token);
+					return (ft_free_split(tokens), NULL);
+				}
+			}
+			else if (line[i] == '$')
+			{
+				segment = expand_variable(line + i, &i, env);
+				if (!segment)
+				{
+					if (current_token)
+						free(current_token);
+					return (ft_free_split(tokens), NULL);
+				}
 			}
 			else
-				continue;
+			{
+				segment = extract_segment(line, &i, current_token, tokens);
+			}
+			if (segment && segment[0] != '\0')
+			{
+				if (current_token)
+				{
+					char *temp = ft_strjoin(current_token, segment);
+					free(current_token);
+					free(segment);
+					if (!temp)
+						return (ft_free_split(tokens), NULL);
+					current_token = temp;
+				}
+				else
+				{
+					current_token = segment;
+				}
+			}
+			else if (segment)
+			{
+				free(segment);
+			}
 		}
-		if (temp && temp[0] == '\0')
+		if (current_token && current_token[0] != '\0')
 		{
-			free(temp);
-			continue;
+			len++;
+			tokens = ft_realloc(tokens, (len + 1) * sizeof(char *), len * sizeof(char *));
+			if (!tokens)
+			{
+				free(current_token);
+				return (NULL);
+			}
+			tokens[len - 1] = current_token;
+			tokens[len] = NULL;
 		}
-		len++;
-		tokens = ft_realloc(tokens, (len + 1) * sizeof(char *), len * sizeof(char *));
-		if (!tokens)
-			return (free(temp), NULL);
-		tokens[len - 1] = temp;
-		tokens[len] = NULL;
+		else if (current_token)
+		{
+			free(current_token);
+		}
 	}
+	
 	return (tokens);
 }
 
-/*	We splitting the line into command variable.
-	Then we need to read some docs to see what we should do.
-	Like the line contain a | we should redirect the output.
-	1 - Lexical analysis and parsing
-	2 - Brace Expansion
-	3 - Tilde Expansion
-	4 - Parameter Expansion
-	5 - Command Substitution
-	6 - Arithmetic Expansion
-	7 - Process Substitution
-	8 - Word Splitting
-	9 - Filename Expansion
-	10 - Quote
-	11 - Redirection
-	12 - Function Definition
-	13 - Command Execution
-*/
-void	parse_line(char *line, char **env)
+void	parse_line(char *line, char ***env)
 {
 	char	**command;
 	int		status;
 
-	command = tokenizer(line, env);
-	for(int i = 0; command[i]; i++)
-		printf("command : %s\n", command[i]);
-	if (command)
+	command = tokenizer(line, *env);
+	if (!command)
+		return ;
+	else if (command)
 	{
 		if (check_builtins(command[0]))
 		{
@@ -230,7 +235,7 @@ void	parse_line(char *line, char **env)
 		}
 		else
 		{
-			parse_exec_command(command, env, &status);
+			parse_exec_command(command, *env, &status);
 		}
 		ft_free_split(command);
 	}

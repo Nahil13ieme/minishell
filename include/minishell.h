@@ -63,7 +63,11 @@ typedef struct s_command
 }	t_command;
 
 /* ----------- Parser.c ----------- */
-void	parse_line(char *line, char **env);
+void	parse_line(char *line, char ***env);
+void	ft_free_split(char **split);
+
+/* ----------- parser_utils.c ----------- */
+char	*extract_segment(char *line, int *i, char *current_token, char **tokens);
 
 /* ----------- main.c ----------- */
 //int	main(int ac, char **av, char **env);
@@ -73,7 +77,7 @@ void	exec_command(char **command, char **env);
 
 /* ----------- builtins.c ----------- */
 int		check_builtins(char *command);
-void	exec_builtins(char **command, char **env);
+void	exec_builtins(char **command, char ***env);
 
 /* ----------- echo.c ----------- */
 void	exec_echo(char **command);
@@ -85,13 +89,14 @@ void	exec_cd(char **command);
 void	exec_pwd(void);
 
 /* ----------- export.c ----------- */
-void	exec_export(char **env);
+void	exec_export(char ***env, char **command);
 
 /* ----------- unset.c ----------- */
-void	exec_unset(char **command);
+void	exec_unset(char **command, char ***env);
 
 /* ----------- env.c ----------- */
 void	exec_env(char **env);
+char	*get_my_env(char **env, char *name);
 
 /* ----------- exit.c ----------- */
 void	exec_exit(char **command);

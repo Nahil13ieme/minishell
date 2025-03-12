@@ -46,6 +46,10 @@ char	*make_prompt(void)
 	prompt = ft_strjoin(prompt, user);
 	free(user);
 	cur_path = getcwd(NULL, 0);
+	if (cur_path == NULL)
+	{
+			cur_path = ft_strdup("??");
+	}
 	tmp = prompt;
 	prompt = ft_strjoin(prompt, cur_path);
 	free(tmp);
@@ -60,9 +64,11 @@ int	main(int ac, char **av, char **env)
 {
 	char	*line;
 	char	*prompt;
+	char	**envp;
 
 	(void)ac;
 	(void)av;
+	envp = env;
 	setup_parent_signal();
 	using_history();
 	while (1)
@@ -75,7 +81,7 @@ int	main(int ac, char **av, char **env)
 		if (line[0] != '\0')
 		{
 			add_history(line);
-			parse_line(line, env);
+			parse_line(line, &envp);
 		}
 		free(line);
 	}
