@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:48:08 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/12 15:49:47 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/12 21:01:16 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,43 @@ static char	*expand_variable(char *line, int *i, char **env)
 {
 	char	*var_name;
 	char	*var_value;
-	int		end = 1;
+	char	*result;
+	char	*temp;
+	int		start;
+	int		len;
 
-	while (line[end] && (ft_isalnum(line[end]) || line[end] == '_'))
-		end++;
-	var_name = ft_substr(line, 1, end - 1);
-	if (!var_name)
-		return NULL;
-	*i += end;
-	var_value = get_my_env(env, var_name);
-	free(var_name);
-	if (var_value)
-		return ft_strdup(var_value);
-	else
+	start = 0;
+	result = ft_strdup("");
+	(void)i;
+	while (line[start])
 	{
-		return ft_strdup("");
+		len = 0;
+		if (line[start] == '$' && line[start + 1] != 0 && line[start + 1] != ' '
+			&& line[start + 1] != '\n' && line[start + 1] != '\t')
+		{
+			start++;
+			while (line[start] && (ft_isalnum(line[start]) || line[start] == '_'))
+			{
+				len++;
+				start++;
+			}
+			var_name = ft_substr(line, start - len, start - 1);
+			printf("var_name = %s\n", var_name);
+			var_value = get_my_env(env, var_name);
+			printf("var_value = %s\n", var_value);
+			temp = ft_strdup(var_value);
+			free(var_name);
+		}
+		if (temp)
+		{
+			printf("temp = %s\n", temp);
+			result = ft_strjoin(result, temp);
+			free(temp);
+		}
+		start++;
 	}
+	printf("result = %s\n", result);
+	return (result);
 }
 
 static void	handle_double_quote(char **temp, char *line, int *i, char **env)
