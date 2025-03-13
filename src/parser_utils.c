@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:17:14 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/12 12:24:09 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/13 09:43:11 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,90 @@ char	*extract_segment(char *line, int *i, char *current_token, char **tokens)
 		return (ft_free_split(tokens), NULL);
 	}
 	return (seg);
+}
+
+static char	*double_quote_segment(char *temp, char **env)
+{
+	char	*expanded;
+	char	*tmp;
+	char	*ret;
+	int		start;
+
+	ret = ft_strdup("");
+	start = 0;
+	while (temp[start])
+	{
+		if (temp[start] == '$')
+		{
+			expanded = expand_variable(temp + start, &start, env);
+			if (!expanded)
+				return (NULL);
+			ret = ft_strjoin(ret, expanded);
+			free(expanded);
+		}
+		else
+		{
+			tmp = ret;
+			ret = ft_strjoin(ret, ft_substr(temp, start++, 1));
+			free(tmp);
+		}
+	}
+	return (ret);
+}
+
+void	handle_double_quote(char **segment, char *line, int *i, char **env)
+{
+	char	*temp;
+
+	*segment = extract_quote(line, i, '"');
+	if (!*segment)
+		return ;
+	temp = *segment;
+	*segment = double_quote_segment(temp, env);
+	free(temp);
+}
+
+char	*extract_quote(char *line, int *i, char quote)
+{
+	int		start;
+	char	*ret;
+	int		len;
+
+	start = *i + 1;
+	(*i)++;
+	while (line[*i] && line[*i] != quote)
+		(*i)++;
+	if (line[*i] == quote)
+	{
+		len = *i - start;
+		ret = ft_substr(line, start, len);
+		(*i)++;
+		return (ret);
+	}
+	return (NULL);
+}
+
+char	*expand_variable(char *line, int *i, char **env)
+{
+	char	*var_name;
+	char	*var_value;
+	int		end;
+		
+	end = 1;
+	while (line[end] && (ft_isalnum(line[end]) || line[end] == '_'))
+		end++;
+	var_name = ft_substr(line, 1, end - 1);
+	if (!var_name)
+		return (NULL);
+	*i += end;
+	if (end == 1)
+		return (ft_strdup("$"));
+	var_value = get_my_env(env, var_name);
+	free(var_name);
+	if (!var_value)
+	{
+		//perror("variable not found");
+		return (ft_strdup(""));
+	}
+	return (ft_strdup(var_value));
 }

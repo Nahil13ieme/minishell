@@ -68,6 +68,10 @@ void	ft_free_split(char **split);
 
 /* ----------- parser_utils.c ----------- */
 char	*extract_segment(char *line, int *i, char *current_token, char **tokens);
+void	handle_double_quote(char **segment, char *line, int *i, char **env);
+char	*extract_quote(char *line, int *i, char quote);
+char	*expand_variable(char *line, int *i, char **env);
+//static char	*double_quote_segment(char *temp, char **env);
 
 /* ----------- main.c ----------- */
 //int	main(int ac, char **av, char **env);

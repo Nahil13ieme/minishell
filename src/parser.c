@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:48:08 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/12 21:01:16 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:47:46 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,86 +65,6 @@ void	ft_free_split(char **split)
 		i++;
 	}
 	free(split);
-}
-
-static char	*extract_quote(char *line, int *i, char quote)
-{
-	int		start;
-	char	*ret;
-	int		len;
-
-	start = *i + 1;
-	(*i)++;
-	while (line[*i] && line[*i] != quote)
-		(*i)++;
-	if (line[*i] == quote)
-	{
-		len = *i - start;
-		ret = ft_substr(line, start, len);
-		(*i)++;
-		return (ret);
-	}
-	perror("unclosed quote");
-	return (NULL);
-}
-
-static char	*expand_variable(char *line, int *i, char **env)
-{
-	char	*var_name;
-	char	*var_value;
-	char	*result;
-	char	*temp;
-	int		start;
-	int		len;
-
-	start = 0;
-	result = ft_strdup("");
-	(void)i;
-	while (line[start])
-	{
-		len = 0;
-		if (line[start] == '$' && line[start + 1] != 0 && line[start + 1] != ' '
-			&& line[start + 1] != '\n' && line[start + 1] != '\t')
-		{
-			start++;
-			while (line[start] && (ft_isalnum(line[start]) || line[start] == '_'))
-			{
-				len++;
-				start++;
-			}
-			var_name = ft_substr(line, start - len, start - 1);
-			printf("var_name = %s\n", var_name);
-			var_value = get_my_env(env, var_name);
-			printf("var_value = %s\n", var_value);
-			temp = ft_strdup(var_value);
-			free(var_name);
-		}
-		if (temp)
-		{
-			printf("temp = %s\n", temp);
-			result = ft_strjoin(result, temp);
-			free(temp);
-		}
-		start++;
-	}
-	printf("result = %s\n", result);
-	return (result);
-}
-
-static void	handle_double_quote(char **temp, char *line, int *i, char **env)
-{
-	char	*expanded;
-	int		start = *i;
-
-	*temp = extract_quote(line, i, '"');
-	if (!*temp)
-		return ;
-	if (ft_strchr(*temp, '$'))
-	{
-		expanded = expand_variable(*temp, &start, env);
-		free(*temp);
-		*temp = expanded;
-	}
 }
 
 char **tokenizer(char *line, char **env)
