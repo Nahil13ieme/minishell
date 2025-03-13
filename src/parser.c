@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:48:08 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/13 16:47:46 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:37:36 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,79 +67,72 @@ void	ft_free_split(char **split)
 	free(split);
 }
 
+char	*handle_token(char *line, char **tokens, char **env, int *i)
+{
+	char	*current_token;
+	char	*segment;
+	char	*temp;
+	
+	current_token = ft_strdup("");
+	while (line[*i] && line[*i] != ' ' && line[*i] != '\t' && line[*i] != '\n')
+	{
+		segment = NULL;
+		if (line[*i] == '\'')
+			segment = extract_quote(line, i, '\'');
+		else if (line[*i] == '"')
+			segment = handle_double_quote(segment, line, i, env);
+		else if (line[*i] == '$')
+			segment = expand_variable(line + *i, i, env);
+		else
+			segment = extract_segment(line, i, current_token, tokens);
+		if (!segment)
+			{
+				if (current_token)
+					free(current_token);
+				return (NULL);
+			}
+		if (segment && segment[0] != '\0')
+		{
+			if (current_token)
+			{
+				temp = ft_strjoin(current_token, segment);
+				free(current_token);
+				free(segment);
+				if (!temp)
+					return (NULL);
+				current_token = temp;
+			} 
+			else
+			{
+				current_token = segment;
+			}
+		}
+		else if (segment)
+		{
+			free(segment);
+		}
+	}
+	return (current_token);
+}
+
 char **tokenizer(char *line, char **env)
 {
-	char **tokens = NULL;
-	int i = 0;
-	int len = 0;
+	char	**tokens;
+	int		i = 0;
+	int		len = 0;
+	char	*current_token;
 
+	tokens = NULL;
 	while (line[i])
 	{
 		while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
 			i++;
 		if (line[i] == '\0')
 			break;
-		char *current_token = NULL;
-		while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
-		{
-			char *segment = NULL;
-			
-			if (line[i] == '\'')
-			{
-				segment = extract_quote(line, &i, '\'');
-				if (!segment)
-				{
-					if (current_token)
-						free(current_token);
-					return (ft_free_split(tokens), NULL);
-				}
-			}
-			else if (line[i] == '"')
-			{
-				handle_double_quote(&segment, line, &i, env);
-				if (!segment)
-				{
-					if (current_token)
-						free(current_token);
-					return (ft_free_split(tokens), NULL);
-				}
-			}
-			else if (line[i] == '$')
-			{
-				segment = expand_variable(line + i, &i, env);
-				if (!segment)
-				{
-					if (current_token)
-						free(current_token);
-					return (ft_free_split(tokens), NULL);
-				}
-			}
-			else
-			{
-				segment = extract_segment(line, &i, current_token, tokens);
-			}
-			if (segment && segment[0] != '\0')
-			{
-				if (current_token)
-				{
-					char *temp = ft_strjoin(current_token, segment);
-					free(current_token);
-					free(segment);
-					if (!temp)
-						return (ft_free_split(tokens), NULL);
-					current_token = temp;
-				}
-				else
-				{
-					current_token = segment;
-				}
-			}
-			else if (segment)
-			{
-				free(segment);
-			}
-		}
-		if (current_token && current_token[0] != '\0')
+		current_token = handle_token(line, tokens, env, &i);
+		if (!current_token)
+			return (ft_free_split(tokens), NULL);
+		if (current_token)
 		{
 			len++;
 			tokens = ft_realloc(tokens, (len + 1) * sizeof(char *), len * sizeof(char *));
@@ -151,12 +144,7 @@ char **tokenizer(char *line, char **env)
 			tokens[len - 1] = current_token;
 			tokens[len] = NULL;
 		}
-		else if (current_token)
-		{
-			free(current_token);
-		}
 	}
-	
 	return (tokens);
 }
 

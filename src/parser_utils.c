@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:17:14 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/13 09:43:11 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:00:09 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,29 +47,28 @@ static char	*double_quote_segment(char *temp, char **env)
 			expanded = expand_variable(temp + start, &start, env);
 			if (!expanded)
 				return (NULL);
-			ret = ft_strjoin(ret, expanded);
-			free(expanded);
 		}
 		else
-		{
-			tmp = ret;
-			ret = ft_strjoin(ret, ft_substr(temp, start++, 1));
-			free(tmp);
-		}
+			expanded = ft_substr(temp, start++, 1);
+		tmp = ret;
+		ret = ft_strjoin(ret, expanded);
+		free(tmp);
+		free(expanded);
 	}
 	return (ret);
 }
 
-void	handle_double_quote(char **segment, char *line, int *i, char **env)
+char	*handle_double_quote(char *segment, char *line, int *i, char **env)
 {
 	char	*temp;
 
-	*segment = extract_quote(line, i, '"');
-	if (!*segment)
-		return ;
-	temp = *segment;
-	*segment = double_quote_segment(temp, env);
+	segment = extract_quote(line, i, '"');
+	if (!segment)
+		return (NULL);
+	temp = segment;
+	segment = double_quote_segment(temp, env);
 	free(temp);
+	return (segment);
 }
 
 char	*extract_quote(char *line, int *i, char quote)
