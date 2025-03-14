@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:14:43 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/14 18:08:47 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:11:24 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * to default values. If memory allocation fails, it prints an error and returns NULL.
  * @return A pointer to the initialized t_cmd structure, or NULL on failure.
  */
-t_cmd	*init_simple_command(void)
+t_cmd	*init_command(void)
 {
 	t_cmd	*simple_cmd;
 
@@ -54,7 +54,7 @@ t_exec	*init_exec(void)
 	return (exec);
 }
 
-void	free(t_exec *exec)
+void	free_exec(t_exec *exec)
 {
 	int	i;
 

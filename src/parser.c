@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:48:08 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/14 16:07:47 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:16:15 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_free_split(char **split)
 	free(split);
 }
 
-char	*handle_token(char *line, char **tokens, char **env, int *i)
+char	*handle_token(char *line, char **env, int *i)
 {
 	char	*current_token;
 	char	*segment;
@@ -84,7 +84,7 @@ char	*handle_token(char *line, char **tokens, char **env, int *i)
 		else if (line[*i] == '$')
 			segment = expand_variable(line + *i, i, env);
 		else
-			segment = extract_segment(line, i, current_token, tokens);
+			segment = extract_segment(line, i);
 		if (!segment)
 			{
 				if (current_token)
@@ -127,7 +127,7 @@ char **tokenizer(char *line, char **env)
 			i++;
 		if (line[i] == '\0')
 			break ;
-		current_token = handle_token(line, tokens, env, &i);
+		current_token = handle_token(line, env, &i);
 		if (!current_token)
 			return (ft_free_split(tokens), NULL);
 		if (current_token)

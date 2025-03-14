@@ -33,6 +33,12 @@
 
 extern volatile sig_atomic_t	g_signal;
 
+/**
+ * @brief Structure representing a simple command. Must be initialized with init_command();.
+ * @param cmd Pointer to the command string array, initialized to NULL.
+ * @param argc Number of arguments, initialized to 0.
+ * @param avac Number of available arguments, initialized to 0.
+ */
 typedef struct	t_cmd
 {
 	char	**cmd;
@@ -40,6 +46,16 @@ typedef struct	t_cmd
 	int		avac;
 }	t_cmd;
 
+/**
+ * @brief Structure representing a simple command. Must be initialized with init_exec();.
+ * @param avac_sc Number of available simple commands, initialized to 0.
+ * @param scc Number of simple commands, initialized to 0.
+ * @param bg Background flag, initialized to 0.
+ * @param out Output redirection, initialized to NULL.
+ * @param in Input redirection, initialized to NULL.
+ * @param err Error redirection, initialized to NULL.
+ * @param scmds Array of simple commands, initialized to NULL.
+ */
 typedef struct	t_exec
 {
 	int		avac_sc;
@@ -56,7 +72,15 @@ void	parse_line(char *line, char ***env);
 void	ft_free_split(char **split);
 
 /* ----------- parser_utils.c ----------- */
-char	*extract_segment(char *line, int *i, char *current_token, char **tokens);
+
+/**
+ * @brief Parses the command line and executes the command.
+ * @param line The command line to parse.
+ * @param env The environment variables.
+ * @return The command line parsed into an array of strings.
+ *         Returns NULL on failure.
+ */
+char	*extract_segment(char *line, int *i);
 char	*handle_double_quote(char *line, int *i, char **env);
 char	*extract_quote(char *line, int *i, char quote);
 char	*expand_variable(char *line, int *i, char **env);
@@ -101,5 +125,10 @@ char	*ft_strtok(char *str, char *separators);
 void	signal_handler(int sig);
 void	setup_parent_signal(void);
 void	setup_child_signal(void);
+
+/* ----------- exec_utils.c ----------- */
+t_cmd	*init_command(void);
+t_exec	*init_exec(void);
+void	free_exec(t_exec *exec);
 
 #endif //MINISHELL_H
