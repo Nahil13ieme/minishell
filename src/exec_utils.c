@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:14:43 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/14 18:11:24 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/14 23:11:52 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,15 @@ t_exec	*init_exec(void)
 	exec = malloc(sizeof(t_exec));
 	if (!exec)
 		return (perror("malloc"), NULL);
-	exec->scmds = malloc(sizeof(t_cmd *));
+	exec->scmds = malloc(sizeof(t_cmd *) * 2);
 	if (!exec->scmds)
 		return (perror("malloc"), free(exec), NULL);
-	exec->scmds[0] = NULL;
+	exec->scmds[0] = init_command();
+	if (!exec->scmds[0])
+		return (perror("malloc"), free(exec->scmds), free(exec), NULL);
+	exec->scmds[1] = NULL;
 	exec->avac_sc = 0;
-	exec->scc = 0;
+	exec->nbr_cmds = 0;
 	exec->bg = 0;
 	exec->out = NULL;
 	exec->in = NULL;
@@ -54,30 +57,29 @@ t_exec	*init_exec(void)
 	return (exec);
 }
 
-void	free_exec(t_exec *exec)
+void free_exec(t_exec *exec)
 {
-	int	i;
+	int i;
+	int j;
 
-	if (exec)
+	if (!exec)
+		return ;
+	i = 0;
+	while (exec->scmds[i])
 	{
-		i = 0;
-		while (exec->scmds[i])
+		if (exec->scmds[i]->cmd)
 		{
-			if (exec->scmds[i]->cmd)
+			j = 0;
+			while (exec->scmds[i]->cmd[j])
 			{
-				int j = 0;
-				while (exec->scmds[i]->cmd[j])
-				{
-					free(exec->scmds[i]->cmd[j]);
-					j++;
-				}
-				free(exec->scmds[i]->cmd);
+				free(exec->scmds[i]->cmd[j]);
+				j++;
 			}
 			free(exec->scmds[i]->cmd);
-			free(exec->scmds[i]);
-			i++;
 		}
-		free(exec->scmds);
-		free(exec);
+		free(exec->scmds[i]);
+		i++;
 	}
+	free(exec->scmds);
+	free(exec);
 }

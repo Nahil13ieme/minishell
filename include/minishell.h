@@ -49,7 +49,7 @@ typedef struct	t_cmd
 /**
  * @brief Structure representing a simple command. Must be initialized with init_exec();.
  * @param avac_sc Number of available simple commands, initialized to 0.
- * @param scc Number of simple commands, initialized to 0.
+ * @param nbr_cmds Number of simple commands, initialized to 0.
  * @param bg Background flag, initialized to 0.
  * @param out Output redirection, initialized to NULL.
  * @param in Input redirection, initialized to NULL.
@@ -59,8 +59,9 @@ typedef struct	t_cmd
 typedef struct	t_exec
 {
 	int		avac_sc;
-	int		scc;
+	int		nbr_cmds;
 	int		bg;
+	int		status;
 	char	*out;
 	char	*in;
 	char	*err;

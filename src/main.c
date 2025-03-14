@@ -47,9 +47,7 @@ char	*make_prompt(void)
 	free(user);
 	cur_path = getcwd(NULL, 0);
 	if (cur_path == NULL)
-	{
 			cur_path = ft_strdup("??");
-	}
 	tmp = prompt;
 	prompt = ft_strjoin(prompt, cur_path);
 	free(tmp);
@@ -75,7 +73,8 @@ int	main(int ac, char **av, char **env)
 	{
 		prompt = make_prompt();
 		line = readline(prompt);
-		free(prompt);
+		if (prompt)
+			free(prompt);
 		if (!line)
 			break ;
 		if (line[0] != '\0')

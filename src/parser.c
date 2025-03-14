@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:48:08 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/14 18:16:15 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/14 23:16:54 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,57 +111,80 @@ char	*handle_token(char *line, char **env, int *i)
 	return (current_token);
 }
 
-char **tokenizer(char *line, char **env)
+static void skip_spaces(char *line, int *i)
 {
-	char	**tokens;
-	int		i;
-	int		len;
-	char	*current_token;
+	while (line[*i] == ' ' || line[*i] == '\t' || line[*i] == '\n')
+		*i += 1;
+}
 
-	tokens = NULL;
-	len = 0;
+static char **realloc_cmd(char **cmd, int old_size, int new_size)
+{
+	char	**new_cmd;
+
+	new_cmd = ft_realloc(cmd, new_size * sizeof(char *), old_size * sizeof(char *));
+	return (new_cmd);
+}
+
+void tokenizer(char *line, char **env, t_exec *exec)
+{
+	int		i;
+	t_cmd	*command;
+
 	i = 0;
+	command = exec->scmds[exec->nbr_cmds];
+	skip_spaces(line, &i);
 	while (line[i])
 	{
-		while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
-			i++;
-		if (line[i] == '\0')
-			break ;
-		current_token = handle_token(line, env, &i);
-		if (!current_token)
-			return (ft_free_split(tokens), NULL);
-		if (current_token)
+		if (command->argc + 1 >= command->avac)
 		{
-			len++;
-			tokens = ft_realloc(tokens, (len + 1) * sizeof(char *), len * sizeof(char *));
-			if (!tokens)
-				return (free(current_token), NULL);
-			tokens[len - 1] = current_token;
-			tokens[len] = NULL;
+			command->avac += 10;
+			command->cmd = realloc_cmd(command->cmd, command->avac - 10, command->avac);
+			if (!command->cmd)
+				return ;
 		}
+		command->cmd[command->argc] = handle_token(line, env, &i);
+		if (!command->cmd[command->argc])
+			return ;
+		command->argc += 1;
+		command->cmd[command->argc] = NULL;
+		skip_spaces(line, &i);
+		if (!line[i])
+			break ;
 	}
-	return (tokens);
 }
 
 void	parse_line(char *line, char ***env)
 {
-	char	**command;
-	int		status;
+	t_exec	*exec;
 
-	command = tokenizer(line, *env);
-	if (!command)
+	exec = init_exec();
+	if (!exec)
 		return ;
-	else if (command)
+	exec->scmds[0] = init_command();
+	if (!exec->scmds[0])
 	{
-		if (check_builtins(command[0]))
-			exec_builtins(command, env);
+		free(exec->scmds);
+		free(exec);
+		return ;
+	}
+	tokenizer(line, *env, exec);
+	for (int i = 0; i < exec->scmds[0]->argc; i++)
+	{
+		printf("Command %d: %s\n", i, exec->scmds[0]->cmd[i]);
+	}
+	for (int i = 0; i < exec->nbr_cmds + 1; i++)
+	{
+		if (check_builtins(exec->scmds[i]->cmd[0]) == 1)
+		{
+			exec_builtins(exec->scmds[i]->cmd, env);
+			break ;
+		}
 		else
-			parse_exec_command(command, *env, &status);
-		ft_free_split(command);
+		{
+			parse_exec_command(exec->scmds[i]->cmd, *env, &exec->status);
+			if (exec->status != 0)
+				break ;
+		}
 	}
-	else
-	{
-		ft_putstr_fd("Error: Invalid command\n", 2);
-		ft_free_split(command);
-	}
+	free_exec(exec);
 }
