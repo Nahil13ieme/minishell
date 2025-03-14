@@ -55,7 +55,7 @@ char	*make_prompt(void)
 	free(tmp);
 	free(cur_path);
 	tmp = prompt;
-	prompt = ft_strjoin(prompt, WHITE"$ ");
+	prompt = ft_strjoin(prompt, WHITE "$ ");
 	free(tmp);
 	return (prompt);
 }

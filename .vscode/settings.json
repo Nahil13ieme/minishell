@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"minishell.h": "c",
-		"initializer_list": "c"
+		"initializer_list": "c",
+		"cstdlib": "c"
 	}
 }

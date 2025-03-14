@@ -29,38 +29,27 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 # include <sys/ioctl.h>
-
-# define RED "\033[0;31m"
-# define GREEN "\033[92m"
-# define YELLOW "\033[0;33m"
-# define BLUE "\033[0;94m"
-# define MAGENTA "\033[0;35m"
-# define WHITE "\033[0;37m"
+# include "color.h"
 
 extern volatile sig_atomic_t	g_signal;
 
-/* Simple command
-** @str: the command and its arguments
-** @nbr_args: the number of arguments
-** @nbr_ava_args: the number of available arguments
-*/
-typedef struct s_simple_command
+typedef struct	t_cmd
 {
-	char	**command;
-	int		nbr_args;
-	int		nbr_ava_args;
-}	t_simple_command;
+	char	**cmd;
+	int		argc;
+	int		avac;
+}	t_cmd;
 
-typedef struct s_command
+typedef struct	t_exec
 {
-	int					nbr_ava_simple_cmds;
-	int					nbr_simple_cmds;
-	t_simple_command	**simple_cmds;
-	char				*outfile;
-	char				*infile;
-	char				*err_file;
-	int					bg;
-}	t_command;
+	int		avac_sc;
+	int		scc;
+	int		bg;
+	char	*out;
+	char	*in;
+	char	*err;
+	t_cmd	**scmds;
+}	t_exec;
 
 /* ----------- Parser.c ----------- */
 void	parse_line(char *line, char ***env);
@@ -68,7 +57,7 @@ void	ft_free_split(char **split);
 
 /* ----------- parser_utils.c ----------- */
 char	*extract_segment(char *line, int *i, char *current_token, char **tokens);
-char	*handle_double_quote(char *segment, char *line, int *i, char **env);
+char	*handle_double_quote(char *line, int *i, char **env);
 char	*extract_quote(char *line, int *i, char quote);
 char	*expand_variable(char *line, int *i, char **env);
 //static char	*double_quote_segment(char *temp, char **env);

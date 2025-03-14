@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:17:14 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/13 21:00:09 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:50:58 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ static char	*double_quote_segment(char *temp, char **env)
 	return (ret);
 }
 
-char	*handle_double_quote(char *segment, char *line, int *i, char **env)
+char	*handle_double_quote(char *line, int *i, char **env)
 {
 	char	*temp;
+	char	*segment;
 
 	segment = extract_quote(line, i, '"');
 	if (!segment)
@@ -110,7 +111,6 @@ char	*expand_variable(char *line, int *i, char **env)
 	free(var_name);
 	if (!var_value)
 	{
-		//perror("variable not found");
 		return (ft_strdup(""));
 	}
 	return (ft_strdup(var_value));
