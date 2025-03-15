@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:48:08 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/14 23:16:54 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/15 01:48:00 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	parse_waitpid(pid_t pid)
 	return (-1);
 }
 
-void	parse_exec_command(char **command, char **env, int *status)
+void	parse_exec_command(t_exec *exec, char **env)
 {
 	pid_t	pid;
 
@@ -39,12 +39,12 @@ void	parse_exec_command(char **command, char **env, int *status)
 	if (pid == 0)
 	{
 		setup_child_signal();
-		exec_command(command, env);
+		exec_command(exec->scmds[0]->cmd, env);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid > 0)
 	{
-		*status = parse_waitpid(pid);
+		exec->status = parse_waitpid(pid);
 		g_signal = 0;
 	}
 	else
@@ -111,13 +111,13 @@ char	*handle_token(char *line, char **env, int *i)
 	return (current_token);
 }
 
-static void skip_spaces(char *line, int *i)
+static void	skip_spaces(char *line, int *i)
 {
 	while (line[*i] == ' ' || line[*i] == '\t' || line[*i] == '\n')
 		*i += 1;
 }
 
-static char **realloc_cmd(char **cmd, int old_size, int new_size)
+static char	**realloc_cmd(char **cmd, int old_size, int new_size)
 {
 	char	**new_cmd;
 
@@ -125,20 +125,22 @@ static char **realloc_cmd(char **cmd, int old_size, int new_size)
 	return (new_cmd);
 }
 
-void tokenizer(char *line, char **env, t_exec *exec)
+void	tokenizer(char *line, char **env, t_exec *exec)
 {
 	int		i;
 	t_cmd	*command;
 
 	i = 0;
 	command = exec->scmds[exec->nbr_cmds];
-	skip_spaces(line, &i);
 	while (line[i])
 	{
+		skip_spaces(line, &i);
+		if (!line[i])
+			break ;
 		if (command->argc + 1 >= command->avac)
 		{
-			command->avac += 10;
-			command->cmd = realloc_cmd(command->cmd, command->avac - 10, command->avac);
+			command->avac++;
+			command->cmd = realloc_cmd(command->cmd, command->avac - 1, command->avac);
 			if (!command->cmd)
 				return ;
 		}
@@ -147,9 +149,6 @@ void tokenizer(char *line, char **env, t_exec *exec)
 			return ;
 		command->argc += 1;
 		command->cmd[command->argc] = NULL;
-		skip_spaces(line, &i);
-		if (!line[i])
-			break ;
 	}
 }
 
@@ -158,30 +157,20 @@ void	parse_line(char *line, char ***env)
 	t_exec	*exec;
 
 	exec = init_exec();
-	if (!exec)
-		return ;
-	exec->scmds[0] = init_command();
-	if (!exec->scmds[0])
-	{
-		free(exec->scmds);
-		free(exec);
-		return ;
-	}
+	if (!exec || !exec->scmds)
+		return (free_exec(exec));
 	tokenizer(line, *env, exec);
-	for (int i = 0; i < exec->scmds[0]->argc; i++)
-	{
-		printf("Command %d: %s\n", i, exec->scmds[0]->cmd[i]);
-	}
 	for (int i = 0; i < exec->nbr_cmds + 1; i++)
 	{
 		if (check_builtins(exec->scmds[i]->cmd[0]) == 1)
 		{
-			exec_builtins(exec->scmds[i]->cmd, env);
+			exec_builtins(exec, env);
+			printf("status: %d\n", exec->status);
 			break ;
 		}
 		else
 		{
-			parse_exec_command(exec->scmds[i]->cmd, *env, &exec->status);
+			parse_exec_command(exec, *env);
 			if (exec->status != 0)
 				break ;
 		}

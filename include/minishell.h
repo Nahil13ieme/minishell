@@ -95,29 +95,29 @@ void	exec_command(char **command, char **env);
 
 /* ----------- builtins.c ----------- */
 int		check_builtins(char *command);
-void	exec_builtins(char **command, char ***env);
+void	exec_builtins(t_exec *exec, char ***env);
 
 /* ----------- echo.c ----------- */
-void	exec_echo(char **command);
+void	exec_echo(t_exec *exec);
 
 /* ----------- cd.c ----------- */
-void	exec_cd(char **command);
+void	exec_cd(t_exec *exec);
 
 /* ----------- pwd.c ----------- */
 void	exec_pwd(void);
 
 /* ----------- export.c ----------- */
-void	exec_export(char ***env, char **command);
+void	exec_export(char ***env, t_exec *exec);
 
 /* ----------- unset.c ----------- */
-void	exec_unset(char **command, char ***env);
+void	exec_unset(t_exec *exec, char ***env);
 
 /* ----------- env.c ----------- */
 void	exec_env(char **env);
 char	*get_my_env(char **env, char *name);
 
 /* ----------- exit.c ----------- */
-void	exec_exit(char **command);
+void	exec_exit(t_exec *exec);
 
 /* ----------- ft_strtok.c ----------- */
 char	*ft_strtok(char *str, char *separators);

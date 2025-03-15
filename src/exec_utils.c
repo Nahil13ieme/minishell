@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:14:43 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/14 23:11:52 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/15 01:37:03 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_cmd	*init_command(void)
 	}
 	simple_cmd->cmd = NULL;
 	simple_cmd->argc = 0;
-	simple_cmd->avac = 0;
+	simple_cmd->avac = 1;
 	return (simple_cmd);
 }
 
@@ -54,6 +54,7 @@ t_exec	*init_exec(void)
 	exec->out = NULL;
 	exec->in = NULL;
 	exec->err = NULL;
+	exec->status = -1;
 	return (exec);
 }
 

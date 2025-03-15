@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 16:58:56 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/12 15:22:49 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/15 01:35:56 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,23 @@ int	check_builtins(char *command)
 	return (0);
 }
 
-void	exec_builtins(char **command, char ***env)
+void	exec_builtins(t_exec *exec, char ***env)
 {
+	char	**command;
+
+	command = exec->scmds[0]->cmd;
 	if (ft_strncmp(command[0], "echo", 5) == 0)
-		exec_echo(command);
+		exec_echo(exec);
 	if (ft_strncmp(command[0], "cd", 3) == 0)
-		exec_cd(command);
+		exec_cd(exec);
 	if (ft_strncmp(command[0], "pwd", 4) == 0)
 		exec_pwd();
 	if (ft_strncmp(command[0], "export", 7) == 0)
-		exec_export(env, command);
+		exec_export(env, exec);
 	if (ft_strncmp(command[0], "unset", 6) == 0)
-		exec_unset(command, env);
+		exec_unset(exec, env);
 	if (ft_strncmp(command[0], "env", 4) == 0)
 		exec_env(*env);
 	if (ft_strncmp(command[0], "exit", 5) == 0)
-		exec_exit(command);
+		exec_exit(exec);
 }
