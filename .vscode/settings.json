@@ -2,6 +2,7 @@
 	"files.associations": {
 		"minishell.h": "c",
 		"initializer_list": "c",
-		"cstdlib": "c"
+		"cstdlib": "c",
+		"color.h": "c"
 	}
 }

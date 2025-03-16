@@ -33,103 +33,69 @@
 
 extern volatile sig_atomic_t	g_signal;
 
-/**
- * @brief Structure representing a simple command. Must be initialized with init_command();.
- * @param cmd Pointer to the command string array, initialized to NULL.
- * @param argc Number of arguments, initialized to 0.
- * @param avac Number of available arguments, initialized to 0.
- */
-typedef struct	t_cmd
+typedef enum	e_token_type
 {
-	char	**cmd;
-	int		argc;
-	int		avac;
-}	t_cmd;
+	TOKEN_COMMAND,
+	TOKEN_PIPE,
+	TOKEN_AND,
+	TOKEN_OR,
+	TOKEN_SEMICOLON,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_HEREDOC,
+	TOKEN_APPEND,
+	TOKEN_WORD,
+	TOKEN_QUOTED
+}	t_token_type;
 
-/**
- * @brief Structure representing a simple command. Must be initialized with init_exec();.
- * @param avac_sc Number of available simple commands, initialized to 0.
- * @param nbr_cmds Number of simple commands, initialized to 0.
- * @param bg Background flag, initialized to 0.
- * @param out Output redirection, initialized to NULL.
- * @param in Input redirection, initialized to NULL.
- * @param err Error redirection, initialized to NULL.
- * @param scmds Array of simple commands, initialized to NULL.
- */
-typedef struct	t_exec
+typedef struct	s_token
 {
-	int		avac_sc;
-	int		nbr_cmds;
-	int		bg;
-	int		status;
-	char	*out;
-	char	*in;
-	char	*err;
-	t_cmd	**scmds;
-}	t_exec;
+	t_token_type	type;
+	char			*value;
+}	t_token;
 
-/* ----------- Parser.c ----------- */
-void	parse_line(char *line, char ***env);
-void	ft_free_split(char **split);
+typedef struct s_token_stream
+{
+	t_token		**tokens;
+	int			size;
+	int			capacity;
+	int			current;
+} t_token_stream;
 
-/* ----------- parser_utils.c ----------- */
+typedef enum	e_cmd_type
+{
+	NODE_COMMAND,
+	NODE_PIPE,
+	NODE_AND,
+	NODE_OR,
+	NODE_SEMICOLON,
+	NODE_REDIR_IN,
+	NODE_REDIR_OUT,
+	NODE_HEREDOC,
+	NODE_APPEND
+}	t_cmd_type;
 
-/**
- * @brief Parses the command line and executes the command.
- * @param line The command line to parse.
- * @param env The environment variables.
- * @return The command line parsed into an array of strings.
- *         Returns NULL on failure.
- */
-char	*extract_segment(char *line, int *i);
-char	*handle_double_quote(char *line, int *i, char **env);
-char	*extract_quote(char *line, int *i, char quote);
-char	*expand_variable(char *line, int *i, char **env);
-//static char	*double_quote_segment(char *temp, char **env);
+typedef struct	s_btree
+{
+	t_cmd_type		type;
+	char			**cmd;
+	struct s_btree	*left;
+	struct s_btree	*right;
+	char			*filename;
+}	t_btree;
 
-/* ----------- main.c ----------- */
-//int	main(int ac, char **av, char **env);
+/* ----------- binary_tree.c ----------- */
+t_btree	*create_node(t_cmd_type type, t_btree *left, t_btree *right, char **cmd);
+void	free_tree(t_btree *node);
 
-/* ----------- exec_command.c ----------- */
-void	exec_command(char **command, char **env);
+/* ----------- token_stream.c ----------- */
+t_token_stream	*create_token_stream(void);
+t_token			*create_token(t_token_type type, char *value);
+void			add_token(t_token_stream *ts, t_token *token);
+t_token_stream	*tokenize_input(char *line);
+int				validate_token_sequence(t_token_stream *ts);
 
-/* ----------- builtins.c ----------- */
-int		check_builtins(char *command);
-void	exec_builtins(t_exec *exec, char ***env);
-
-/* ----------- echo.c ----------- */
-void	exec_echo(t_exec *exec);
-
-/* ----------- cd.c ----------- */
-void	exec_cd(t_exec *exec);
-
-/* ----------- pwd.c ----------- */
-void	exec_pwd(void);
-
-/* ----------- export.c ----------- */
-void	exec_export(char ***env, t_exec *exec);
-
-/* ----------- unset.c ----------- */
-void	exec_unset(t_exec *exec, char ***env);
-
-/* ----------- env.c ----------- */
-void	exec_env(char **env);
-char	*get_my_env(char **env, char *name);
-
-/* ----------- exit.c ----------- */
-void	exec_exit(t_exec *exec);
-
-/* ----------- ft_strtok.c ----------- */
-char	*ft_strtok(char *str, char *separators);
-
-/* ----------- signal_handling.c ----------- */
-void	signal_handler(int sig);
-void	setup_parent_signal(void);
-void	setup_child_signal(void);
-
-/* ----------- exec_utils.c ----------- */
-t_cmd	*init_command(void);
-t_exec	*init_exec(void);
-void	free_exec(t_exec *exec);
+/* ----------- tokenizer.c ----------- */
+int				process_char(t_token_stream *ts, char *line, int i);
 
 #endif //MINISHELL_H
