@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:27:15 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/16 19:32:05 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:16:22 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,14 @@ static int	handle_single_tokens(t_token_stream *ts, char *line, int i)
  * @param i     Index actuel dans la ligne
  * @return      Nouvel index après traitement
  */
-static int	handle_quoted_string(t_token_stream *ts, char *line, int i)
+static int	handle_quoted_string(t_token_stream *ts, char *line, int i, char **env)
 {
 	char	quote;
 	char	*segment;
 	int		start;
 	int		len;
 
+	(void)env;
 	quote = line[i];
 	i++;
 	start = i;
@@ -142,13 +143,41 @@ static int	handle_word(t_token_stream *ts, char *line, int i)
 }
 
 /**
+ * Traite une variable d'environnement delimiter par un $
+ * @param ts    Le stream de tokens
+ * @param line  La ligne d'entrée
+ * @param env   Les variables d'environnement
+ * @param i     Index actuel dans la ligne
+ * @return      Nouvel index après traitement
+ */
+static int	handle_env_variable(t_token_stream *ts, char *line, int i, char **env)
+{
+	int		start;
+	char	*var_name;
+	char	*var_value;
+
+	(void)env;
+	start = i + 1;
+	i++;
+	while (line[i] && (ft_isalpha(line[i]) || line[i] == '_'))
+		i++;
+	var_name = ft_substr(line, start, i - start);
+	var_value = getenv(var_name);
+	free(var_name);
+	if (!var_value)
+		var_value = "";
+	add_token(ts, create_token(TOKEN_WORD, var_value));
+	return (i);
+}
+
+/**
  * Traite un caractère spécifique et décide quelle fonction appeler
  * @param ts    Le stream de tokens
  * @param line  La ligne d'entrée
  * @param i     Index actuel dans la ligne
  * @return      Nouvel index après traitement
  */
-int	process_char(t_token_stream *ts, char *line, int i)
+int	process_char(t_token_stream *ts, char *line, int i, char **env)
 {
 	int	new_i;
 
@@ -159,6 +188,8 @@ int	process_char(t_token_stream *ts, char *line, int i)
 	if (new_i != i)
 		return (new_i);
 	if (line[i] == '\'' || line[i] == '"')
-		return (handle_quoted_string(ts, line, i));
+		return (handle_quoted_string(ts, line, i, env));
+	if (line[i] == '$')
+		return (handle_env_variable(ts, line, i, env));
 	return (handle_word(ts, line, i));
 }

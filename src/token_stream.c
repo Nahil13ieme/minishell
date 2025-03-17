@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:18:24 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/16 19:31:34 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:01:41 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	add_token(t_token_stream *stream, t_token *token)
  * @brief Creates a new token.
  * * @param type The type of the token.
  * * @param value The value of the token.
+ *                The value is duplicated and must be freed
  * * @return A pointer to the newly created token.
  * * 		 Exit if malloc or strdup fails.
  */
@@ -92,7 +93,7 @@ t_token_stream	*create_token_stream(void)
 	return (ts);
 }
 
-t_token_stream	*tokenize_input(char *line)
+t_token_stream	*tokenize_input(char *line, char **env)
 {
 	t_token_stream	*ts;
 	int				i;
@@ -105,7 +106,7 @@ t_token_stream	*tokenize_input(char *line)
 			i++;
 		if (line[i] == '\0')
 			break ;
-		i = process_char(ts, line, i);
+		i = process_char(ts, line, i, env);
 	}
 	return (ts);
 }

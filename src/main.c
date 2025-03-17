@@ -113,13 +113,12 @@ int	main(int ac, char **av, char **env)
 {
 	char			*line;
 	char			*prompt;
-	//char	**envp;
+	char	**envp;
 	t_token_stream	*ts;
 
 	(void)ac;
 	(void)av;
-	(void)env;
-	//envp = env;
+	envp = env;
 	using_history();
 	while (1)
 	{
@@ -132,7 +131,7 @@ int	main(int ac, char **av, char **env)
 		if (line[0] != '\0')
 		{
 			add_history(line);
-			ts = tokenize_input(line);
+			ts = tokenize_input(line, envp);
 			if (!validate_token_sequence(ts))
 			{
 				free(line);

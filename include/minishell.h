@@ -31,6 +31,9 @@
 # include <sys/ioctl.h>
 # include "color.h"
 
+# define ERR_NL "minishell: syntax error near unexpected token `newline'\n"
+# define ERR_REDIR "minishell: syntax error near unexpected token `redir'\n"
+
 extern volatile sig_atomic_t	g_signal;
 
 typedef enum	e_token_type
@@ -92,10 +95,10 @@ void	free_tree(t_btree *node);
 t_token_stream	*create_token_stream(void);
 t_token			*create_token(t_token_type type, char *value);
 void			add_token(t_token_stream *ts, t_token *token);
-t_token_stream	*tokenize_input(char *line);
+t_token_stream	*tokenize_input(char *line, char **env);
 int				validate_token_sequence(t_token_stream *ts);
 
 /* ----------- tokenizer.c ----------- */
-int				process_char(t_token_stream *ts, char *line, int i);
+int				process_char(t_token_stream *ts, char *line, int i, char **env);
 
 #endif //MINISHELL_H

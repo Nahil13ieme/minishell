@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:26:49 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/16 19:43:11 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:20:07 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	is_control(t_token_type type)
 {
 	return (type == TOKEN_AND || type == TOKEN_OR
-		|| type == TOKEN_PIPE || type == TOKEN_SEMICOLON);
+		|| type == TOKEN_PIPE);
 }
 
 static int	is_redir(t_token_type type)
@@ -41,10 +41,10 @@ static int	validate_token_list(t_token_stream *ts)
 		if (is_redir(ts->tokens[i]->type))
 		{
 			if (i == ts->size - 1)
-				return (ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2), 0);
+				return (ft_putstr_fd(ERR_NL, 2), 0);
 			if (is_control(ts->tokens[i + 1]->type)
 				|| is_redir(ts->tokens[i + 1]->type))
-				return (ft_putstr_fd("minishell: syntax error near unexpected token `redir'\n", 2), 0);
+				return (ft_putstr_fd(ERR_REDIR, 2), 0);
 		}
 		i++;
 	}
