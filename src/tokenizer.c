@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:27:15 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/18 16:33:13 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:37:15 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,47 +127,52 @@ static int	handle_simple_quote(t_token_stream *ts, char *line, int i)
 	return (i);
 }
 
-static char	*handle_variable_quote(t_token_stream *ts, char *line, int i, char **env)
+static char	*get_variable_value(char *line, int *i)
 {
 	int		start;
 	char	*var_name;
 	char	*var_value;
 
-	(void)env;
-	start = i + 1;
-	i++;
-	while (line[i] && (ft_isalpha(line[i]) || line[i] == '_'))
-		i++;
-	var_name = ft_substr(line, start, i - start);
+	start = *i + 1;
+	(*i)++;
+	while (line[*i] && (ft_isalpha(line[*i]) || line[*i] == '_'))
+		(*i)++;
+	var_name = ft_substr(line, start, (*i) - start);
+	(*i)--;
 	var_value = getenv(var_name);
 	free(var_name);
 	if (!var_value)
 		var_value = "";
-	add_token(ts, create_token(TOKEN_WORD, var_value));
-	return (i);
+	return (var_value);
 }
 
 static int	handle_double_quote(t_token_stream *ts, char *line, int i, char **env)
 {
 	char	*segment;
-	//char	*var_value;
-	int		start;
-	int		len;
+	char	*tmp;
 	
+	(void)env;
 	i++;
-	start = i;
+	segment = ft_strdup("");
 	while (line[i] && line[i] != '"')
 	{
 		if (line[i] == '$')
-			i = ;
+		{
+			tmp = get_variable_value(line, &i);
+			segment = ft_strjoin(segment, tmp);
+		}
+		else
+		{
+			tmp = segment;
+			segment = ft_strjoin(segment, (char[]){line[i], '\0'});
+			free(tmp);
+			if (!segment)
+			{
+				perror("strjoin");
+				exit(EXIT_FAILURE);
+			}
+		}
 		i++;
-	}
-	len = i - start;
-	segment = ft_substr(line, start, len);
-	if (!segment)
-	{
-		perror("substr");
-		exit(EXIT_FAILURE);
 	}
 	add_token(ts, create_token(TOKEN_QUOTED, segment));
 	free(segment);
