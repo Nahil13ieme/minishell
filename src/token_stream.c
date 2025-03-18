@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:18:24 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/17 15:01:41 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:52:31 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,13 @@ t_token_stream	*create_token_stream(void)
 	return (ts);
 }
 
+
+/**
+ * * @brief Processes the input line character by character.
+ * * @param line The input line to process.
+ * * @param env  The environment variables.
+ * * @return a pointer to the token stream.
+ */
 t_token_stream	*tokenize_input(char *line, char **env)
 {
 	t_token_stream	*ts;
