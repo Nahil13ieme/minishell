@@ -6,18 +6,18 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:18:24 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/18 15:52:31 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:58:11 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 /**
- * @brief Initializes a token stream.
- * * @param stream A pointer to the token stream to initialize.
- * * @param token A pointer to the token to add to the stream.
- * * @return A pointer to the initialized token stream.
- * * 		 Exit if realloc fails.
+ * @brief Ajoute un token au stream de tokens
+ * @param stream Le stream de tokens
+ * @param token  Le token à ajouter.
+ * 
+ * Exit si realloc echoue.
  */
 void	add_token(t_token_stream *stream, t_token *token)
 {
@@ -37,12 +37,11 @@ void	add_token(t_token_stream *stream, t_token *token)
 }
 
 /**
- * @brief Creates a new token.
- * * @param type The type of the token.
- * * @param value The value of the token.
- *                The value is duplicated and must be freed
- * * @return A pointer to the newly created token.
- * * 		 Exit if malloc or strdup fails.
+ * @brief Creer un token
+ * * @param type  Le type du token
+ * * @param value La valeur du token
+ * * @return Un pointeur vers le token.
+ * * 		 Exit si malloc echoue.
  */
 t_token	*create_token(t_token_type type, char *value)
 {
@@ -66,9 +65,9 @@ t_token	*create_token(t_token_type type, char *value)
 }
 
 /**
- * @brief Creates a new token stream.
- * * @return A pointer to the newly created token stream.
- * * 		 Exit if malloc fails.
+ * @brief Creer un stream de tokens
+ * * @return Un pointeur vers le stream de tokens.
+ * * 		 Exit si malloc echoue.
  */
 t_token_stream	*create_token_stream(void)
 {

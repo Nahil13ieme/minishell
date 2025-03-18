@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:27:15 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/17 15:16:22 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:33:13 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,24 +77,41 @@ static int	handle_single_tokens(t_token_stream *ts, char *line, int i)
 }
 
 /**
- * Traite une chaîne de caractères entre guillemets
+ * Traite une variable d'environnement delimiter par un $
  * @param ts    Le stream de tokens
  * @param line  La ligne d'entrée
+ * @param env   Les variables d'environnement
  * @param i     Index actuel dans la ligne
  * @return      Nouvel index après traitement
  */
-static int	handle_quoted_string(t_token_stream *ts, char *line, int i, char **env)
+static int	handle_env_variable(t_token_stream *ts, char *line, int i, char **env)
 {
-	char	quote;
+	int		start;
+	char	*var_name;
+	char	*var_value;
+
+	(void)env;
+	start = i + 1;
+	i++;
+	while (line[i] && (ft_isalpha(line[i]) || line[i] == '_'))
+		i++;
+	var_name = ft_substr(line, start, i - start);
+	var_value = getenv(var_name);
+	free(var_name);
+	if (!var_value)
+		var_value = "";
+	add_token(ts, create_token(TOKEN_WORD, var_value));
+	return (i);
+}
+static int	handle_simple_quote(t_token_stream *ts, char *line, int i)
+{
 	char	*segment;
 	int		start;
 	int		len;
 
-	(void)env;
-	quote = line[i];
 	i++;
 	start = i;
-	while (line[i] && line[i] != quote)
+	while (line[i] && line[i] != '\'')
 		i++;
 	len = i - start;
 	segment = ft_substr(line, start, len);
@@ -105,8 +122,73 @@ static int	handle_quoted_string(t_token_stream *ts, char *line, int i, char **en
 	}
 	add_token(ts, create_token(TOKEN_QUOTED, segment));
 	free(segment);
-	if (line[i] == quote)
+	if (line[i] == '\'')
 		i++;
+	return (i);
+}
+
+static char	*handle_variable_quote(t_token_stream *ts, char *line, int i, char **env)
+{
+	int		start;
+	char	*var_name;
+	char	*var_value;
+
+	(void)env;
+	start = i + 1;
+	i++;
+	while (line[i] && (ft_isalpha(line[i]) || line[i] == '_'))
+		i++;
+	var_name = ft_substr(line, start, i - start);
+	var_value = getenv(var_name);
+	free(var_name);
+	if (!var_value)
+		var_value = "";
+	add_token(ts, create_token(TOKEN_WORD, var_value));
+	return (i);
+}
+
+static int	handle_double_quote(t_token_stream *ts, char *line, int i, char **env)
+{
+	char	*segment;
+	//char	*var_value;
+	int		start;
+	int		len;
+	
+	i++;
+	start = i;
+	while (line[i] && line[i] != '"')
+	{
+		if (line[i] == '$')
+			i = ;
+		i++;
+	}
+	len = i - start;
+	segment = ft_substr(line, start, len);
+	if (!segment)
+	{
+		perror("substr");
+		exit(EXIT_FAILURE);
+	}
+	add_token(ts, create_token(TOKEN_QUOTED, segment));
+	free(segment);
+	if (line[i] == '"')
+		i++;
+	return (i);
+}
+
+/**
+ * Traite une chaîne de caractères entre guillemets
+ * @param ts    Le stream de tokens
+ * @param line  La ligne d'entrée
+ * @param i     Index actuel dans la ligne
+ * @return      Nouvel index après traitement
+ */
+static int	handle_quoted_string(t_token_stream *ts, char *line, int i, char **env)
+{
+	if (line[i] == '\'')
+		i = handle_simple_quote(ts, line, i);
+	else
+		i = handle_double_quote(ts, line, i, env);
 	return (i);
 }
 
@@ -139,34 +221,6 @@ static int	handle_word(t_token_stream *ts, char *line, int i)
 	}
 	add_token(ts, create_token(TOKEN_WORD, segment));
 	free(segment);
-	return (i);
-}
-
-/**
- * Traite une variable d'environnement delimiter par un $
- * @param ts    Le stream de tokens
- * @param line  La ligne d'entrée
- * @param env   Les variables d'environnement
- * @param i     Index actuel dans la ligne
- * @return      Nouvel index après traitement
- */
-static int	handle_env_variable(t_token_stream *ts, char *line, int i, char **env)
-{
-	int		start;
-	char	*var_name;
-	char	*var_value;
-
-	(void)env;
-	start = i + 1;
-	i++;
-	while (line[i] && (ft_isalpha(line[i]) || line[i] == '_'))
-		i++;
-	var_name = ft_substr(line, start, i - start);
-	var_value = getenv(var_name);
-	free(var_name);
-	if (!var_value)
-		var_value = "";
-	add_token(ts, create_token(TOKEN_WORD, var_value));
 	return (i);
 }
 
