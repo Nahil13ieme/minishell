@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:27:15 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/18 17:37:15 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:49:03 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ static int	handle_single_tokens(t_token_stream *ts, char *line, int i)
  * @param i     Index actuel dans la ligne
  * @return      Nouvel index après traitement
  */
-static int	handle_env_variable(t_token_stream *ts, char *line, int i, char **env)
+static int	handle_env_variable(t_token_stream *ts,
+	char *line, int i, char **env)
 {
 	int		start;
 	char	*var_name;
@@ -103,6 +104,7 @@ static int	handle_env_variable(t_token_stream *ts, char *line, int i, char **env
 	add_token(ts, create_token(TOKEN_WORD, var_value));
 	return (i);
 }
+
 static int	handle_simple_quote(t_token_stream *ts, char *line, int i)
 {
 	char	*segment;
@@ -146,25 +148,23 @@ static char	*get_variable_value(char *line, int *i)
 	return (var_value);
 }
 
-static int	handle_double_quote(t_token_stream *ts, char *line, int i, char **env)
+static int	handle_double_quote(t_token_stream *ts,
+	char *line, int i, char **env)
 {
 	char	*segment;
 	char	*tmp;
-	
+
 	(void)env;
 	i++;
 	segment = ft_strdup("");
 	while (line[i] && line[i] != '"')
 	{
 		if (line[i] == '$')
-		{
-			tmp = get_variable_value(line, &i);
-			segment = ft_strjoin(segment, tmp);
-		}
+			segment = ft_strjoin(segment, get_variable_value(line, &i));
 		else
 		{
 			tmp = segment;
-			segment = ft_strjoin(segment, (char[]){line[i], '\0'});
+			segment = ft_strjoin(segment, (char []){line[i], '\0'});
 			free(tmp);
 			if (!segment)
 			{
@@ -175,10 +175,9 @@ static int	handle_double_quote(t_token_stream *ts, char *line, int i, char **env
 		i++;
 	}
 	add_token(ts, create_token(TOKEN_QUOTED, segment));
-	free(segment);
 	if (line[i] == '"')
 		i++;
-	return (i);
+	return (free(segment), i);
 }
 
 /**
@@ -188,7 +187,8 @@ static int	handle_double_quote(t_token_stream *ts, char *line, int i, char **env
  * @param i     Index actuel dans la ligne
  * @return      Nouvel index après traitement
  */
-static int	handle_quoted_string(t_token_stream *ts, char *line, int i, char **env)
+static int	handle_quoted_string(t_token_stream *ts,
+	char *line, int i, char **env)
 {
 	if (line[i] == '\'')
 		i = handle_simple_quote(ts, line, i);

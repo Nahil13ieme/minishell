@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:14:43 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/16 16:53:28 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:48:00 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ t_btree	*create_node(t_cmd_type type, t_btree *left, t_btree *right, char **cmd)
 	node->cmd = cmd;
 	node->left = left;
 	node->right = right;
-	node->filename = NULL;
 	return (node);
 }
 
@@ -53,7 +52,5 @@ void	free_tree(t_btree *root)
 			free(root->cmd[i++]);
 		free(root->cmd);
 	}
-	if (root->filename)
-		free(root->filename);
 	free(root);
 }

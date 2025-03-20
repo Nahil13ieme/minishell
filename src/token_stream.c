@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:18:24 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/18 15:58:11 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:53:46 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,18 @@ t_token_stream	*create_token_stream(void)
 	return (ts);
 }
 
+void	free_token_stream(t_token_stream *ts)
+{
+	int i;
+
+	for (i = 0; i < ts->size; i++)
+	{
+		free(ts->tokens[i]->value);
+		free(ts->tokens[i]);
+	}
+	free(ts->tokens);
+	free(ts);
+}
 
 /**
  * * @brief Processes the input line character by character.

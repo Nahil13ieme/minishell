@@ -109,6 +109,24 @@ void	print_token_stream(t_token_stream *ts)
 	}
 }
 
+void	print_tree(t_btree tree)
+{
+	if (tree.left)
+		print_tree(*tree.left);
+	if (tree.cmd)
+	{
+		int i = 0;
+		while (tree.cmd[i])
+		{
+			printf("%s ", tree.cmd[i]);
+			i++;
+		}
+		printf("\n");
+	}
+	if (tree.right)
+		print_tree(*tree.right);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char			*line;
@@ -138,6 +156,17 @@ int	main(int ac, char **av, char **env)
 				continue ;
 			}
 			print_token_stream(ts);
+			t_btree	*root = parse_input(ts);
+			if (root)
+			{
+				print_tree(*root);
+				//free_tree(root);
+			}
+			else
+			{
+				printf("Error parsing input\n");
+			}
+			free_token_stream(ts);
 		}
 		free(line);
 	}

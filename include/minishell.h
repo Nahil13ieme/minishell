@@ -84,7 +84,10 @@ typedef struct	s_btree
 	char			**cmd;
 	struct s_btree	*left;
 	struct s_btree	*right;
-	char			*filename;
+	char			*redir_in;
+	char			*redir_out;
+	char			*heredoc;
+	char			*append;
 }	t_btree;
 
 /* ----------- binary_tree.c ----------- */
@@ -92,6 +95,7 @@ t_btree	*create_node(t_cmd_type type, t_btree *left, t_btree *right, char **cmd)
 void	free_tree(t_btree *node);
 
 /* ----------- token_stream.c ----------- */
+void			free_token_stream(t_token_stream *ts);
 t_token_stream	*create_token_stream(void);
 t_token			*create_token(t_token_type type, char *value);
 void			add_token(t_token_stream *ts, t_token *token);
@@ -100,5 +104,13 @@ int				validate_token_sequence(t_token_stream *ts);
 
 /* ----------- tokenizer.c ----------- */
 int				process_char(t_token_stream *ts, char *line, int i, char **env);
+
+t_btree			*parse_input(t_token_stream *tokens);
+t_btree			*parse_sequence(t_token_stream *tokens);
+t_btree			*parse_logical(t_token_stream *tokens);
+t_btree			*parse_pipeline(t_token_stream *tokens);
+t_btree			*parse_command(t_token_stream *tokens);
+void			consume_token(t_token_stream *tokens);
+int				current_token_is(t_token_stream *tokens, t_token_type type);
 
 #endif //MINISHELL_H
