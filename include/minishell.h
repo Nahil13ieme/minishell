@@ -114,6 +114,8 @@ t_btree			*parse_redirection(t_token_stream *tokens);
 void			consume_token(t_token_stream *tokens);
 int				current_token_is(t_token_stream *tokens, t_token_type type);
 
-void			execute_tree(t_btree *tree);
+int				execute_path(char **cmd, char **envp);
+
+void			execute_tree(t_btree *tree, char **envp);
 
 #endif //MINISHELL_H

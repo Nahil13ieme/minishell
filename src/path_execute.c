@@ -1,7 +1,7 @@
 #include "../include/minishell.h"
 
 
-char	*find_path(char *cmd, char **envp)
+static char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
@@ -30,22 +30,36 @@ char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
-void	execute(char **cmd, char **envp)
+int	execute_path(char **cmd, char **envp)
 {
 	int		i;
 	char	*path;
+	pid_t	pid1;
+	int		ret;
 
 	i = -1;
-	if (cmd[0] && access(cmd[0],F_OK) == 0)
-		return (path);
+	ret = 0;
 	path = find_path(cmd[0], envp);
 	if (!path)
 	{
 		while (cmd[++i])
-			free(cmd[i]);
+		free(cmd[i]);
 		free(cmd);
-		error();
+		//error();
 	}
-	if (execve(path, cmd, envp) == -1)
-		error();
+	pid1 = fork();
+	if (pid1 == -1)
+		exit(EXIT_FAILURE);
+	if (pid1 == 0)
+	{
+		if (execve(path, cmd, envp) == -1)
+		exit(EXIT_FAILURE);
+		//error();
+	}
+	else if (pid1 > 0)
+		waitpid(pid1, &ret, 0);
+	else if (pid1 < 0)
+		exit(EXIT_FAILURE);
+	free(path);
+	return (ret / 256);
 }

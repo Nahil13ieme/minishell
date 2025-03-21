@@ -159,7 +159,7 @@ int	main(int ac, char **av, char **env)
 			t_btree	*root = parse_input(ts);
 			if (root)
 			{
-				execute_tree(root);
+				execute_tree(root, envp);
 				//free_tree(root);
 			}
 			else

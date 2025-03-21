@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:27:15 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/18 17:49:03 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:12:10 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ static int	handle_simple_quote(t_token_stream *ts, char *line, int i)
 		perror("substr");
 		exit(EXIT_FAILURE);
 	}
-	add_token(ts, create_token(TOKEN_QUOTED, segment));
+	add_token(ts, create_token(TOKEN_WORD, segment));
 	free(segment);
 	if (line[i] == '\'')
 		i++;
@@ -174,7 +174,7 @@ static int	handle_double_quote(t_token_stream *ts,
 		}
 		i++;
 	}
-	add_token(ts, create_token(TOKEN_QUOTED, segment));
+	add_token(ts, create_token(TOKEN_WORD, segment));
 	if (line[i] == '"')
 		i++;
 	return (free(segment), i);
