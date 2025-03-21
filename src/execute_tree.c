@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/21 12:18:30 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/21 13:18:34 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	execute_tree(t_btree *tree)
 	{
 		int i = 0;
 		if (tree->redir_in)
-			printf("redir in : %s -> ", tree->redir_in);
+			printf("redir : %s -> ", tree->redir_in);
 		while (tree->cmd[i])
 		{
 			printf("%s \t", tree->cmd[i]);
