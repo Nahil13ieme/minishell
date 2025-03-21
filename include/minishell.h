@@ -88,6 +88,7 @@ typedef struct	s_btree
 	char			*redir_out;
 	char			*heredoc;
 	char			*append;
+	int				status;
 }	t_btree;
 
 /* ----------- binary_tree.c ----------- */

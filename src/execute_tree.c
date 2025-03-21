@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/21 14:17:01 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:01:25 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,16 @@ void	print_node(t_btree *node)
 		break;
 	}
 }
-
+// regarder dans quel ordre remonter pour le  ET / AND
 void	execute_tree(t_btree *tree, char **envp)
 {
-	int	ret;
 	if (tree == NULL)
 		return ;
-	print_node(tree);
 	if (tree->left)
 		execute_tree(tree->left, envp);
-	
-	if (tree->left && tree->left->cmd && tree->left->cmd[0])
-		printf("-> %s \t", tree->left->cmd[0]);
-	else if (tree->left)
-	{
-		printf("-> ");
-		print_node(tree->left);
-		printf("\t");
-	}
 	if (tree->cmd)
 	{
-		ret = execute_path(tree->cmd, envp);
-		printf("ret = %d\n", ret);
+		tree->status = execute_path(tree->cmd, envp);
 	}
 	if (tree->right)
 		execute_tree(tree->right, envp);
