@@ -155,11 +155,10 @@ int	main(int ac, char **av, char **env)
 				free(line);
 				continue ;
 			}
-			print_token_stream(ts);
 			t_btree	*root = parse_input(ts);
 			if (root)
 			{
-				print_tree(*root);
+				execute_tree(root);
 				//free_tree(root);
 			}
 			else

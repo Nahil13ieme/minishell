@@ -113,4 +113,6 @@ t_btree			*parse_command(t_token_stream *tokens);
 void			consume_token(t_token_stream *tokens);
 int				current_token_is(t_token_stream *tokens, t_token_type type);
 
+void			execute_tree(t_btree *tree);
+
 #endif //MINISHELL_H
