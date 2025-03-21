@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/21 09:25:28 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/21 12:18:30 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,20 @@ void	execute_tree(t_btree *tree)
 	print_node(tree);
 	if (tree->left)
 		execute_tree(tree->left);
+	
+	if (tree->left && tree->left->cmd && tree->left->cmd[0])
+		printf("-> %s \t", tree->left->cmd[0]);
+	else if (tree->left)
+	{
+		printf("-> ");
+		print_node(tree->left);
+		printf("\t");
+	}
 	if (tree->cmd)
 	{
 		int i = 0;
+		if (tree->redir_in)
+			printf("redir in : %s -> ", tree->redir_in);
 		while (tree->cmd[i])
 		{
 			printf("%s \t", tree->cmd[i]);

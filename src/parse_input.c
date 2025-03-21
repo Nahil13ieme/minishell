@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:00:09 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/20 19:01:48 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/21 12:02:56 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,6 @@
  * avoir les priorites en premier.
  * Ordre du - au + : ; && || | < > << >> (peut etre a revoir pour les redirections)
  */
-
-t_btree	*parse_input(t_token_stream *tokens);
-t_btree	*parse_sequence(t_token_stream *tokens);
-t_btree	*parse_logical(t_token_stream *tokens);
-t_btree	*parse_pipeline(t_token_stream *tokens);
-t_btree	*parse_command(t_token_stream *tokens);
-void	consume_token(t_token_stream *tokens);
-int		current_token_is(t_token_stream *tokens, t_token_type type);
 
 t_btree	*parse_input(t_token_stream *tokens)
 {
@@ -64,7 +56,7 @@ t_btree	*parse_logical(t_token_stream *tokens)
 	t_btree	*new_node;
 	t_cmd_type	type;
 	
-	node = parse_pipeline(tokens);
+	node = parse_redirection(tokens);
 	if (!node)
 		return (NULL);
 	while (current_token_is(tokens, TOKEN_AND)
@@ -72,7 +64,7 @@ t_btree	*parse_logical(t_token_stream *tokens)
 	{
 		type = (current_token_is(tokens, TOKEN_AND)) ? NODE_AND : NODE_OR;
 		consume_token(tokens);
-		right = parse_pipeline(tokens);
+		right = parse_redirection(tokens);
 		new_node = malloc(sizeof(t_btree));
 		if (!new_node)
 		{
@@ -97,7 +89,7 @@ t_btree	*parse_pipeline(t_token_stream *tokens)
 	while (current_token_is(tokens, TOKEN_PIPE))
 	{
 		consume_token(tokens);
-		right = parse_command(tokens);
+		right = parse_command	(tokens);
 		new_node = malloc(sizeof(t_btree));
 		if (!new_node)
 		{
@@ -110,7 +102,35 @@ t_btree	*parse_pipeline(t_token_stream *tokens)
 	return (node);
 }
 
-t_btree *parse_command(t_token_stream *tokens)
+t_btree	*parse_redirection(t_token_stream *tokens)
+{
+	t_btree		*node;
+	t_btree		*right;
+	t_btree		*new_node;
+	t_cmd_type	type;
+	
+	node = parse_pipeline(tokens);
+	if (!node)
+		return (NULL);
+	while (current_token_is(tokens, TOKEN_REDIR_IN) ||
+		current_token_is(tokens, TOKEN_REDIR_OUT))
+	{
+		type = (current_token_is(tokens, TOKEN_REDIR_IN)) ? NODE_REDIR_IN : NODE_REDIR_OUT;
+		consume_token(tokens);
+		right = parse_pipeline(tokens);
+		new_node = malloc(sizeof(t_btree));
+		if (!new_node)
+		{
+			perror("malloc");
+			exit(EXIT_FAILURE);
+		}
+		new_node = create_node(type, node, right, NULL);
+		node = new_node;
+	}
+	return (node);
+}
+
+t_btree	*parse_command(t_token_stream *tokens)
 {
 	t_btree	*node;
 	char	**args;
@@ -148,9 +168,7 @@ t_btree *parse_command(t_token_stream *tokens)
 			args[arg_count++] = strdup(current->value);
 			tokens->current++;
 		} else
-		{
 			break;
-		}
 	}
 	args[arg_count] = NULL;
 	node->cmd = args;
@@ -161,9 +179,7 @@ void	consume_token(t_token_stream *tokens)
 {
 	tokens->current++;
 	if (tokens->current >= tokens->size)
-	{
 		tokens->current = 0;
-	}
 }
 
 int	current_token_is(t_token_stream *tokens, t_token_type type)

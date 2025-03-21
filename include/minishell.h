@@ -110,6 +110,7 @@ t_btree			*parse_sequence(t_token_stream *tokens);
 t_btree			*parse_logical(t_token_stream *tokens);
 t_btree			*parse_pipeline(t_token_stream *tokens);
 t_btree			*parse_command(t_token_stream *tokens);
+t_btree			*parse_redirection(t_token_stream *tokens);
 void			consume_token(t_token_stream *tokens);
 int				current_token_is(t_token_stream *tokens, t_token_type type);
 

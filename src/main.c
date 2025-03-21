@@ -155,6 +155,7 @@ int	main(int ac, char **av, char **env)
 				free(line);
 				continue ;
 			}
+			print_token_stream(ts);
 			t_btree	*root = parse_input(ts);
 			if (root)
 			{
