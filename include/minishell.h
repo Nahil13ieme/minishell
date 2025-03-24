@@ -93,10 +93,12 @@ typedef struct	s_btree
 }	t_btree;
 
 /* ----------- binary_tree.c ----------- */
+
 t_btree	*create_node(t_cmd_type type, t_btree *left, t_btree *right, char **cmd);
 void	free_tree(t_btree *node);
 
 /* ----------- token_stream.c ----------- */
+
 void			free_token_stream(t_token_stream *ts);
 t_token_stream	*create_token_stream(void);
 t_token			*create_token(t_token_type type, char *value);
@@ -105,6 +107,7 @@ t_token_stream	*tokenize_input(char *line, char **env);
 int				validate_token_sequence(t_token_stream *ts);
 
 /* ----------- tokenizer.c ----------- */
+
 int				process_char(t_token_stream *ts, char *line, int i, char **env);
 
 t_btree			*parse_input(t_token_stream *tokens);

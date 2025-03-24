@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:14:43 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/21 15:59:54 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:53:47 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
  * @param cmd The command associated with the node.
  * @param filename The filename associated with the node. can be null.
  * @return A pointer to the newly created node.
+ *         Exit if malloc fails.
  */
 t_btree	*create_node(t_cmd_type type, t_btree *left, t_btree *right, char **cmd)
 {
@@ -40,18 +41,19 @@ void	free_tree(t_btree *root)
 {
 	int	i;
 
+	i = 0;
 	if (!root)
 		return ;
-	if (root->left)
-		free_tree(root->left);
-	if (root->right)
-		free_tree(root->right);
+	free_tree(root->left);
+	free_tree(root->right);
 	if (root->cmd)
 	{
 		while (root->cmd[i])
 			free(root->cmd[i++]);
 		free(root->cmd);
+		root->cmd = NULL;
 	}
 	root->status = 0;
 	free(root);
+	root = NULL;
 }

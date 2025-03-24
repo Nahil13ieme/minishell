@@ -58,57 +58,6 @@ char	*make_prompt(void)
 	return (prompt);
 }
 
-void	print_token_stream(t_token_stream *ts)
-{
-	int	i;
-
-	i = 0;
-	while (i < ts->size)
-	{
-		t_token_type expression = ts->tokens[i]->type;
-		printf("Token %d: Type: ", i);
-		switch (expression)
-		{
-		case TOKEN_COMMAND:
-			printf("COMMAND, Value: %s\n", ts->tokens[i]->value);
-			break;
-		case TOKEN_PIPE:
-			printf("PIPE, Value: %s\n", ts->tokens[i]->value);
-			break;
-		case TOKEN_AND:
-			printf("AND, Value: %s\n", ts->tokens[i]->value);
-			break;
-		case TOKEN_OR:
-			printf("OR, Value: %s\n", ts->tokens[i]->value);
-			break;
-		case TOKEN_SEMICOLON:
-			printf("SEMICOLON, Value: %s\n", ts->tokens[i]->value);
-			break;
-		case TOKEN_REDIR_IN:
-			printf("REDIR_IN, Value: %s\n", ts->tokens[i]->value);
-			break;
-		case TOKEN_REDIR_OUT:
-			printf("REDIR_OUT, Value: %s\n", ts->tokens[i]->value);
-			break;
-		case TOKEN_HEREDOC:
-			printf("HEREDOC, Value: %s\n", ts->tokens[i]->value);
-			break;
-		case TOKEN_APPEND:
-			printf("APPEND, Value: %s\n", ts->tokens[i]->value);
-			break;
-		case TOKEN_WORD:
-			printf("WORD, Value: %s\n", ts->tokens[i]->value);
-			break;
-		case TOKEN_QUOTED:
-			printf("QUOTED, Value: %s\n", ts->tokens[i]->value);
-			break;
-		default:
-			break;
-		}
-		i++;
-	}
-}
-
 void	print_tree(t_btree tree)
 {
 	if (tree.left)
@@ -127,12 +76,33 @@ void	print_tree(t_btree tree)
 		print_tree(*tree.right);
 }
 
+void	process_line(char *line, char **envp)
+{
+	t_token_stream	*ts;
+
+	if (line[0] != '\0')
+	{
+		add_history(line);
+		ts = tokenize_input(line, envp);
+		if (!validate_token_sequence(ts))
+			return ;
+		t_btree	*root = parse_input(ts);
+		if (root)
+		{
+			execute_tree(root, envp);
+			free_tree(root);
+		}
+		else
+			printf("Error parsing input\n");
+		free_token_stream(ts);
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char			*line;
 	char			*prompt;
 	char	**envp;
-	t_token_stream	*ts;
 
 	(void)ac;
 	(void)av;
@@ -146,28 +116,7 @@ int	main(int ac, char **av, char **env)
 			free(prompt);
 		if (!line)
 			break ;
-		if (line[0] != '\0')
-		{
-			add_history(line);
-			ts = tokenize_input(line, envp);
-			if (!validate_token_sequence(ts))
-			{
-				free(line);
-				continue ;
-			}
-			print_token_stream(ts);
-			t_btree	*root = parse_input(ts);
-			if (root)
-			{
-				execute_tree(root, envp);
-				//free_tree(root);
-			}
-			else
-			{
-				printf("Error parsing input\n");
-			}
-			free_token_stream(ts);
-		}
+		process_line(line, envp);
 		free(line);
 	}
 	return (0);
