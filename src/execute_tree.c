@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/21 16:01:25 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:59:05 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,47 @@ void	print_node(t_btree *node)
 		break;
 	}
 }
-// regarder dans quel ordre remonter pour le  ET / AND
+
+static void	execute_and(t_btree *tree, char **envp)
+{
+	execute_tree(tree->left, envp);
+	if (tree->left->status == 0)
+	{
+		execute_tree(tree->right, envp);
+		tree->status = tree->right->status ? -1 : 0;
+	}
+	else
+	{
+		tree->status = -1;
+		return ;
+	}
+}
+
+static void	execute_or(t_btree *tree, char **envp)
+{
+	execute_tree(tree->left, envp);
+	if (tree->left->status != 0)
+	{
+		execute_tree(tree->right, envp);
+		tree->status = tree->right->status ? -1 : 0;
+	}
+	else
+	{
+		tree->status = 0;
+		return ;
+	}
+}
+
 void	execute_tree(t_btree *tree, char **envp)
 {
 	if (tree == NULL)
 		return ;
-	if (tree->left)
-		execute_tree(tree->left, envp);
 	if (tree->cmd)
 	{
 		tree->status = execute_path(tree->cmd, envp);
 	}
-	if (tree->right)
-		execute_tree(tree->right, envp);
+	if (tree->type == NODE_AND)
+		execute_and(tree, envp);
+	else if (tree->type == NODE_OR)
+		execute_or(tree, envp);
 }
