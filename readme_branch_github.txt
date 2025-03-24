@@ -7,22 +7,19 @@ D'abord, assure-toi que tu et ton collègue avez tous les deux cloné le même d
 
 Si tu n'as pas encore cloné le dépôt :
 
-sh
-Copy
-Edit
 git clone https://github.com/ton-utilisateur/ton-projet.git
 cd ton-projet
+
 Ensuite, avant de commencer à travailler, chacun doit s'assurer que sa branche locale est à jour avec la branche principale du dépôt distant (main ou master).
 
 Étapes pour être à jour avant de commencer :
-sh
-Copy
-Edit
+
 # Se positionner sur la branche principale
 git checkout main
 
 # Récupérer les dernières modifications du dépôt distant
 git pull origin main
+
 Cela garantit que vous avez tous les deux la dernière version du projet.
 
 🔥 2. Créer une branche pour chaque fonctionnalité
@@ -31,53 +28,37 @@ Au lieu de travailler directement sur la branche main, chacun doit créer une br
 Exemple :
 Créer une branche spécifique :
 
-sh
-Copy
-Edit
 git checkout -b feature/ajouter-nouvelle-fonctionnalité
-Faire les changements nécessaires, ajouter, committer :
 
-sh
-Copy
-Edit
+Faire les changements nécessaires, ajouter, committer :
 git add fichier_modifié
 git commit -m "Ajout de la nouvelle fonctionnalité X"
+
+
 🔥 3. Pousser la branche sur GitHub régulièrement
 Lorsque tu as terminé une étape, pousse ta branche sur GitHub. Cela permet à ton collègue de voir ton travail et de s’assurer que vous ne travaillez pas sur les mêmes fichiers en même temps.
 
 Pousser la branche vers GitHub :
-sh
-Copy
-Edit
 git push origin feature/ajouter-nouvelle-fonctionnalité
+
 🔥 4. Mettre à jour ta branche régulièrement
+
 Avant de commencer à travailler chaque jour, et avant de pousser, tu dois récupérer les dernières modifications de main pour éviter les conflits lors de la fusion.
 
 Récupérer les changements de la branche principale :
+
 Se positionner sur la branche principale :
-
-sh
-Copy
-Edit
 git checkout main
+
 Récupérer les derniers changements depuis le dépôt distant :
-
-sh
-Copy
-Edit
 git pull origin main
+
 Revenir sur ta branche de travail :
-
-sh
-Copy
-Edit
 git checkout feature/ajouter-nouvelle-fonctionnalité
-Fusionner les changements de main dans ta branche de travail :
 
-sh
-Copy
-Edit
+Fusionner les changements de main dans ta branche de travail :
 git merge main
+
 Cette étape permet d’éviter des conflits lors du push, car tu travailles avec les dernières modifications du projet. Si des conflits apparaissent, tu devras les résoudre avant de pouvoir continuer.
 
 🔥 5. Faire une Pull Request (PR) sur GitHub
@@ -96,29 +77,17 @@ Avant de fusionner ta branche dans main, assure-toi que la branche main contient
 
 Fusionner main dans ta branche avant de créer la PR :
 Se positionner sur la branche principale :
-
-sh
-Copy
-Edit
 git checkout main
+
 Récupérer les derniers changements :
-
-sh
-Copy
-Edit
 git pull origin main
+
 Revenir sur ta branche de travail :
-
-sh
-Copy
-Edit
 git checkout feature/ajouter-nouvelle-fonctionnalité
-Fusionner main dans ta branche :
 
-sh
-Copy
-Edit
+Fusionner main dans ta branche :
 git merge main
+
 Cela permet de résoudre tous les conflits potentiels avant de créer la Pull Request. Une fois la PR acceptée, tu peux fusionner ta branche dans main.
 
 🔥 7. Résoudre les conflits (si nécessaire)
@@ -128,36 +97,26 @@ Pour résoudre les conflits :
 Ouvrir les fichiers conflictuels et décider des modifications à conserver.
 
 Après avoir résolu les conflits, marquer les fichiers comme résolus :
-
-sh
-Copy
-Edit
 git add fichier_conflit
+
 Terminer la fusion :
-
-sh
-Copy
-Edit
 git commit
-Pousser les modifications :
 
-sh
-Copy
-Edit
+Pousser les modifications :
 git push origin feature/ajouter-nouvelle-fonctionnalité
+
+
 🔥 8. Supprimer les branches après fusion
 Une fois la Pull Request fusionnée, tu peux supprimer la branche localement et à distance pour garder ton dépôt propre.
 
 Supprimer la branche localement :
-sh
-Copy
-Edit
 git branch -d feature/ajouter-nouvelle-fonctionnalité
+
+
 Supprimer la branche à distance :
-sh
-Copy
-Edit
 git push origin --delete feature/ajouter-nouvelle-fonctionnalité
+
+
 📌 Résumé du workflow :
 Cloner le dépôt et récupérer les dernières modifications.
 
