@@ -34,6 +34,7 @@
 # define ERR_NL "minishell: syntax error near unexpected token `newline'\n"
 # define ERR_REDIR "minishell: syntax error near unexpected token `redir'\n"
 
+extern int g_exit_code;
 extern volatile sig_atomic_t	g_signal;
 
 typedef enum	e_token_type
@@ -118,5 +119,10 @@ int				current_token_is(t_token_stream *tokens, t_token_type type);
 int				execute_path(char **cmd, char **envp);
 
 void			execute_tree(t_btree *tree, char **envp);
+
+/*-----------------------------EXIT------------------------------------------*/
+void set_exit_code(int code);
+int get_exit_code(void);
+
 
 #endif //MINISHELL_H

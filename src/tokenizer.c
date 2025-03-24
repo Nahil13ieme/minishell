@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:27:15 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/21 14:12:10 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/24 13:25:39 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,8 @@ int	process_char(t_token_stream *ts, char *line, int i, char **env)
 		return (new_i);
 	if (line[i] == '\'' || line[i] == '"')
 		return (handle_quoted_string(ts, line, i, env));
+	if (line[i] == '$' && line[i + 1] == '?')
+		printf("%d\n", get_exit_code());
 	if (line[i] == '$')
 		return (handle_env_variable(ts, line, i, env));
 	return (handle_word(ts, line, i));
