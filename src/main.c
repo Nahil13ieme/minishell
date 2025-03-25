@@ -60,11 +60,13 @@ char	*make_prompt(void)
 
 void	print_tree(t_btree tree)
 {
+	int	i;
+
+	i = 0;
 	if (tree.left)
 		print_tree(*tree.left);
 	if (tree.cmd)
 	{
-		int i = 0;
 		while (tree.cmd[i])
 		{
 			printf("%s ", tree.cmd[i]);
@@ -79,6 +81,7 @@ void	print_tree(t_btree tree)
 void	process_line(char *line, char **envp)
 {
 	t_token_stream	*ts;
+	t_btree			*root;
 
 	if (line[0] != '\0')
 	{
@@ -86,7 +89,7 @@ void	process_line(char *line, char **envp)
 		ts = tokenize_input(line, envp);
 		if (!validate_token_sequence(ts))
 			return ;
-		t_btree	*root = parse_input(ts);
+		root = parse_input(ts);
 		if (root)
 		{
 			execute_tree(root, envp);
@@ -100,8 +103,8 @@ void	process_line(char *line, char **envp)
 
 int	main(int ac, char **av, char **env)
 {
-	char			*line;
-	char			*prompt;
+	char	*line;
+	char	*prompt;
 	char	**envp;
 
 	(void)ac;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_execute.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
+/*   Updated: 2025/03/25 08:53:47 by nbenhami         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static void	free_paths(char **paths)
@@ -52,7 +64,6 @@ static void	path_not_found(char **cmd)
 		free(cmd[i]);
 	free(cmd);
 }
-
 
 int	execute_path(char **cmd, char **envp)
 {
