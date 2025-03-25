@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:40:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 09:41:40 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:36:18 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_btree	*parse_command(t_token_stream *tokens)
 {
 	t_btree	*node;
 
-	if (!tokens || tokens->current >= tokens->capacity
+	if (!tokens || tokens->current == -1 || tokens->current >= tokens->capacity
 		|| tokens->tokens[tokens->current]->type != TOKEN_WORD)
 		return (NULL);
 	node = create_node(NODE_COMMAND, NULL, NULL, NULL);
@@ -56,7 +56,7 @@ void	consume_token(t_token_stream *tokens)
 {
 	tokens->current++;
 	if (tokens->current >= tokens->size)
-		tokens->current = 0;
+		tokens->current = -1;
 }
 
 int	current_token_is(t_token_stream *tokens, t_token_type type)

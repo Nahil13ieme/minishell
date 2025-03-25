@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 08:53:47 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/25 11:27:50 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,6 @@ static char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
-static void	path_not_found(char **cmd)
-{
-	int	i;
-
-	i = 0;
-	printf("%s: command not found\n", cmd[0]);
-	while (cmd[++i])
-		free(cmd[i]);
-	free(cmd);
-}
-
 int	execute_path(char **cmd, char **envp)
 {
 	char	*path;
@@ -74,7 +63,7 @@ int	execute_path(char **cmd, char **envp)
 	ret = 0;
 	path = find_path(cmd[0], envp);
 	if (!path)
-		path_not_found(cmd);
+		printf("%s: command not found\n", cmd[0]);
 	pid1 = fork();
 	if (pid1 == -1)
 		exit(EXIT_FAILURE);

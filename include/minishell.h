@@ -127,6 +127,8 @@ void			execute_tree(t_btree *tree, char **envp);
 int				handle_quoted_string(t_token_stream *ts,
 					char *line, int i, char **env);
 
+void			execute_redirection(t_btree *tree, char **envp);
+
 /*-----------------------------EXIT------------------------------------------*/
 void			set_exit_code(int code);
 int				get_exit_code(void);

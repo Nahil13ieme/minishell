@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:14:43 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 08:56:29 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/25 11:23:24 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,12 @@ void	free_tree(t_btree *root)
 	if (root->cmd)
 	{
 		while (root->cmd[i])
-			free(root->cmd[i++]);
-		free(root->cmd);
+		{
+			if (root->cmd[i])
+				free(root->cmd[i]);
+			i++;
+		}
+			free(root->cmd);
 		root->cmd = NULL;
 	}
 	root->status = 0;

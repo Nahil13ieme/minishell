@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:00:09 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 09:41:02 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:36:43 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,92 +19,94 @@
  * Ordre du - au + : ; && || | < > << >>
  */
 
-t_btree	*parse_input(t_token_stream *tokens)
+t_btree	*parse_input(t_token_stream *ts)
 {
-	return (parse_sequence(tokens));
+	return (parse_sequence(ts));
 }
 
-t_btree	*parse_sequence(t_token_stream *tokens)
+t_btree	*parse_sequence(t_token_stream *ts)
 {
 	t_btree	*node;
 	t_btree	*right;
 
-	node = parse_logical(tokens);
+	node = parse_logical(ts);
 	if (!node)
 		return (NULL);
-	while (current_token_is(tokens, TOKEN_SEMICOLON))
+	while (current_token_is(ts, TOKEN_SEMICOLON))
 	{
-		consume_token(tokens);
-		right = parse_logical(tokens);
+		consume_token(ts);
+		right = parse_logical(ts);
+		if (!right)
+			break ;
 		node = create_node(NODE_SEMICOLON, node, right, NULL);
 	}
 	return (node);
 }
 
-t_btree	*parse_logical(t_token_stream *tokens)
+t_btree	*parse_logical(t_token_stream *ts)
 {
 	t_btree		*node;
 	t_btree		*right;
 	t_cmd_type	type;
 
-	node = parse_redirection(tokens);
+	node = parse_pipeline(ts);
 	if (!node)
 		return (NULL);
-	while (current_token_is(tokens, TOKEN_AND)
-		|| current_token_is(tokens, TOKEN_OR))
+	while (current_token_is(ts, TOKEN_AND)
+		|| current_token_is(ts, TOKEN_OR))
 	{
-		if (current_token_is(tokens, TOKEN_AND))
+		if (current_token_is(ts, TOKEN_AND))
 			type = NODE_AND;
 		else
 			type = NODE_OR;
-		consume_token(tokens);
-		right = parse_redirection(tokens);
+		consume_token(ts);
+		right = parse_pipeline(ts);
 		node = create_node(type, node, right, NULL);
 	}
 	return (node);
 }
 
-t_btree	*parse_pipeline(t_token_stream *tokens)
+t_btree	*parse_pipeline(t_token_stream *ts)
 {
 	t_btree	*node;
 	t_btree	*right;
 
-	node = parse_command(tokens);
+	node = parse_redirection(ts);
 	if (!node)
 		return (NULL);
-	while (current_token_is(tokens, TOKEN_PIPE))
+	while (current_token_is(ts, TOKEN_PIPE))
 	{
-		consume_token(tokens);
-		right = parse_command(tokens);
+		consume_token(ts);
+		right = parse_redirection(ts);
 		node = create_node(NODE_PIPE, node, right, NULL);
 	}
 	return (node);
 }
 
-t_btree	*parse_redirection(t_token_stream *tokens)
+t_btree	*parse_redirection(t_token_stream *ts)
 {
 	t_btree		*node;
 	t_btree		*right;
 	t_cmd_type	type;
 
-	node = parse_pipeline(tokens);
+	node = parse_command(ts);
 	if (!node)
 		return (NULL);
-	while (current_token_is(tokens, TOKEN_REDIR_IN)
-		|| current_token_is(tokens, TOKEN_REDIR_OUT))
+	while (current_token_is(ts, TOKEN_REDIR_IN)
+		|| current_token_is(ts, TOKEN_REDIR_OUT))
 	{
-		if (current_token_is(tokens, TOKEN_REDIR_IN))
+		if (current_token_is(ts, TOKEN_REDIR_IN))
 			type = NODE_REDIR_IN;
-		else if (current_token_is(tokens, TOKEN_REDIR_OUT))
+		else if (current_token_is(ts, TOKEN_REDIR_OUT))
 			type = NODE_REDIR_OUT;
-		else if (current_token_is(tokens, TOKEN_APPEND))
+		else if (current_token_is(ts, TOKEN_APPEND))
 			type = NODE_APPEND;
-		else if (current_token_is(tokens, TOKEN_HEREDOC))
+		else if (current_token_is(ts, TOKEN_HEREDOC))
 			type = NODE_HEREDOC;
 		else
 			break ;
-		consume_token(tokens);
-		right = parse_pipeline(tokens);
+		consume_token(ts);
+		right = parse_command(ts);
 		node = create_node(type, node, right, NULL);
 	}
 	return (node);
