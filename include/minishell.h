@@ -34,10 +34,10 @@
 # define ERR_NL "minishell: syntax error near unexpected token `newline'\n"
 # define ERR_REDIR "minishell: syntax error near unexpected token `redir'\n"
 
-extern int g_exit_code;
+extern int						g_exit_code;
 extern volatile sig_atomic_t	g_signal;
 
-typedef enum	e_token_type
+typedef enum e_token_type
 {
 	TOKEN_COMMAND,
 	TOKEN_PIPE,
@@ -52,7 +52,7 @@ typedef enum	e_token_type
 	TOKEN_QUOTED
 }	t_token_type;
 
-typedef struct	s_token
+typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
@@ -64,9 +64,9 @@ typedef struct s_token_stream
 	int			size;
 	int			capacity;
 	int			current;
-} t_token_stream;
+}	t_token_stream;
 
-typedef enum	e_cmd_type
+typedef enum e_cmd_type
 {
 	NODE_COMMAND,
 	NODE_PIPE,
@@ -79,7 +79,7 @@ typedef enum	e_cmd_type
 	NODE_APPEND
 }	t_cmd_type;
 
-typedef struct	s_btree
+typedef struct s_btree
 {
 	t_cmd_type		type;
 	char			**cmd;
@@ -93,10 +93,13 @@ typedef struct	s_btree
 }	t_btree;
 
 /* ----------- binary_tree.c ----------- */
-t_btree	*create_node(t_cmd_type type, t_btree *left, t_btree *right, char **cmd);
-void	free_tree(t_btree *node);
+
+t_btree			*create_node(t_cmd_type type, t_btree *left,
+					t_btree *right, char **cmd);
+void			free_tree(t_btree *node);
 
 /* ----------- token_stream.c ----------- */
+
 void			free_token_stream(t_token_stream *ts);
 t_token_stream	*create_token_stream(void);
 t_token			*create_token(t_token_type type, char *value);
@@ -105,6 +108,7 @@ t_token_stream	*tokenize_input(char *line, char **env);
 int				validate_token_sequence(t_token_stream *ts);
 
 /* ----------- tokenizer.c ----------- */
+
 int				process_char(t_token_stream *ts, char *line, int i, char **env);
 
 t_btree			*parse_input(t_token_stream *tokens);
@@ -120,9 +124,11 @@ int				execute_path(char **cmd, char **envp);
 
 void			execute_tree(t_btree *tree, char **envp);
 
-/*-----------------------------EXIT------------------------------------------*/
-void set_exit_code(int code);
-int get_exit_code(void);
+int				handle_quoted_string(t_token_stream *ts,
+					char *line, int i, char **env);
 
+/*-----------------------------EXIT------------------------------------------*/
+void			set_exit_code(int code);
+int				get_exit_code(void);
 
 #endif //MINISHELL_H
