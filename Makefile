@@ -8,7 +8,7 @@ OBJ= $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
 
 CC=cc
 CFLAGS= -Wall -Wextra -Werror -g
-LDFLAGS= -lreadline -lhistory
+LDFLAGS= -lreadline
 
 LIBFT_DIR=libft
 LIBFT=$(LIBFT_DIR)/libft.a
