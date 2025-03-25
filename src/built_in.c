@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/25 12:56:18 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:13:56 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,44 @@ void ft_pwd(void)
  * @brief Commande built-in pour exporter une variable dans ENV.
  * @param var Variable a exporter.
  */
-void ft_export(char *var)
+void ft_export(char *var, char **envp)
 {
-	if (!var || !ft_strrchr(var, '='))
+	char	*equal_pos ;
+	int		i;
+	int		j;
+	char	**new_envp;
+	
+	equal_pos = strchr(var, '=');
+	if (!var || !equal_pos)
 		return;
-	if (putenv(var) != 0)
-		perror("export");
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], var, equal_pos - var) == 0)
+		{
+			envp[i] = var;
+			return;
+		}
+		i++;
+	}
+	j = 0;
+	while (envp[j])
+		j++;
+	new_envp = malloc((j + 2) * sizeof(char *));
+	if (!new_envp)
+	{
+		perror("malloc");
+		return;
+	}
+	i = 0;
+	while (i < j)
+	{
+		new_envp[i] = envp[i];
+		i++;
+	}
+	new_envp[j] = var;
+	new_envp[j + 1] = NULL;
+	envp = new_envp;
 }
 
 /**
