@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 10:40:21 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:50:39 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	built_in_check(char *str, char **args, char **envp)
 	else if (ft_strncmp(str, "export",6) == 0)
 		return(ft_export(args[1]), 0);
 	else if (ft_strncmp(str, "unset",5) == 0)
-		return(ft_unset(args[1]), 0);
+		return(ft_unset(args[1], envp), 0);
 	else if (ft_strncmp(str, "env",3) == 0)
 		return(ft_env(envp), 0);
 	else if (ft_strncmp(str, "exit",4) == 0)

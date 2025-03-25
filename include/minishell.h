@@ -132,7 +132,7 @@ void			ft_echo(char **args);
 void			ft_cd(char *path);
 void			ft_pwd(void);
 void			ft_export(char *var);
-void			ft_unset(char *var);
+void			ft_unset(char *var, char **envp);
 void			ft_env(char **envp);
 void			ft_exit(char *arg);
 int				built_in_check(char *str, char **args, char **envp);

@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/25 10:51:34 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:56:18 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void ft_pwd(void)
  */
 void ft_export(char *var)
 {
-	if (!var || !strchr(var, '='))
+	if (!var || !ft_strrchr(var, '='))
 		return;
 	if (putenv(var) != 0)
 		perror("export");
@@ -78,13 +78,37 @@ void ft_export(char *var)
 
 /**
  * @brief Commande built-in pour sortirune variable de ENV.
- * @param var Variable a de-set.
+ * @param var Variable a unset.
+ * @param envp Variable environement
  */
-void ft_unset(char *var)
+void ft_unset(char *var, char **envp)
 {
-	unsetenv(var);
-}
+	int i = 0, j;
+	size_t len;
 
+	if (!var || !envp)
+		return;
+
+	len = 0;
+	while (var[len])
+		len++;
+
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], var, len) == 0 && envp[i][len] == '=')
+		{
+			j = i;
+			free(envp[i]);
+			while (envp[j])
+			{
+				envp[j] = envp[j + 1];
+				j++;
+			}
+			return;
+		}
+		i++;
+	}
+}
 /**
  * @brief Commande built-in pour afficher les varaible de ENV.
  * @param envp Variable d environement.
@@ -105,7 +129,10 @@ void ft_env(char **envp)
  */
 void ft_exit(char *arg)
 {
-	int status = arg ? atoi(arg) : 0;
+	int status = 0;
+	
+	if (arg)
+		status = atoi(arg);
 	printf("Exiting with code %d\n", status);
 	exit(status);
 }
