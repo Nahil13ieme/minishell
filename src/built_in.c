@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/25 14:13:56 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:49:30 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,28 +68,29 @@ void ft_pwd(void)
  * @brief Commande built-in pour exporter une variable dans ENV.
  * @param var Variable a exporter.
  */
-void ft_export(char *var, char **envp)
+void ft_export(char *var, char **envi)
 {
 	char	*equal_pos ;
 	int		i;
 	int		j;
 	char	**new_envp;
 	
-	equal_pos = strchr(var, '=');
+	equal_pos = ft_strchr(var, '=');
 	if (!var || !equal_pos)
 		return;
 	i = 0;
-	while (envp[i])
+	while (envi[i])
 	{
-		if (ft_strncmp(envp[i], var, equal_pos - var) == 0)
+		if (ft_strncmp(envi[i], var, equal_pos - var) == 0)
 		{
-			envp[i] = var;
+			free(envi[i]);
+			envi[i] = ft_strdup(var);
 			return;
 		}
 		i++;
 	}
 	j = 0;
-	while (envp[j])
+	while (envi[j])
 		j++;
 	new_envp = malloc((j + 2) * sizeof(char *));
 	if (!new_envp)
@@ -97,19 +98,15 @@ void ft_export(char *var, char **envp)
 		perror("malloc");
 		return;
 	}
-	i = 0;
-	while (i < j)
-	{
-		new_envp[i] = envp[i];
-		i++;
-	}
-	new_envp[j] = var;
+	ft_memcpy(new_envp, envi, j * sizeof(char *));
+	new_envp[j] = ft_strdup(var);
 	new_envp[j + 1] = NULL;
-	envp = new_envp;
+	free_tab(envi);
+	envi = new_envp;
 }
 
 /**
- * @brief Commande built-in pour sortirune variable de ENV.
+ * @brief Commande built-in pour sortir une variable de ENV.
  * @param var Variable a unset.
  * @param envp Variable environement
  */
@@ -148,7 +145,8 @@ void ft_unset(char *var, char **envp)
 void ft_env(char **envp)
 {
 	int i = 0;
-	while (envp[i]) {
+	while (envp[i])
+	{
 		printf("%s\n", envp[i]);
 		i++;
 	}

@@ -131,13 +131,14 @@ int				handle_quoted_string(t_token_stream *ts,
 void			ft_echo(char **args);
 void			ft_cd(char *path);
 void			ft_pwd(void);
-void			ft_export(char *var);
+void			ft_export(char *var, char **envp);
 void			ft_unset(char *var, char **envp);
 void			ft_env(char **envp);
 void			ft_exit(char *arg);
 int				built_in_check(char *str, char **args, char **envp);
-
-
+/*-----------------------------UTILS------------------------------------------*/
+char			**get_env(char **envp);
+void			free_tab(char **tab);
 /*-----------------------------EXIT------------------------------------------*/
 void			set_exit_code(int code);
 int				get_exit_code(void);
