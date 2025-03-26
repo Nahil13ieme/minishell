@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/25 18:49:30 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:03:59 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ void ft_export(char *var, char **envi)
 	ft_memcpy(new_envp, envi, j * sizeof(char *));
 	new_envp[j] = ft_strdup(var);
 	new_envp[j + 1] = NULL;
-	free_tab(envi);
-	envi = new_envp;
+	sim_glob(new_envp, 's');
+	free_tab(new_envp);
 }
 
 /**

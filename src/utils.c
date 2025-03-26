@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/25 17:54:11 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:07:14 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 char	**get_env(char **envp)
 {
-	int	i;
+	int		i;
 	char	**cpy_env;
 	
 	i = 0;
 	while (envp[i])
 		i++;
-	cpy_env = malloc(sizeof(char *) * i + 1);
+	cpy_env = malloc(sizeof(char *) * (i + 1));
 	if (cpy_env == NULL)
 		return (0);
 	i = 0;
@@ -49,4 +49,16 @@ void	free_tab(char **tab)
 			i++;
 		}
 	free(tab);
+}
+char	**sim_glob(char **tab, char c)
+{
+	static char **glob = NULL;
+
+	if (c == 'g')
+	{
+		return (glob);
+	}
+	else
+		glob = tab;
+	return NULL;
 }

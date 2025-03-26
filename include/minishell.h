@@ -139,6 +139,8 @@ int				built_in_check(char *str, char **args, char **envp);
 /*-----------------------------UTILS------------------------------------------*/
 char			**get_env(char **envp);
 void			free_tab(char **tab);
+char			**sim_glob(char **tab, char c);
+
 /*-----------------------------EXIT------------------------------------------*/
 void			set_exit_code(int code);
 int				get_exit_code(void);

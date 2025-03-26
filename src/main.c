@@ -105,12 +105,11 @@ int	main(int ac, char **av, char **env)
 {
 	char	*line;
 	char	*prompt;
-	char	**enviro;
 
 	(void)ac;
 	(void)av;
-	enviro = get_env(env);
 	using_history();
+	sim_glob(get_env(env), 's');
 	while (1)
 	{
 		prompt = make_prompt();
@@ -119,7 +118,7 @@ int	main(int ac, char **av, char **env)
 			free(prompt);
 		if (!line)
 			break ;
-		process_line(line, enviro);
+		process_line(line, sim_glob(NULL, 'g'));
 		free(line);
 	}
 	return (0);
