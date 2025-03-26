@@ -6,7 +6,7 @@
 /*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/26 14:03:59 by toto             ###   ########.fr       */
+/*   Updated: 2025/03/26 14:43:34 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,10 @@ void ft_export(char *var, char **envi)
 	j = 0;
 	while (envi[j])
 		j++;
-	new_envp = malloc((j + 2) * sizeof(char *));
-	if (!new_envp)
-	{
-		perror("malloc");
-		return;
-	}
-	ft_memcpy(new_envp, envi, j * sizeof(char *));
+	new_envp = ft_tab_realloc(envi, 1);
 	new_envp[j] = ft_strdup(var);
 	new_envp[j + 1] = NULL;
 	sim_glob(new_envp, 's');
-	free_tab(new_envp);
 }
 
 /**

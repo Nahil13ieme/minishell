@@ -109,7 +109,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	using_history();
-	sim_glob(get_env(env), 's');
+	get_env(env);
 	while (1)
 	{
 		prompt = make_prompt();

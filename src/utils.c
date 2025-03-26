@@ -6,13 +6,13 @@
 /*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/26 14:07:14 by toto             ###   ########.fr       */
+/*   Updated: 2025/03/26 14:42:25 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	**get_env(char **envp)
+void	get_env(char **envp)
 {
 	int		i;
 	char	**cpy_env;
@@ -22,7 +22,7 @@ char	**get_env(char **envp)
 		i++;
 	cpy_env = malloc(sizeof(char *) * (i + 1));
 	if (cpy_env == NULL)
-		return (0);
+		return ;
 	i = 0;
 	while (envp[i])
 		{
@@ -35,7 +35,7 @@ char	**get_env(char **envp)
 			i++;
 		}
 	cpy_env[i] = NULL;
-	return (cpy_env);
+	sim_glob(cpy_env, 's');
 }
 
 void	free_tab(char **tab)
@@ -55,10 +55,35 @@ char	**sim_glob(char **tab, char c)
 	static char **glob = NULL;
 
 	if (c == 'g')
-	{
 		return (glob);
-	}
 	else
 		glob = tab;
 	return NULL;
 }
+
+char	**ft_tab_realloc(char **tab, size_t new_size)
+{
+	size_t old_size = 0;
+	char **new_tab;
+	size_t i = 0;
+
+	while (tab && tab[old_size])
+		old_size++;
+	new_tab = (char **)malloc(sizeof(char *) * (old_size + new_size + 1));
+	if (!new_tab)
+		return NULL;
+	while (i < old_size)
+	{
+		new_tab[i] = tab[i];
+		i++;
+	}
+	while (i < old_size + new_size)
+	{
+		new_tab[i] = NULL;
+		i++;
+	}
+	new_tab[i] = NULL;
+	free(tab);
+	return new_tab;
+}
+

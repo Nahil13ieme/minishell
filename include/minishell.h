@@ -137,9 +137,10 @@ void			ft_env(char **envp);
 void			ft_exit(char *arg);
 int				built_in_check(char *str, char **args, char **envp);
 /*-----------------------------UTILS------------------------------------------*/
-char			**get_env(char **envp);
+void			get_env(char **envp);
 void			free_tab(char **tab);
 char			**sim_glob(char **tab, char c);
+char			**ft_tab_realloc(char **tab, size_t new_size);
 
 /*-----------------------------EXIT------------------------------------------*/
 void			set_exit_code(int code);
