@@ -122,13 +122,30 @@ int				current_token_is(t_token_stream *tokens, t_token_type type);
 
 int				execute_path(char **cmd, char **envp);
 
+
 void			execute_tree(t_btree *tree, char **envp);
 
 int				handle_quoted_string(t_token_stream *ts,
 					char *line, int i, char **env);
-
+/*--------------------------BUILT IN-----------------------------------------*/
+void			ft_echo(char **args);
+void			ft_cd(char *path);
+void			ft_pwd(void);
+void			ft_export(char *var, char **envp);
+void			ft_unset(char *var, char **envp);
+void			ft_env(char **envp);
+void			ft_exit(char *arg);
+int				built_in_check(char *str, char **args, char **envp);
+/*-----------------------------UTILS------------------------------------------*/
+void			get_env(char **envp);
+void			free_tab(char **tab);
+char			**sim_glob(char **tab, char c);
+char			**ft_tab_realloc(char **tab, size_t new_size);
+void			ft_print_env(char **envp);
 /*-----------------------------EXIT------------------------------------------*/
 void			set_exit_code(int code);
 int				get_exit_code(void);
+int				sim_exit(int code, char c);
+
 
 #endif //MINISHELL_H

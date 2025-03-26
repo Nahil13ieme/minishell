@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 08:53:47 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:43:30 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int	execute_path(char **cmd, char **envp)
 	int		ret;
 
 	ret = 0;
+	if(built_in_check(cmd[0], cmd, envp) == 0)
+		return(ret);
 	path = find_path(cmd[0], envp);
 	if (!path)
 		path_not_found(cmd);
@@ -89,4 +91,24 @@ int	execute_path(char **cmd, char **envp)
 		exit(EXIT_FAILURE);
 	free(path);
 	return (ret / 256);
+}
+
+int	built_in_check(char *str, char **args, char **envp)
+{
+	if (ft_strncmp(str, "echo",4) == 0)
+		return(ft_echo(args), 0);
+	else if (ft_strncmp(str, "cd",2) == 0)
+		return(ft_cd(args[1]), 0);
+	else if (ft_strncmp(str, "pwd",3) == 0)
+		return(ft_pwd(), 0);
+	else if (ft_strncmp(str, "export",6) == 0)
+		return(ft_export(args[1], envp), 0);
+	else if (ft_strncmp(str, "unset",5) == 0)
+		return(ft_unset(args[1], envp), 0);
+	else if (ft_strncmp(str, "env",3) == 0)
+		return(ft_env(envp), 0);
+	else if (ft_strncmp(str, "exit",4) == 0)
+		return(ft_exit(args[1]), 0);
+	else
+		return(1);
 }
