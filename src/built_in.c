@@ -6,7 +6,7 @@
 /*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/26 14:43:34 by toto             ###   ########.fr       */
+/*   Updated: 2025/03/26 15:33:16 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,12 @@ void ft_export(char *var, char **envi)
 {
 	char	*equal_pos ;
 	int		i;
-	int		j;
 	char	**new_envp;
-	
+	if (!var)
+	{
+		ft_print_env(sim_glob(NULL, 'g'));
+		return ;
+	}
 	equal_pos = ft_strchr(var, '=');
 	if (!var || !equal_pos)
 		return;
@@ -89,12 +92,9 @@ void ft_export(char *var, char **envi)
 		}
 		i++;
 	}
-	j = 0;
-	while (envi[j])
-		j++;
 	new_envp = ft_tab_realloc(envi, 1);
-	new_envp[j] = ft_strdup(var);
-	new_envp[j + 1] = NULL;
+	new_envp[i] = ft_strdup(var);
+	new_envp[i + 1] = NULL;
 	sim_glob(new_envp, 's');
 }
 

@@ -6,7 +6,7 @@
 /*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/26 14:42:25 by toto             ###   ########.fr       */
+/*   Updated: 2025/03/26 15:29:50 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,16 @@ char	**ft_tab_realloc(char **tab, size_t new_size)
 	new_tab[i] = NULL;
 	free(tab);
 	return new_tab;
+}
+
+void	ft_print_env(char **envp)
+{
+	int i = 0;
+
+	while (envp[i])
+	{
+		printf("declare -x %s\n", envp[i]);
+		i++;
+	}
 }
 
