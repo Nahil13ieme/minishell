@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:00:09 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 14:36:43 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:39:40 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,9 @@ t_btree	*parse_redirection(t_token_stream *ts)
 	if (!node)
 		return (NULL);
 	while (current_token_is(ts, TOKEN_REDIR_IN)
-		|| current_token_is(ts, TOKEN_REDIR_OUT))
+		|| current_token_is(ts, TOKEN_REDIR_OUT)
+		|| current_token_is(ts, TOKEN_APPEND)
+		|| current_token_is(ts, TOKEN_HEREDOC))
 	{
 		if (current_token_is(ts, TOKEN_REDIR_IN))
 			type = NODE_REDIR_IN;
@@ -103,8 +105,6 @@ t_btree	*parse_redirection(t_token_stream *ts)
 			type = NODE_APPEND;
 		else if (current_token_is(ts, TOKEN_HEREDOC))
 			type = NODE_HEREDOC;
-		else
-			break ;
 		consume_token(ts);
 		right = parse_command(ts);
 		node = create_node(type, node, right, NULL);

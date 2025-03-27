@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:27:15 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 09:35:33 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:32:40 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static int	handle_double_tokens(t_token_stream *ts, char *line, int i)
 	}
 	if (line[i] == '<' && line[i + 1] == '<')
 	{
-		add_token(ts, create_token(TOKEN_REDIR_IN, "<<"));
+		add_token(ts, create_token(TOKEN_HEREDOC, "<<"));
 		return (i + 2);
 	}
 	if (line[i] == '>' && line[i + 1] == '>')
 	{
-		add_token(ts, create_token(TOKEN_REDIR_OUT, ">>"));
+		add_token(ts, create_token(TOKEN_APPEND, ">>"));
 		return (i + 2);
 	}
 	return (i);

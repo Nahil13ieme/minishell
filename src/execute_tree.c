@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 13:19:14 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:42:32 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,7 @@ void	execute_tree(t_btree *tree, char **envp)
 	}
 	if (tree->type == NODE_PIPE)
 		execute_pipeline(tree, envp);
-	if (tree->type == NODE_REDIR_IN)
-		execute_redirection(tree, envp);
-	if (tree->type == NODE_REDIR_OUT)
+	if (tree->type == NODE_REDIR_IN || tree->type == NODE_REDIR_OUT
+		|| tree->type == NODE_APPEND || tree->type == NODE_HEREDOC) 
 		execute_redirection(tree, envp);
 }
