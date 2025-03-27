@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/26 15:43:30 by toto             ###   ########.fr       */
+/*   Updated: 2025/03/27 13:48:05 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,7 @@ static char	*find_path(char *cmd, char **envp)
 
 static void	path_not_found(char **cmd)
 {
-	int	i;
-
-	i = 0;
 	printf("%s: command not found\n", cmd[0]);
-	while (cmd[++i])
-		free(cmd[i]);
-	free(cmd);
 }
 
 int	execute_path(char **cmd, char **envp)
@@ -72,8 +66,8 @@ int	execute_path(char **cmd, char **envp)
 	int		ret;
 
 	ret = 0;
-	if(built_in_check(cmd[0], cmd, envp) == 0)
-		return(ret);
+	if (built_in_check(cmd[0], cmd, envp) == 0)
+		return (ret);
 	path = find_path(cmd[0], envp);
 	if (!path)
 		path_not_found(cmd);
@@ -88,7 +82,7 @@ int	execute_path(char **cmd, char **envp)
 	else if (pid1 > 0)
 		waitpid(pid1, &ret, 0);
 	else if (pid1 < 0)
-		exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);	
 	free(path);
 	return (ret / 256);
 }
