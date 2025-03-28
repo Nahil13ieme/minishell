@@ -6,7 +6,7 @@
 /*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/26 15:29:50 by toto             ###   ########.fr       */
+/*   Updated: 2025/03/28 17:04:30 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	get_env(char **envp)
 			i++;
 		}
 	cpy_env[i] = NULL;
-	sim_glob(cpy_env, 's');
+	env_glob(cpy_env, 's');
+	export_global(cpy_env, 's');
 }
 
 void	free_tab(char **tab)
@@ -50,7 +51,7 @@ void	free_tab(char **tab)
 		}
 	free(tab);
 }
-char	**sim_glob(char **tab, char c)
+char	**env_glob(char **tab, char c)
 {
 	static char **glob = NULL;
 
@@ -60,7 +61,11 @@ char	**sim_glob(char **tab, char c)
 		glob = tab;
 	return NULL;
 }
-
+/**
+ * @brief Realloue un tableau de newsize + 1
+ * @param new_size nombre a augmenter sans \0
+ * @param tab Tableaux a realouer
+ */
 char	**ft_tab_realloc(char **tab, size_t new_size)
 {
 	size_t old_size = 0;
@@ -87,13 +92,14 @@ char	**ft_tab_realloc(char **tab, size_t new_size)
 	return new_tab;
 }
 
-void	ft_print_env(char **envp)
+void	ft_print_tab(char **tab)
 {
-	int i = 0;
+	int		i;
 
-	while (envp[i])
+	i = 0;
+	while (tab[i])
 	{
-		printf("declare -x %s\n", envp[i]);
+		printf("%s\n", tab[i]);
 		i++;
 	}
 }

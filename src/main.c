@@ -118,7 +118,7 @@ int	main(int ac, char **av, char **env)
 			free(prompt);
 		if (!line)
 			break ;
-		process_line(line, sim_glob(NULL, 'g'));
+		process_line(line, env_glob(NULL, 'g'));
 		free(line);
 	}
 	return (0);
