@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:18:24 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 08:54:28 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/28 23:50:48 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	free_token_stream(t_token_stream *ts)
 	}
 	free(ts->tokens);
 	free(ts);
+	ts = NULL;
 }
 
 /**

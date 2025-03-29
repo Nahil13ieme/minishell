@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 11:27:50 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/29 18:56:30 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	free_paths(char **paths)
 	free(paths);
 }
 
-static char	*find_path(char *cmd, char **envp)
+char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
@@ -54,17 +54,13 @@ static char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
-int	execute_path(char **cmd, char **envp)
+static int	execute_child(char *path, char **cmd, char **envp)
 {
-	char	*path;
 	pid_t	pid1;
 	int		ret;
 
-	ret = 0;
-	path = find_path(cmd[0], envp);
-	if (!path)
-		printf("%s: command not found\n", cmd[0]);
 	pid1 = fork();
+	ret = 0;
 	if (pid1 == -1)
 		exit(EXIT_FAILURE);
 	if (pid1 == 0)
@@ -76,6 +72,28 @@ int	execute_path(char **cmd, char **envp)
 		waitpid(pid1, &ret, 0);
 	else if (pid1 < 0)
 		exit(EXIT_FAILURE);
+	return (ret);
+}
+
+int	execute_path(char **cmd, char **envp, int child)
+{
+	char	*path;
+	int		ret;
+	
+	ret = 0;
+	path = find_path(cmd[0], envp);
+	if (!path)
+	{
+		printf("%s: command not found\n", cmd[0]);
+		return (127);
+	}
+	if (child == 0)
+		ret = execute_child(path, cmd, envp);
+	else
+	{
+		if (execve(path, cmd, envp) == -1)
+			exit(EXIT_FAILURE);
+	}
 	free(path);
 	return (ret / 256);
 }

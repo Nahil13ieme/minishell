@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/27 14:42:32 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/29 19:16:09 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int in)
 		perror("fork");
 		exit(EXIT_FAILURE);
 	}
-	if (pid == 0)
+	else if (pid == 0)
 	{
 		dup2(fd[in], in);
 		if (in == 1)
@@ -66,6 +66,7 @@ static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int in)
 		else
 			close(fd[1]);
 		close(fd[in]);
+		tree->child = 1;
 		execute_tree(tree, envp);
 		exit(tree->status);
 	}
@@ -78,17 +79,22 @@ static void	execute_pipeline(t_btree *tree, char **envp)
 	pid_t	pid1;
 	pid_t	pid2;
 
+	pid1 = 0;
+	pid2 = 0;
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
 		exit(EXIT_FAILURE);
 	}
-	pid1 = execute_pid(tree->left, envp, fd, 1);
-	pid2 = execute_pid(tree->right, envp, fd, 0);
+	if ( tree->left->type != NODE_PIPE)
+		pid1 = execute_pid(tree->left, envp, fd, 1);
+	if ( tree->right->type != NODE_PIPE)
+		pid2 = execute_pid(tree->right, envp, fd, 0);
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid1, &tree->status, 0);
-	waitpid(pid2, &tree->status, 0);
+	waitpid(pid1, &tree->left->status, 0);
+	waitpid(pid2, &tree->right->status, 0);
+	
 }
 
 void	execute_tree(t_btree *tree, char **envp)
@@ -96,7 +102,7 @@ void	execute_tree(t_btree *tree, char **envp)
 	if (tree == NULL)
 		return ;
 	if (tree->cmd)
-		tree->status = execute_path(tree->cmd, envp);
+		tree->status = execute_path(tree->cmd, envp, tree->child);
 	if (tree->type == NODE_AND)
 		execute_and(tree, envp);
 	else if (tree->type == NODE_OR)

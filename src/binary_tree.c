@@ -6,19 +6,19 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:14:43 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/27 13:50:35 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/29 17:41:13 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 /**
- * @brief Creates a new node in the binary tree.
- * @param type The type of the node.
- * @param cmd The command associated with the node.
- * @param filename The filename associated with the node. can be null.
- * @return A pointer to the newly created node.
- *         Exit if malloc fails.
+ * Creer un noeud de l'arbre binaire.
+ * @type : type du noeud
+ * @left : fils gauche
+ * @right : fils droit
+ * @cmd : commande
+ * @return : le noeud cree
  */
 t_btree	*create_node(t_cmd_type type, t_btree *left, t_btree *right, char **cmd)
 {
@@ -34,6 +34,7 @@ t_btree	*create_node(t_cmd_type type, t_btree *left, t_btree *right, char **cmd)
 	node->cmd = cmd;
 	node->left = left;
 	node->right = right;
+	node->child = 0;
 	return (node);
 }
 
@@ -41,9 +42,9 @@ void	free_tree(t_btree *root)
 {
 	int	i;
 
-	i = 0;
 	if (!root)
 		return ;
+	i = 0;
 	free_tree(root->left);
 	free_tree(root->right);
 	if (root->cmd)
@@ -57,7 +58,5 @@ void	free_tree(t_btree *root)
 		free(root->cmd);
 		root->cmd = NULL;
 	}
-	root->status = 0;
 	free(root);
-	root = NULL;
 }

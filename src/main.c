@@ -90,14 +90,15 @@ void	process_line(char *line, char **envp)
 		if (!validate_token_sequence(ts))
 			return ;
 		root = parse_input(ts);
+		free_token_stream(ts);
 		if (root)
 		{
 			execute_tree(root, envp);
 			free_tree(root);
+			root = NULL;
 		}
 		else
 			printf("Error parsing input\n");
-		free_token_stream(ts);
 	}
 }
 

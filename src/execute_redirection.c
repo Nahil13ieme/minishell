@@ -6,13 +6,13 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/27 14:25:31 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/29 18:26:39 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	exit_error(char *msg)
+void	exit_error(char *msg)
 {
 	perror(msg);
 	exit(EXIT_FAILURE);

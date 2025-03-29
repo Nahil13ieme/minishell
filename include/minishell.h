@@ -90,6 +90,7 @@ typedef struct s_btree
 	char			*heredoc;
 	char			*append;
 	int				status;
+	int				child;
 }	t_btree;
 
 /* ----------- binary_tree.c ----------- */
@@ -120,7 +121,7 @@ t_btree			*parse_redirection(t_token_stream *tokens);
 void			consume_token(t_token_stream *tokens);
 int				current_token_is(t_token_stream *tokens, t_token_type type);
 
-int				execute_path(char **cmd, char **envp);
+int				execute_path(char **cmd, char **envp, int child);
 
 void			execute_tree(t_btree *tree, char **envp);
 
@@ -132,5 +133,8 @@ void			execute_redirection(t_btree *tree, char **envp);
 /*-----------------------------EXIT------------------------------------------*/
 void			set_exit_code(int code);
 int				get_exit_code(void);
+void			exit_error(char *msg);
+
+char	*find_path(char *cmd, char **envp);
 
 #endif //MINISHELL_H
