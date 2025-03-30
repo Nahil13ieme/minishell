@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/29 19:16:09 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/30 06:41:43 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ static void	execute_or(t_btree *tree, char **envp)
 	}
 }
 
-static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int in)
+static void	execute_pipeline(t_btree *tree, char **envp);
+
+static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno)
 {
 	pid_t	pid;
 
@@ -60,12 +62,16 @@ static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int in)
 	}
 	else if (pid == 0)
 	{
-		dup2(fd[in], in);
-		if (in == 1)
+		if (dup2(fd[fileno], fileno) == -1)
+		{
+			perror("dup2");
+			exit(EXIT_FAILURE);
+		}
+		if (fileno == 1)
 			close(fd[0]);
 		else
 			close(fd[1]);
-		close(fd[in]);
+		close(fd[fileno]);
 		tree->child = 1;
 		execute_tree(tree, envp);
 		exit(tree->status);
@@ -86,10 +92,8 @@ static void	execute_pipeline(t_btree *tree, char **envp)
 		perror("pipe");
 		exit(EXIT_FAILURE);
 	}
-	if ( tree->left->type != NODE_PIPE)
-		pid1 = execute_pid(tree->left, envp, fd, 1);
-	if ( tree->right->type != NODE_PIPE)
-		pid2 = execute_pid(tree->right, envp, fd, 0);
+	pid1 = execute_pid(tree->left, envp, fd, STDOUT_FILENO);
+	pid2 = execute_pid(tree->right, envp, fd, STDIN_FILENO);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid1, &tree->left->status, 0);

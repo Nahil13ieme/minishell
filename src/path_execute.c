@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/29 18:56:30 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/30 03:21:01 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ static int	execute_child(char *path, char **cmd, char **envp)
 
 	pid1 = fork();
 	ret = 0;
-	if (pid1 == -1)
-		exit(EXIT_FAILURE);
 	if (pid1 == 0)
 	{
 		if (execve(path, cmd, envp) == -1)
@@ -85,14 +83,18 @@ int	execute_path(char **cmd, char **envp, int child)
 	if (!path)
 	{
 		printf("%s: command not found\n", cmd[0]);
-		return (127);
+		return(127);
 	}
-	if (child == 0)
-		ret = execute_child(path, cmd, envp);
-	else
+	if (child == 1)
 	{
 		if (execve(path, cmd, envp) == -1)
 			exit(EXIT_FAILURE);
+	}
+	else
+	{
+		ret = execute_child(path, cmd, envp);
+		free(path);
+		return (ret / 256);
 	}
 	free(path);
 	return (ret / 256);

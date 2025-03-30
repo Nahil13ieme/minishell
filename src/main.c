@@ -88,7 +88,10 @@ void	process_line(char *line, char **envp)
 		add_history(line);
 		ts = tokenize_input(line, envp);
 		if (!validate_token_sequence(ts))
+		{
+			free_token_stream(ts);
 			return ;
+		}
 		root = parse_input(ts);
 		free_token_stream(ts);
 		if (root)

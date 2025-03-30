@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:14:43 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/29 17:41:13 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/29 20:29:02 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_btree	*create_node(t_cmd_type type, t_btree *left, t_btree *right, char **cmd)
 	node->left = left;
 	node->right = right;
 	node->child = 0;
+	node->status = 0;
 	return (node);
 }
 

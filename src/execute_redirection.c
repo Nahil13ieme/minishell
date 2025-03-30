@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/29 18:26:39 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/30 01:47:54 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	execute_redir_in(t_btree *tree, char **envp)
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 		exit_error("dup2");
 	close(saved_stdin);
-
 }
 
 static void	execute_redir_out(t_btree *tree, char **envp)
