@@ -141,7 +141,7 @@ void			get_env(char **envp);
 void			free_tab(char **tab);
 char			**sim_glob(char **tab, char c);
 char			**ft_tab_realloc(char **tab, size_t new_size);
-void			ft_print_env(char **envp);
+void			ft_print_env(int export);
 /*-----------------------------EXIT------------------------------------------*/
 void			set_exit_code(int code);
 int				get_exit_code(void);

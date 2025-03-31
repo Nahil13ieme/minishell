@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/26 15:29:50 by toto             ###   ########.fr       */
+/*   Updated: 2025/03/31 13:52:59 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,34 @@ char	**ft_tab_realloc(char **tab, size_t new_size)
 	return new_tab;
 }
 
-void	ft_print_env(char **envp)
+void	add_export(char ** tab,char *str)
 {
-	int i = 0;
+	char	**new_tab;
+	int		i;
 
-	while (envp[i])
-	{
-		printf("declare -x %s\n", envp[i]);
+	i = 0;
+	while (tab[i])
 		i++;
-	}
+	new_tab = ft_tab_realloc(tab, 1);
+	new_tab[i + 1] = ft_strdup(str);
+	sim_glob(new_tab, 's');
+}
+
+void	ft_print_env(int export)
+{
+	char **tab;
+	int	i;
+
+	i = 0;
+	tab = sim_glob(NULL, 'g');
+	while (tab[i])
+		{
+			if (export == 0)
+				if (ft_strchr(tab[i], '=') != NULL)
+					printf("%s\n", tab[i]);
+			if (export == 1)
+				printf("define -x %s\n", tab[i]);
+			i++;
+		}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/26 15:33:16 by toto             ###   ########.fr       */
+/*   Updated: 2025/03/31 13:45:12 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,23 +74,30 @@ void ft_export(char *var, char **envi)
 	int		i;
 	char	**new_envp;
 	if (!var)
-	{
-		ft_print_env(sim_glob(NULL, 'g'));
-		return ;
-	}
-	equal_pos = ft_strchr(var, '=');
-	if (!var || !equal_pos)
-		return;
-	i = 0;
-	while (envi[i])
-	{
-		if (ft_strncmp(envi[i], var, equal_pos - var) == 0)
 		{
-			free(envi[i]);
-			envi[i] = ft_strdup(var);
-			return;
+			ft_print_env(1);
+			return ;
 		}
-		i++;
+	equal_pos = ft_strchr(var, '=');
+	i = 0;
+	if (equal_pos)
+	{
+		while (envi[i])
+		{
+			if (ft_strncmp(envi[i], var, equal_pos - var) == 0)
+			{
+				free(envi[i]);
+				envi[i] = ft_strdup(var);
+				return;
+			}
+			i++;
+		}
+	}
+	else
+	{
+		i = 0;
+		while(envi[i])
+			i++;
 	}
 	new_envp = ft_tab_realloc(envi, 1);
 	new_envp[i] = ft_strdup(var);
@@ -110,11 +117,9 @@ void ft_unset(char *var, char **envp)
 
 	if (!var || !envp)
 		return;
-
 	len = 0;
 	while (var[len])
 		len++;
-
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], var, len) == 0 && envp[i][len] == '=')
@@ -130,6 +135,8 @@ void ft_unset(char *var, char **envp)
 		}
 		i++;
 	}
+	printf("Value not exist\n");
+	return ;
 }
 /**
  * @brief Commande built-in pour afficher les varaible de ENV.
@@ -140,7 +147,8 @@ void ft_env(char **envp)
 	int i = 0;
 	while (envp[i])
 	{
-		printf("%s\n", envp[i]);
+		if(ft_strchr(envp[i], '=') != NULL)
+			printf("%s\n", envp[i]);
 		i++;
 	}
 }
