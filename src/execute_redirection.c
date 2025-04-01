@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/01 17:42:18 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:45:26 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static void	execute_heredoc(t_btree *tree, char **envp)
 	{
 		line = readline("> ");
 		if (ft_memcmp(line, tree->right->cmd[0], ft_strlen(tree->right->cmd[0])) == 0)
-			break;
+			break ;
 		cmd[i] = ft_strdup(line);
 		if (!cmd[i])
 			exit_error("malloc");

@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:29:22 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/01 17:18:15 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:44:17 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static char	*handle_simple_quote(char *line, int *i)
 	(*i)--;
 	return (segment);
 }
-
 
 static void	double_quote_segment(char **segment, char *line, int *i)
 {
@@ -72,7 +71,7 @@ static char	*handle_double_quote(char *line, int *i, char **env)
 			double_quote_segment(&segment, line, i);
 		(*i)++;
 	}
-	if (line[*i] == '"')	
+	if (line[*i] == '"')
 		(*i)++;
 	(*i)--;
 	return (segment);
@@ -129,11 +128,11 @@ int	handle_segment(t_token_stream *ts, char *line, int i, char **env)
 	char	*segment;
 	char	*tmp;
 	char	*word;
-	
+
 	segment = NULL;
-	while(line[i] && ft_isspace(line[i]))
+	while (line[i] && ft_isspace(line[i]))
 		i++;
-	while(line[i] && line[i] != ' ')
+	while (line[i] && line[i] != ' ')
 	{
 		if (line[i] == '$')
 			word = handle_env_variable(line, &i, env);
@@ -152,6 +151,5 @@ int	handle_segment(t_token_stream *ts, char *line, int i, char **env)
 		free(tmp);
 	}
 	add_token(ts, create_token(TOKEN_WORD, segment));
-	free(segment);
-	return (i);
+	return (free(segment), i);
 }
