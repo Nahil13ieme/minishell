@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/01 03:50:21 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:42:10 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno)
 		close(fd[fileno]);
 		tree->child = 1;
 		execute_tree(tree, envp);
-		printf("Child process finished executing command\n, TYPE = %d\n", tree->type);
 		free_tree(g_tree);
 		exit(EXIT_FAILURE);
 	}
@@ -90,8 +89,8 @@ static void	execute_pipeline(t_btree *tree, char **envp)
 	pid2 = execute_pid(tree->right, envp, fd, STDIN_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid2, &tree->right->status, 0);
 	waitpid(pid1, &tree->left->status, 0);
+	waitpid(pid2, &tree->right->status, 0);
 }
 
 void	execute_tree(t_btree *tree, char **envp)
@@ -113,6 +112,6 @@ void	execute_tree(t_btree *tree, char **envp)
 	if (tree->type == NODE_PIPE)
 		execute_pipeline(tree, envp);
 	if (tree->type == NODE_REDIR_IN || tree->type == NODE_REDIR_OUT
-		|| tree->type == NODE_APPEND || tree->type == NODE_HEREDOC) 
+		|| tree->type == NODE_APPEND || tree->type == NODE_HEREDOC)
 		execute_redirection(tree, envp);
 }

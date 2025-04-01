@@ -126,8 +126,7 @@ int				execute_path(char **cmd, char **envp, int child);
 
 void			execute_tree(t_btree *tree, char **envp);
 
-int				handle_quoted_string(t_token_stream *ts,
-					char *line, int i, char **env);
+char			*handle_quoted_string(char *line, int *i, char **env);
 
 void			execute_redirection(t_btree *tree, char **envp);
 
@@ -136,6 +135,9 @@ void			set_exit_code(int code);
 int				get_exit_code(void);
 void			exit_error(char *msg);
 
-char	*find_path(char *cmd, char **envp);
+int				handle_segment(t_token_stream *ts, char *line, int i, char **env);
+char			*handle_env_variable(char *line, int *i, char **env);
+
+char			*find_path(char *cmd, char **envp);
 
 #endif //MINISHELL_H

@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/01 03:15:15 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:52:58 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,18 @@ int	execute_path(char **cmd, char **envp, int child)
 {
 	char	*path;
 	int		ret;
-	
+
 	ret = 0;
 	path = find_path(cmd[0], envp);
 	if (!path)
 	{
 		printf("%s: command not found\n", cmd[0]);
-		return(127);
+		return (127);
 	}
 	if (child == 1)
 	{
-		printf("Executing command in child : %s \n", cmd[0]);
 		if (execve(path, cmd, envp) == -1)
-			return(EXIT_FAILURE);
+			return (free(path), EXIT_FAILURE);
 	}
 	else
 	{
@@ -98,6 +97,5 @@ int	execute_path(char **cmd, char **envp, int child)
 		return (ret / 256);
 	}
 	free(path);
-	printf("done\n");
 	return (ret / 256);
 }

@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:40:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/29 17:44:23 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:10:19 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	**create_args(t_token_stream *tokens)
 	size_t	arg_count;
 	t_token	*current;
 
-	args = malloc(sizeof(char *) * 10);
+	args = malloc(sizeof(char *) * (tokens->size + 1));
 	if (!args)
 	{
 		perror("Erreur d'allocation mémoire pour les arguments");
@@ -48,9 +48,6 @@ t_btree	*parse_command(t_token_stream *tokens)
 		|| tokens->tokens[tokens->current]->type != TOKEN_WORD)
 		return (NULL);
 	node = create_node(NODE_COMMAND, NULL, NULL, NULL);
-
-
-
 	node->cmd = create_args(tokens);
 	return (node);
 }

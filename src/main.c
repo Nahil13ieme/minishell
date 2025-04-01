@@ -100,7 +100,7 @@ void	process_line(char *line, char **envp)
 		if (root)
 		{
 			execute_tree(root, envp);
-			printf("freeing root in main\n\n");
+			set_exit_code(root->status);
 			free_tree(root);
 			root = NULL;
 		}
@@ -119,6 +119,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	envp = env;
 	using_history();
+	set_exit_code(0);
 	while (1)
 	{
 		prompt = make_prompt();

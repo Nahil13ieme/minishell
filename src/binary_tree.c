@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:14:43 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/01 03:41:01 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:11:29 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,10 @@ void	free_tree(t_btree *root)
 	i = 0;
 	free_tree(root->left);
 	free_tree(root->right);
-	printf("freeing type %d\n", root->type);
 	if (root->cmd)
 	{
 		while (root->cmd[i])
 		{
-			printf("freeing cmd %s\n", root->cmd[i]);
 			if (root->cmd[i])
 				free(root->cmd[i]);
 			i++;
@@ -61,6 +59,5 @@ void	free_tree(t_btree *root)
 		free(root->cmd);
 		root->cmd = NULL;
 	}
-	printf("freeing tree node\n");
 	free(root);
 }
