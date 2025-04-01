@@ -136,12 +136,20 @@ void			ft_unset(char *var, char **envp);
 void			ft_env(char **envp);
 void			ft_exit(char *arg);
 int				built_in_check(char *str, char **args, char **envp);
+
 /*-----------------------------UTILS------------------------------------------*/
 void			get_env(char **envp);
 void			free_tab(char **tab);
 char			**sim_glob(char **tab, char c);
 char			**ft_tab_realloc(char **tab, size_t new_size);
 void			ft_print_env(int export);
+
+/*-----------------------------UTILS_2----------------------------------------*/
+void			print_sort_export(char **tab);
+void			swap_tab(char **a, char **b);
+void			set_export(void);
+int				ft_tablen(char **tab);
+
 /*-----------------------------EXIT------------------------------------------*/
 void			set_exit_code(int code);
 int				get_exit_code(void);

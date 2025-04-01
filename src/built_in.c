@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/31 13:45:12 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:12:05 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void ft_export(char *var, char **envi)
 	char	**new_envp;
 	if (!var)
 		{
-			ft_print_env(1);
+			print_sort_export(sim_glob(NULL, 'G'));
 			return ;
 		}
 	equal_pos = ft_strchr(var, '=');
@@ -103,6 +103,7 @@ void ft_export(char *var, char **envi)
 	new_envp[i] = ft_strdup(var);
 	new_envp[i + 1] = NULL;
 	sim_glob(new_envp, 's');
+	set_export();
 }
 
 /**

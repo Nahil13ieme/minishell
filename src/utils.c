@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/31 13:52:59 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:40:54 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	get_env(char **envp)
 		}
 	cpy_env[i] = NULL;
 	sim_glob(cpy_env, 's');
+	sim_glob(cpy_env, 'S');
 }
 
 void	free_tab(char **tab)
@@ -52,12 +53,16 @@ void	free_tab(char **tab)
 }
 char	**sim_glob(char **tab, char c)
 {
-	static char **glob = NULL;
-
+	static char **export = NULL;
+	static char **env = NULL;
 	if (c == 'g')
-		return (glob);
-	else
-		glob = tab;
+		return (env);
+	else if (c == 'G')
+		return (export);
+	else if (c == 's')
+		env = tab;
+	else if (c == 'S')
+		export = tab;
 	return NULL;
 }
 

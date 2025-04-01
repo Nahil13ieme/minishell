@@ -6,36 +6,67 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:10:31 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/31 16:23:43 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:26:45 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	swap_tab()
-
-void	print_sort_export(void)
+void	swap_tab(char **a, char **b)
 {
-	char	**tab;
-	int		i;
-	char	*decal;
-	char	*decalsup;
-	int		sorted;
+	char *temp;
 
-	tab = sim_glob(NULL, 'g');
-	sorted = 0;
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void	print_sort_export(char **tab)
+{
+	int		i;
+	int		size;
+	size = 0;
 	i = 0;
-	while (tab[i] && sorted == 0)
+	
+	while (tab[size])
+		size++;
+	while (i < size - 1)
 	{
-		sorted = 1;
-		decal = ft_strchr(tab[i], 'x');
-		decalsup = ft_strchr(tab[i + 1], 'x');
-		if ((decal + 2) > (decalsup + 2))
+		if (tab[0][0] > tab[1][0])
+			i = 0;
+		if ((tab[i][0]) > (tab[i + 1][0]))
 		{
 			swap_tab(&tab[i], &tab[i + 1]);
-			sorted = 0;
+			i = 0;
 		}
 		i++;
 	}
+	i = 0;
+	while (tab[i])
+	{
+		printf("define -x %s\n",tab[i]);
+		i++;
+	}
+}
 
+int	ft_tablen(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return(i);
+}
+
+void	set_export(void)
+{
+	char	**env;
+	char	**cpy;
+	int		i;
+	
+	env = sim_glob(NULL, 'g');
+	cpy = malloc(sizeof(char *) * ft_tablen(env))
+	i = 0;
+	while (env[i])
 }
