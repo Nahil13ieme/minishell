@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:10:31 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/01 15:51:51 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:48:19 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ void	swap_tab(char **a, char **b)
 	*b = temp;
 }
 
-void	print_sort_export(char **tab)
+void	print_sort_export(void)
 {
 	int		i;
 	int		size;
+	char	**tab;
+
+	tab = sim_glob(NULL, 'G');
 	size = 0;
 	i = 0;
-	
 	while (tab[size])
 		size++;
 	while (i < size - 1)
@@ -41,12 +43,8 @@ void	print_sort_export(char **tab)
 		}
 		i++;
 	}
-	i = 0;
-	while (tab[i])
-	{
-		printf("define -x %s\n",tab[i]);
-		i++;
-	}
+	sim_glob(tab, 'S');
+	ft_print_env(1);
 }
 
 int	ft_tablen(char **tab)

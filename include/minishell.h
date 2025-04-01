@@ -145,7 +145,7 @@ char			**ft_tab_realloc(char **tab, size_t new_size);
 void			ft_print_env(int export);
 
 /*-----------------------------UTILS_2----------------------------------------*/
-void			print_sort_export(char **tab);
+void			print_sort_export(void);
 void			swap_tab(char **a, char **b);
 void			set_export(void);
 int				ft_tablen(char **tab);

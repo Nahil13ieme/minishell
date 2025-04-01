@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/01 16:01:45 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:56:00 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	add_export(char ** tab,char *str)
 	new_tab = ft_tab_realloc(tab, 1);
 	new_tab[i + 1] = ft_strdup(str);
 	sim_glob(new_tab, 's');
+	set_export();
 }
 
 void	ft_print_env(int export)
@@ -110,10 +111,15 @@ void	ft_print_env(int export)
 	char **tab;
 	int	i;
 	int	j;
+	int	pass;
 
+	pass = 0;
 	j = 0;
 	i = 0;
-	tab = sim_glob(NULL, 'g');
+	if (export == 0)
+		tab = sim_glob(NULL, 'g');
+	if (export == 1)
+		tab = sim_glob(NULL, 'G');
 	while (tab[i])
 		{
 			j = 0;
@@ -122,19 +128,28 @@ void	ft_print_env(int export)
 					printf("%s\n", tab[i]);
 			if (export == 1)
 			{
-				printf("define -x %s\n", tab[i]);
+				pass = 0;
+				if (tab[i][0] == '_' && tab[i][1] == '=')
+					break;
+				printf("define -x ");
 				while (tab[i][j])
-				{
-					if (tab[i][j] == '=')
+				{	
+					if (tab[i][j] == '=' && pass == 0)
+					{
+						printf("=");
+						pass = 1;
 						printf("\"");
-					else if (tab[i][j + 1] == 0)
+					}
+					else if (tab[i][j + 1] == '\0')
 						{
 							printf("%c",tab[i][j]);
 							printf("\"");
 						}
 					else
 						printf("%c",tab[i][j]);
+					j++;
 				}
+				printf("\n");
 			}
 			i++;
 		}
