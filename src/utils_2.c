@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:10:31 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/01 15:26:45 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:51:51 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,14 @@ void	set_export(void)
 	int		i;
 	
 	env = sim_glob(NULL, 'g');
-	cpy = malloc(sizeof(char *) * ft_tablen(env))
+	cpy = malloc(sizeof(char *) * (ft_tablen(env) + 1));
 	i = 0;
 	while (env[i])
+		{
+			cpy[i] = env[i];
+			i++;
+		}
+	env = sim_glob(NULL, 'G');
+	free(env);
+	sim_glob(cpy, 'S');
 }

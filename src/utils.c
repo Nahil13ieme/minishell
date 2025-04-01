@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/01 14:40:54 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:01:45 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	get_env(char **envp)
 		}
 	cpy_env[i] = NULL;
 	sim_glob(cpy_env, 's');
-	sim_glob(cpy_env, 'S');
+	set_export();
 }
 
 void	free_tab(char **tab)
@@ -109,16 +109,33 @@ void	ft_print_env(int export)
 {
 	char **tab;
 	int	i;
+	int	j;
 
+	j = 0;
 	i = 0;
 	tab = sim_glob(NULL, 'g');
 	while (tab[i])
 		{
+			j = 0;
 			if (export == 0)
 				if (ft_strchr(tab[i], '=') != NULL)
 					printf("%s\n", tab[i]);
 			if (export == 1)
+			{
 				printf("define -x %s\n", tab[i]);
+				while (tab[i][j])
+				{
+					if (tab[i][j] == '=')
+						printf("\"");
+					else if (tab[i][j + 1] == 0)
+						{
+							printf("%c",tab[i][j]);
+							printf("\"");
+						}
+					else
+						printf("%c",tab[i][j]);
+				}
+			}
 			i++;
 		}
 }
