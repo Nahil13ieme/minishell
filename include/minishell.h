@@ -93,12 +93,13 @@ typedef struct s_btree
 	int				child;
 }	t_btree;
 
+extern t_btree					*g_tree;
 /* ----------- binary_tree.c ----------- */
 
 t_btree			*create_node(t_cmd_type type, t_btree *left,
-					t_btree *right, char **cmd);
-void			free_tree(t_btree *node);
-
+	t_btree *right, char **cmd);
+	void			free_tree(t_btree *node);
+	
 /* ----------- token_stream.c ----------- */
 
 void			free_token_stream(t_token_stream *ts);

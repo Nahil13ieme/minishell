@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/30 06:41:43 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/01 03:50:21 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,17 @@ static void	execute_or(t_btree *tree, char **envp)
 	}
 }
 
-static void	execute_pipeline(t_btree *tree, char **envp);
-
 static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
+		exit_error("fork");
 	else if (pid == 0)
 	{
 		if (dup2(fd[fileno], fileno) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
+			exit_error("dup2");
 		if (fileno == 1)
 			close(fd[0]);
 		else
@@ -74,7 +66,9 @@ static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno)
 		close(fd[fileno]);
 		tree->child = 1;
 		execute_tree(tree, envp);
-		exit(tree->status);
+		printf("Child process finished executing command\n, TYPE = %d\n", tree->type);
+		free_tree(g_tree);
+		exit(EXIT_FAILURE);
 	}
 	return (pid);
 }
@@ -96,9 +90,8 @@ static void	execute_pipeline(t_btree *tree, char **envp)
 	pid2 = execute_pid(tree->right, envp, fd, STDIN_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid1, &tree->left->status, 0);
 	waitpid(pid2, &tree->right->status, 0);
-	
+	waitpid(pid1, &tree->left->status, 0);
 }
 
 void	execute_tree(t_btree *tree, char **envp)

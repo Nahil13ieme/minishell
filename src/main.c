@@ -12,6 +12,8 @@
 
 #include "../include/minishell.h"
 
+t_btree	*g_tree;
+
 char	*get_username(void)
 {
 	char	*name;
@@ -93,10 +95,12 @@ void	process_line(char *line, char **envp)
 			return ;
 		}
 		root = parse_input(ts);
+		g_tree = root;
 		free_token_stream(ts);
 		if (root)
 		{
 			execute_tree(root, envp);
+			printf("freeing root in main\n\n");
 			free_tree(root);
 			root = NULL;
 		}
