@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:24:58 by nbenhami          #+#    #+#             */
-/*   Updated: 2024/11/07 12:03:25 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/01 15:24:01 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+
+/**
+ * The strnstr() function locates the first occurrence of the null-terminated
+ * string needle in the string haystack, where not more than n characters are
+ * searched.  Characters that appear after a `\0' character are not searched.
+ * @return a pointer to the beginning of the located string, or NULL if the
+ */
 char	*ft_strnstr(char const *haystack, char const *needle, size_t n)
 {
 	size_t	needle_len;

@@ -12,6 +12,8 @@
 
 #include "../include/minishell.h"
 
+t_btree	*g_tree;
+
 char	*get_username(void)
 {
 	char	*name;
@@ -88,16 +90,22 @@ void	process_line(char *line, char **envp)
 		add_history(line);
 		ts = tokenize_input(line, envp);
 		if (!validate_token_sequence(ts))
+		{
+			free_token_stream(ts);
 			return ;
+		}
 		root = parse_input(ts);
+		g_tree = root;
+		free_token_stream(ts);
 		if (root)
 		{
 			execute_tree(root, envp);
+			set_exit_code(root->status);
 			free_tree(root);
+			root = NULL;
 		}
 		else
 			printf("Error parsing input\n");
-		free_token_stream(ts);
 	}
 }
 
@@ -110,6 +118,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	using_history();
 	get_env(env);
+	set_exit_code(0);
 	while (1)
 	{
 		prompt = make_prompt();
