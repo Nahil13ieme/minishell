@@ -126,6 +126,22 @@ int				execute_path(char **cmd, char **envp, int child);
 
 void			execute_tree(t_btree *tree, char **envp);
 
+
+/*--------------------------BUILT IN-----------------------------------------*/
+void			ft_echo(char **args);
+void			ft_cd(char *path);
+void			ft_pwd(void);
+void			ft_export(char *var, char **envp);
+void			ft_unset(char *var, char **envp);
+void			ft_env(char **envp);
+void			ft_exit(char *arg);
+int				built_in_check(char *str, char **args, char **envp);
+/*-----------------------------UTILS------------------------------------------*/
+void			get_env(char **envp);
+void			free_tab(char **tab);
+char			**sim_glob(char **tab, char c);
+char			**ft_tab_realloc(char **tab, size_t new_size);
+void			ft_print_env(int export);
 char			*handle_quoted_string(char *line, int *i, char **env);
 
 void			execute_redirection(t_btree *tree, char **envp);
@@ -133,6 +149,8 @@ void			execute_redirection(t_btree *tree, char **envp);
 /*-----------------------------EXIT------------------------------------------*/
 void			set_exit_code(int code);
 int				get_exit_code(void);
+int				sim_exit(int code, char c);
+
 void			exit_error(char *msg);
 
 int				handle_segment(t_token_stream *ts, char *line, int i, char **env);

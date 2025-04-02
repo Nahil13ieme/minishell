@@ -3,23 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:54:41 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 09:35:42 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:41:12 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	g_exit_code = 0;
-
 void	set_exit_code(int code)
 {
-	g_exit_code = code;
+	sim_exit(code, 's');
 }
 
 int	get_exit_code(void)
 {
-	return (g_exit_code);
+	return (sim_exit(0, 'g'));
+}
+
+int	sim_exit(int code, char c)
+{
+	static int global = 0;
+	
+	if (c == 'g')
+		return (global);
+	else
+		global = code;
+	return (0);
 }

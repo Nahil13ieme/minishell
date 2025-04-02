@@ -19,19 +19,26 @@ CFLAGS = -Wall -Wextra -Werror -g
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	$(AR) -r $@ $?
+	@echo "$(GREEN) Compilation de la LIBFT $(RESET)"
+	@$(AR) -r $@ $?
+	@echo "$(GREEN) Compilation Reussi $(RESET)"
+
 
 bonus: $(OBJECTS) $(BOBJECTS)
-	$(AR) -r $(NAME) $?
+	@$(AR) -r $(NAME) $?
 
 %.o: %.c
-	$(CC) -c $(CFLAGS) $?
+	@$(CC) -c $(CFLAGS) $?
 
 clean:
-	rm -f $(OBJECTS) $(BOBJECTS)
-
+	@echo "$(RED) Clean de la LIBFT $(RESET)"
+	@rm -f $(OBJECTS) $(BOBJECTS)
+	@echo "$(RED) Clean terminer $(RESET)"
 fclean: clean
-	rm -f $(NAME)
+	@echo "$(RED) Grand menage de la LIBFT $(RESET)"
+	@rm -f $(NAME)
+	@echo "$(RED) Grand menage terminer $(RESET)"
+
 
 re: fclean all
 
