@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/02 14:02:13 by toto             ###   ########.fr       */
+/*   Updated: 2025/04/02 15:55:56 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ void ft_echo(char **args)
 	int i = 1;
 	int newline = 1;
 
+	if (ft_strncmp(args[0], "$?", 2))
+	{
+		printf("%d\n", get_exit_code());
+		return ;
+	}
 	if (args[1] && ft_strncmp(args[1], "-n", 2) == 0)
 	{
 		newline = 0;
@@ -45,10 +50,29 @@ void ft_echo(char **args)
  */
 void ft_cd(char *path)
 {
-	if (!path)
+	char	**envi;
+	int		del;
+	int		i;
+	
+	i = 0;
+	envi = sim_glob(NULL, 'g');
+	del = 1;
+	while(envi[i])
+	{
+		if (ft_strncmp(envi[i], "HOME=", 5) == 0)
+			del = 0;
+		i++;
+	}
+	if (!path && del == 0)
 		path = getenv("HOME");
+	else if (del == 1)
+	{
+		printf("minishell: cd: HOME not set\n");
+		set_exit_code(1);
+	}
 	if (chdir(path) != 0)
 		perror("cd");
+	
 }
 
 /**
@@ -80,10 +104,15 @@ void ft_export(char *var, char **envi)
 		}
 	equal_pos = ft_strchr(var, '=');
 	i = 0;
+	if ((var[0] >= '0' && var[0] <= '9') || var[0] <= 32 || ft_strlen(var) == 0
+		|| ft_strchr(var, '.') != 0)
+		{
+			printf("minishell: export: `%c': not a valid identifier\n", var[0]);
+			set_exit_code(1);
+			return ;
+		}
 	if (equal_pos)
 	{
-		if (var[0] >= '0' && var[0] <= '9')
-			printf("bash: export: '%c': not a valid identifier", var[0]);
 		while (envi[i])
 		{
 			if (ft_strncmp(envi[i], var, equal_pos - var) == 0)
@@ -113,20 +142,20 @@ void ft_export(char *var, char **envi)
  * @param var Variable a unset.
  * @param envp Variable environement
  */
-void ft_unset(char *var, char **envp)
+void ft_unset(char *var)
 {
 	int		i;
 	size_t	len;
 	char	**envp;
 	char	**export;
 	int		j;
-
+	
+	envp = sim_glob(NULL, 'g');
+	export = sim_glob(NULL, 'G');
 	if (!var || !envp)
 		return;
 	len = 0;
 	i = 0;
-	envp = sim_exit(NULL, 'g');
-	export = sim_exit(NULL, 'G');
 	while (var[len])
 		len++;
 	while (envp[i])
@@ -143,20 +172,19 @@ void ft_unset(char *var, char **envp)
 			
 			return;
 		}
-		if (ft_strncmp(export[i], var, len) == 0 && export[i][len] == '=')
+		if (ft_strncmp(export[i], var, len) == 0)
 		{
 			j = i;
 			free(export[i]);
 			while (export[j])
 			{
-				envp[j] = envp[j + 1];
+				export[j] = export[j + 1];
 				j++;
 			}
 			return;
 		}
 		i++;
 	}
-	printf("Value not exist\n");
 	return ;
 }
 /**
@@ -185,7 +213,7 @@ void ft_exit(char *arg)
 	
 	if (arg)
 		status = atoi(arg);
-	printf("Exiting with code %d\n", status);
+	printf("%d\n", status);
 	exit(status);
 }
 
