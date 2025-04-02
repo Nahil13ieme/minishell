@@ -12,8 +12,6 @@
 
 #include "../include/minishell.h"
 
-t_btree	*g_tree;
-
 char	*get_username(void)
 {
 	char	*name;
@@ -80,10 +78,34 @@ void	print_tree(t_btree tree)
 		print_tree(*tree.right);
 }
 
+t_btree	*set_root(t_btree *root, char c)
+{
+	static t_btree	*global_tree = NULL;
+
+	if (c == 's')
+	{
+		if (global_tree)
+			free_tree(global_tree);
+		global_tree = root;
+	}
+	else if (c == 'g')
+	{
+		if (global_tree)
+			return (global_tree);
+		else
+			return (NULL);
+	}
+	else if (c == 'f')
+	{
+		free_tree(global_tree);
+		global_tree = NULL;
+	}
+	return (NULL);
+}
+
 void	process_line(char *line, char **envp)
 {
 	t_token_stream	*ts;
-	t_btree			*root;
 
 	if (line[0] != '\0')
 	{
@@ -94,15 +116,13 @@ void	process_line(char *line, char **envp)
 			free_token_stream(ts);
 			return ;
 		}
-		root = parse_input(ts);
-		g_tree = root;
+		set_root(parse_input(ts), 's');
 		free_token_stream(ts);
-		if (root)
+		if (set_root(NULL, 'g'))
 		{
-			execute_tree(root, envp);
-			set_exit_code(root->status);
-			free_tree(root);
-			root = NULL;
+			execute_tree(set_root(NULL, 'g'), envp);
+			set_exit_code(set_root(NULL, 'g')->status);
+			set_root(NULL, 'f');
 		}
 		else
 			printf("Error parsing input\n");
