@@ -6,7 +6,7 @@
 /*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/01 16:56:00 by toto             ###   ########.fr       */
+/*   Updated: 2025/04/01 17:09:09 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,3 +155,17 @@ void	ft_print_env(int export)
 		}
 }
 
+int	contain_alpha(char *str)
+{
+	int	i;
+	
+	i = 0;
+	while (str[i])
+	{
+		if(str[i] >= '0' && str[i] <= '9')
+			return (1);
+		else
+			i++;
+	}
+	return (0);
+}

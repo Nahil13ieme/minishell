@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/01 15:12:05 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:15:54 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,15 @@ void ft_export(char *var, char **envi)
 	char	**new_envp;
 	if (!var)
 		{
-			print_sort_export(sim_glob(NULL, 'G'));
+			print_sort_export();
 			return ;
 		}
 	equal_pos = ft_strchr(var, '=');
 	i = 0;
 	if (equal_pos)
 	{
+		if (var[0] >= '0' && var[0] <= '9')
+			printf("bash: export: '%c': not a valid identifier", var[0]);
 		while (envi[i])
 		{
 			if (ft_strncmp(envi[i], var, equal_pos - var) == 0)
@@ -168,3 +170,5 @@ void ft_exit(char *arg)
 	printf("Exiting with code %d\n", status);
 	exit(status);
 }
+
+

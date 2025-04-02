@@ -149,6 +149,7 @@ void			print_sort_export(void);
 void			swap_tab(char **a, char **b);
 void			set_export(void);
 int				ft_tablen(char **tab);
+int				contain_alpha(char *str);
 
 /*-----------------------------EXIT------------------------------------------*/
 void			set_exit_code(int code);
