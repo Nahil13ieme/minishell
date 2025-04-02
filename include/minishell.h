@@ -129,7 +129,7 @@ void			execute_tree(t_btree *tree, char **envp);
 
 /*--------------------------BUILT IN-----------------------------------------*/
 void			ft_echo(char **args);
-void			ft_cd(char *path);
+int				ft_cd(char *path);
 void			ft_pwd(void);
 void			ft_export(char *var, char **envp);
 void			ft_unset(char *var, char **envp);
@@ -157,5 +157,6 @@ int				handle_segment(t_token_stream *ts, char *line, int i, char **env);
 char			*handle_env_variable(char *line, int *i, char **env);
 
 char			*find_path(char *cmd, char **envp);
+void			free_glob(void);
 
 #endif //MINISHELL_H

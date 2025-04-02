@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/02 12:24:50 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:51:56 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,7 @@ int	execute_path(char **cmd, char **envp, int child)
 			return (free(path), EXIT_FAILURE);
 	}
 	else
-	{
 		ret = execute_child(path, cmd, envp);
-		free(path);
-		return (ret / 256);
-	}
 	free(path);
 	return (ret / 256);
 }

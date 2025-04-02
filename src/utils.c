@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/03/31 13:52:59 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:44:36 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,20 @@ void	free_tab(char **tab)
 		}
 	free(tab);
 }
+
+void	free_glob()
+{
+	sim_glob(NULL, 'f');
+}
+
 char	**sim_glob(char **tab, char c)
 {
 	static char **glob = NULL;
 
 	if (c == 'g')
 		return (glob);
+	else if (c == 'f')
+		free_tab(glob);
 	else
 		glob = tab;
 	return NULL;
