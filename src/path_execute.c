@@ -6,7 +6,11 @@
 /*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/02 15:44:55 by tle-saut         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/02 13:51:56 by nbenhami         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +98,7 @@ int	execute_path(char **cmd, char **envp, int child)
 			return (free(path), EXIT_FAILURE);
 	}
 	else
-	{
 		ret = execute_child(path, cmd, envp);
-		free(path);
-		return (ret / 256);
-	}
 	free(path);
 	return (ret / 256);
 }

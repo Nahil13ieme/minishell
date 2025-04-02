@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/02 15:59:53 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:21:05 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void ft_echo(char **args)
 {
 	int i = 1;
 	int newline = 1;
+	int	j;
 
 	if (ft_strncmp(args[0], "$?", 2))
 	{
@@ -31,15 +32,26 @@ void ft_echo(char **args)
 		newline = 0;
 		i++;
 	}
-
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		j = 0;
+		while (args[i][j])
+		{
+			if (args[i][j] == '$' && args[i][j + 1] == '?')
+			{
+				printf("%d", get_exit_code());
+				j++;
+			}
+			else
+			{
+				printf("%c", args[i][j]);
+			}
+			j++;
+		}
 		if (args[i + 1])
 			printf(" ");
 		i++;
 	}
-
 	if (newline)
 		printf("\n");
 }
@@ -48,7 +60,7 @@ void ft_echo(char **args)
  * @brief Commande built-in pour changer de repertoire.
  * @param path Nouveau chemin desirer. en char *
  */
-void ft_cd(char *path)
+int	ft_cd(char *path)
 {
 	char	**envi;
 	int		del;
@@ -71,14 +83,17 @@ void ft_cd(char *path)
 		set_exit_code(1);
 	}
 	if (chdir(path) != 0)
+	{
+		return (1);
 		perror("cd");
-	
+	}
+	return (0);
 }
 
 /**
  * @brief Commande built-in pour afficher le chemin actuel
  */
-void ft_pwd(void)
+void	ft_pwd(void)
 {
 	char cwd[1024];
 
@@ -92,7 +107,7 @@ void ft_pwd(void)
  * @brief Commande built-in pour exporter une variable dans ENV.
  * @param var Variable a exporter.
  */
-void ft_export(char *var, char **envi)
+void	ft_export(char *var, char **envi)
 {
 	char	*equal_pos ;
 	int		i;
@@ -191,9 +206,11 @@ void ft_unset(char *var)
  * @brief Commande built-in pour afficher les varaible de ENV.
  * @param envp Variable d environement.
  */
-void ft_env(char **envp)
+void	ft_env(char **envp)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (envp[i])
 	{
 		if(ft_strchr(envp[i], '=') != NULL)
@@ -207,10 +224,11 @@ void ft_env(char **envp)
  * @param arg Possibilite de mettre un argument pour sortir un 
  * code exit specifique.
  */
-void ft_exit(char *arg)
+void	ft_exit(char *arg)
 {
-	int status = 0;
+	int	status;
 	
+	status = 0;
 	if (arg)
 		status = atoi(arg);
 	else

@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/01 17:42:10 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:54:34 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno)
 		tree->child = 1;
 		execute_tree(tree, envp);
 		free_tree(g_tree);
+		free_glob();
 		exit(EXIT_FAILURE);
 	}
 	return (pid);
@@ -98,7 +99,14 @@ void	execute_tree(t_btree *tree, char **envp)
 	if (tree == NULL)
 		return ;
 	if (tree->cmd)
+	{
+		if (tree->cmd && strcmp(tree->cmd[0], "$?") == 0)
+		{
+			free(tree->cmd[0]);
+			tree->cmd[0] = ft_itoa(get_exit_code());
+		}
 		tree->status = execute_path(tree->cmd, envp, tree->child);
+	}
 	if (tree->type == NODE_AND)
 		execute_and(tree, envp);
 	else if (tree->type == NODE_OR)
@@ -114,4 +122,5 @@ void	execute_tree(t_btree *tree, char **envp)
 	if (tree->type == NODE_REDIR_IN || tree->type == NODE_REDIR_OUT
 		|| tree->type == NODE_APPEND || tree->type == NODE_HEREDOC)
 		execute_redirection(tree, envp);
+	set_exit_code(tree->status);
 }

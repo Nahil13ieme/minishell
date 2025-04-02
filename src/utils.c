@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/02 15:28:36 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:19:23 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ void	free_tab(char **tab)
 		}
 	free(tab);
 }
+
+void	free_glob()
+{
+	sim_glob(NULL, 'f');
+}
+
 char	**sim_glob(char **tab, char c)
 {
 	static char **export = NULL;
