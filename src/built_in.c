@@ -6,7 +6,7 @@
 /*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/01 17:15:54 by toto             ###   ########.fr       */
+/*   Updated: 2025/04/02 14:02:13 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,18 @@ void ft_export(char *var, char **envi)
  */
 void ft_unset(char *var, char **envp)
 {
-	int i = 0, j;
-	size_t len;
+	int		i;
+	size_t	len;
+	char	**envp;
+	char	**export;
+	int		j;
 
 	if (!var || !envp)
 		return;
 	len = 0;
+	i = 0;
+	envp = sim_exit(NULL, 'g');
+	export = sim_exit(NULL, 'G');
 	while (var[len])
 		len++;
 	while (envp[i])
@@ -130,6 +136,18 @@ void ft_unset(char *var, char **envp)
 			j = i;
 			free(envp[i]);
 			while (envp[j])
+			{
+				envp[j] = envp[j + 1];
+				j++;
+			}
+			
+			return;
+		}
+		if (ft_strncmp(export[i], var, len) == 0 && export[i][len] == '=')
+		{
+			j = i;
+			free(export[i]);
+			while (export[j])
 			{
 				envp[j] = envp[j + 1];
 				j++;

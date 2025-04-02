@@ -6,7 +6,7 @@
 /*   By: toto <toto@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/01 17:09:09 by toto             ###   ########.fr       */
+/*   Updated: 2025/04/02 13:55:46 by toto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void	ft_print_env(int export)
 						pass = 1;
 						printf("\"");
 					}
-					else if (tab[i][j + 1] == '\0')
+					else if (tab[i][j + 1] == '\0' && pass == 1)
 						{
 							printf("%c",tab[i][j]);
 							printf("\"");
