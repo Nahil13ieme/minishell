@@ -6,7 +6,11 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/01 14:50:27 by tle-saut         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/02 12:24:50 by nbenhami         ###   ########.fr       */
+>>>>>>> 47740057cb3415142cf97b5532cc1ff2d660a7d0
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +29,7 @@ static void	free_paths(char **paths)
 	free(paths);
 }
 
-static char	*find_path(char *cmd, char **envp)
+char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
@@ -54,26 +58,13 @@ static char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
-static void	path_not_found(char **cmd)
+static int	execute_child(char *path, char **cmd, char **envp)
 {
-	printf("%s: command not found\n", cmd[0]);
-}
-
-int	execute_path(char **cmd, char **envp)
-{
-	char	*path;
 	pid_t	pid1;
 	int		ret;
 
-	ret = 0;
-	if (built_in_check(cmd[0], cmd, envp) == 0)
-		return (ret);
-	path = find_path(cmd[0], envp);
-	if (!path)
-		path_not_found(cmd);
 	pid1 = fork();
-	if (pid1 == -1)
-		exit(EXIT_FAILURE);
+	ret = 0;
 	if (pid1 == 0)
 	{
 		if (execve(path, cmd, envp) == -1)
@@ -82,7 +73,35 @@ int	execute_path(char **cmd, char **envp)
 	else if (pid1 > 0)
 		waitpid(pid1, &ret, 0);
 	else if (pid1 < 0)
-		exit(EXIT_FAILURE);	
+		exit(EXIT_FAILURE);
+	return (ret);
+}
+
+int	execute_path(char **cmd, char **envp, int child)
+{
+	char	*path;
+	int		ret;
+
+	ret = 0;
+	if (built_in_check(cmd[0], cmd, envp) == 0)
+		return (ret);
+	path = find_path(cmd[0], envp);
+	if (!path)
+	{
+		printf("%s: command not found\n", cmd[0]);
+		return (127);
+	}
+	if (child == 1)
+	{
+		if (execve(path, cmd, envp) == -1)
+			return (free(path), EXIT_FAILURE);
+	}
+	else
+	{
+		ret = execute_child(path, cmd, envp);
+		free(path);
+		return (ret / 256);
+	}
 	free(path);
 	return (ret / 256);
 }

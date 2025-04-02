@@ -90,14 +90,16 @@ typedef struct s_btree
 	char			*heredoc;
 	char			*append;
 	int				status;
+	int				child;
 }	t_btree;
 
+extern t_btree					*g_tree;
 /* ----------- binary_tree.c ----------- */
 
 t_btree			*create_node(t_cmd_type type, t_btree *left,
-					t_btree *right, char **cmd);
-void			free_tree(t_btree *node);
-
+	t_btree *right, char **cmd);
+	void			free_tree(t_btree *node);
+	
 /* ----------- token_stream.c ----------- */
 
 void			free_token_stream(t_token_stream *ts);
@@ -120,13 +122,11 @@ t_btree			*parse_redirection(t_token_stream *tokens);
 void			consume_token(t_token_stream *tokens);
 int				current_token_is(t_token_stream *tokens, t_token_type type);
 
-int				execute_path(char **cmd, char **envp);
-
+int				execute_path(char **cmd, char **envp, int child);
 
 void			execute_tree(t_btree *tree, char **envp);
 
-int				handle_quoted_string(t_token_stream *ts,
-					char *line, int i, char **env);
+
 /*--------------------------BUILT IN-----------------------------------------*/
 void			ft_echo(char **args);
 void			ft_cd(char *path);
@@ -143,6 +143,7 @@ void			free_tab(char **tab);
 char			**sim_glob(char **tab, char c);
 char			**ft_tab_realloc(char **tab, size_t new_size);
 void			ft_print_env(int export);
+<<<<<<< HEAD
 
 /*-----------------------------UTILS_2----------------------------------------*/
 void			print_sort_export(void);
@@ -150,11 +151,22 @@ void			swap_tab(char **a, char **b);
 void			set_export(void);
 int				ft_tablen(char **tab);
 int				contain_alpha(char *str);
+=======
+char			*handle_quoted_string(char *line, int *i, char **env);
+
+void			execute_redirection(t_btree *tree, char **envp);
+>>>>>>> 47740057cb3415142cf97b5532cc1ff2d660a7d0
 
 /*-----------------------------EXIT------------------------------------------*/
 void			set_exit_code(int code);
 int				get_exit_code(void);
 int				sim_exit(int code, char c);
 
+void			exit_error(char *msg);
+
+int				handle_segment(t_token_stream *ts, char *line, int i, char **env);
+char			*handle_env_variable(char *line, int *i, char **env);
+
+char			*find_path(char *cmd, char **envp);
 
 #endif //MINISHELL_H

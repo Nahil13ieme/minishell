@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/25 08:59:16 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:42:10 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,26 +48,26 @@ static void	execute_or(t_btree *tree, char **envp)
 	}
 }
 
-static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int in)
+static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
+		exit_error("fork");
+	else if (pid == 0)
 	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		dup2(fd[in], in);
-		if (in == 1)
+		if (dup2(fd[fileno], fileno) == -1)
+			exit_error("dup2");
+		if (fileno == 1)
 			close(fd[0]);
 		else
 			close(fd[1]);
-		close(fd[in]);
+		close(fd[fileno]);
+		tree->child = 1;
 		execute_tree(tree, envp);
-		exit(tree->status);
+		free_tree(g_tree);
+		exit(EXIT_FAILURE);
 	}
 	return (pid);
 }
@@ -78,17 +78,19 @@ static void	execute_pipeline(t_btree *tree, char **envp)
 	pid_t	pid1;
 	pid_t	pid2;
 
+	pid1 = 0;
+	pid2 = 0;
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
 		exit(EXIT_FAILURE);
 	}
-	pid1 = execute_pid(tree->left, envp, fd, 1);
-	pid2 = execute_pid(tree->right, envp, fd, 0);
+	pid1 = execute_pid(tree->left, envp, fd, STDOUT_FILENO);
+	pid2 = execute_pid(tree->right, envp, fd, STDIN_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid1, &tree->status, 0);
-	waitpid(pid2, &tree->status, 0);
+	waitpid(pid1, &tree->left->status, 0);
+	waitpid(pid2, &tree->right->status, 0);
 }
 
 void	execute_tree(t_btree *tree, char **envp)
@@ -96,7 +98,7 @@ void	execute_tree(t_btree *tree, char **envp)
 	if (tree == NULL)
 		return ;
 	if (tree->cmd)
-		tree->status = execute_path(tree->cmd, envp);
+		tree->status = execute_path(tree->cmd, envp, tree->child);
 	if (tree->type == NODE_AND)
 		execute_and(tree, envp);
 	else if (tree->type == NODE_OR)
@@ -109,4 +111,7 @@ void	execute_tree(t_btree *tree, char **envp)
 	}
 	if (tree->type == NODE_PIPE)
 		execute_pipeline(tree, envp);
+	if (tree->type == NODE_REDIR_IN || tree->type == NODE_REDIR_OUT
+		|| tree->type == NODE_APPEND || tree->type == NODE_HEREDOC)
+		execute_redirection(tree, envp);
 }
