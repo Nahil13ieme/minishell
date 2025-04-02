@@ -143,7 +143,6 @@ void			free_tab(char **tab);
 char			**sim_glob(char **tab, char c);
 char			**ft_tab_realloc(char **tab, size_t new_size);
 void			ft_print_env(int export);
-<<<<<<< HEAD
 
 /*-----------------------------UTILS_2----------------------------------------*/
 void			print_sort_export(void);
@@ -151,11 +150,9 @@ void			swap_tab(char **a, char **b);
 void			set_export(void);
 int				ft_tablen(char **tab);
 int				contain_alpha(char *str);
-=======
 char			*handle_quoted_string(char *line, int *i, char **env);
 
 void			execute_redirection(t_btree *tree, char **envp);
->>>>>>> 47740057cb3415142cf97b5532cc1ff2d660a7d0
 
 /*-----------------------------EXIT------------------------------------------*/
 void			set_exit_code(int code);
