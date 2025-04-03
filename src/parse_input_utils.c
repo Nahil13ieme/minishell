@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:40:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 01:07:35 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:23:51 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ static char	**create_args(t_token_stream *tokens)
 
 	args = malloc(sizeof(char *) * (tokens->size + 1));
 	if (!args)
-	{
-		perror("Erreur d'allocation mémoire pour les arguments");
-		exit(EXIT_FAILURE);
-	}
+		exit_error("malloc");
 	arg_count = 0;
 	while (tokens->current < tokens->size)
 	{

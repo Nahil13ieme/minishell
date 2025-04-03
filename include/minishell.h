@@ -80,16 +80,13 @@ typedef enum e_cmd_type
 
 typedef struct s_btree
 {
+	int				status;
+	int				child;
 	t_cmd_type		type;
 	char			**cmd;
 	struct s_btree	*left;
 	struct s_btree	*right;
-	char			*redir_in;
-	char			*redir_out;
-	char			*heredoc;
-	char			*append;
-	int				status;
-	int				child;
+	char			*file;
 }	t_btree;
 /* ----------- binary_tree.c ----------- */
 

@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 00:37:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 01:24:24 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:45:34 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	execute_heredoc(t_btree *tree, char **envp)
 	if (!cmd)
 		exit_error("malloc");
 	cmd[0] = NULL;
-	if (tree->right->cmd[0] == '\'' && tree->right->cmd[ft_strlen(tree->right->cmd[0]) - 1] == '\'')
+	if (tree->right->cmd[0][0] == '\'' && tree->right->cmd[0][ft_strlen(tree->right->cmd[0] - 1)] == '\'')
 		env_var = 1;
 	while (1)
 	{
@@ -41,10 +41,7 @@ void	execute_heredoc(t_btree *tree, char **envp)
 			break ;
 		if (env_var)
 		{
-			if (ft_strchr(line, '$'))
-				line = ft_env_var(line, envp);
-			else
-				line = ft_strdup(line);
+			break;
 		}
 		cmd[i] = ft_strdup(line);
 		if (!cmd[i])

@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:10:31 by tle-saut          #+#    #+#             */
 /*   Updated: 2025/04/03 15:57:50 by tle-saut         ###   ########.fr       */
+=======
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 16:10:31 by tle-saut          #+#    #+#             */
+/*   Updated: 2025/04/03 15:06:40 by nbenhami         ###   ########.fr       */
+>>>>>>> 2008d0b9206332326cfc913d004775c515070950
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +99,7 @@ void	set_path(void)
 	export = sim_glob(NULL, 'G');
 	while (envi[i])
 	{
+<<<<<<< HEAD
 		cwd = getcwd(NULL, 0);
 		if (ft_strncmp(envi[i], "PATH=", 5) == 0)
 		{
@@ -104,4 +112,25 @@ void	set_path(void)
 		i++;
 	}
 	i = 0;
+=======
+		cwd = getenv("PATH");
+		if (ft_strncmp(envi[i], "PATH=", 5) == 0)
+		{
+			envi[i] = ft_strjoin("PATH=", cwd);
+			break ;
+		}
+		i++;
+	}
+	i = 0;
+	while (export[i])
+	{
+		cwd = getenv("PWD");
+		if (ft_strncmp(export[i], "PWD=", 4) == 0)
+		{
+			export[i] = ft_strjoin("PWD=", cwd);
+			return;
+		}
+		i++;
+	}
+>>>>>>> 2008d0b9206332326cfc913d004775c515070950
 }
