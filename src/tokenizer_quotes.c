@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:29:22 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/01 18:44:17 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:34:43 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static char	*handle_simple_quote(char *line, int *i)
 		perror("substr");
 		exit(EXIT_FAILURE);
 	}
-	if (line[*i] == '\'')
-		(*i)++;
+	if (line[*i] == 0)
+		return (free(segment), free_glob(), NULL);
 	(*i)--;
 	return (segment);
 }
@@ -44,7 +44,7 @@ static void	double_quote_segment(char **segment, char *line, int *i)
 	free(tmp);
 	if (!*segment)
 	{
-		perror("strjoin");
+		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -71,8 +71,8 @@ static char	*handle_double_quote(char *line, int *i, char **env)
 			double_quote_segment(&segment, line, i);
 		(*i)++;
 	}
-	if (line[*i] == '"')
-		(*i)++;
+	if (line[*i] == 0)
+		return (free(segment), free_glob(), NULL);
 	(*i)--;
 	return (segment);
 }
@@ -144,6 +144,13 @@ int	handle_segment(t_token_stream *ts, char *line, int i, char **env)
 			word = handle_word(line, &i);
 		else
 			break ;
+		if (!word)
+		{
+			free(segment);
+			free_token_stream(ts);
+			perror("handle_segment");
+			exit(EXIT_FAILURE);
+		}
 		i++;
 		tmp = segment;
 		segment = ft_strjoin(segment, word);

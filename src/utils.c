@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 15:54:56 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:36:16 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,29 +75,29 @@ char	**sim_glob(char **tab, char c)
 	else if (c == 'f')
 	{
 		if (env)
-        {
-            for (int i = 0; env[i]; i++)
-            {
-                if (ft_strncmp(env[i], "PATH=", 5) == 0)
-                {
-                    free(env[i]);
-                }
-            }
-            free(env);
-            env = NULL;
-        }
-        if (export)
-        {
-            for (int i = 0; export[i]; i++)
-            {
-                if (ft_strncmp(export[i], "PWD=", 4) == 0)
-                {
-                    free(export[i]);
-                }
-            }
-            free(export);
-            export = NULL;
-        }
+		{
+			for (int i = 0; env[i]; i++)
+			{
+				if (ft_strncmp(env[i], "PATH=", 5) == 0)
+				{
+					free(env[i]);
+				}
+			}
+			free(env);
+			env = NULL;
+		}
+		if (export)
+		{
+			for (int i = 0; export[i]; i++)
+			{
+				if (ft_strncmp(export[i], "PWD=", 4) == 0)
+				{
+					free(export[i]);
+				}
+			}
+			free(export);
+			export = NULL;
+		}
 	}
 	return (NULL);
 }

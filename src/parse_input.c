@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:00:09 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 14:14:50 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:15:53 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ t_btree	*parse_pipeline(t_token_stream *ts)
 t_btree *parse_redirection(t_token_stream *ts)
 {
 	t_btree		*node;
+	t_btree		*right;
 	t_cmd_type	type;
 	char		*redir_file;
 
@@ -103,25 +104,33 @@ t_btree *parse_redirection(t_token_stream *ts)
 		else
 			type = NODE_HEREDOC;
 		consume_token(ts);
-		redir_file = ts->tokens[ts->current]->value;
-		consume_token(ts);
-		node = create_node(type, node, NULL, NULL);
-		node->file = strdup(redir_file);
-		t_btree *cmd_node = node->left;
-		while (cmd_node && cmd_node->type != NODE_COMMAND)
-			cmd_node = cmd_node->left;
-		if (cmd_node && current_token_is(ts, TOKEN_WORD))
+		if (type != NODE_HEREDOC)
 		{
-			int arg_count = 0;
-			while (cmd_node->cmd[arg_count])
-				arg_count++;
-			while (current_token_is(ts, TOKEN_WORD))
+			redir_file = ts->tokens[ts->current]->value;
+			consume_token(ts);
+			node = create_node(type, node, NULL, NULL);
+			node->file = strdup(redir_file);
+			t_btree *cmd_node = node->left;
+			while (cmd_node && cmd_node->type != NODE_COMMAND)
+			cmd_node = cmd_node->left;
+			if (cmd_node && current_token_is(ts, TOKEN_WORD))
 			{
-				cmd_node->cmd = ft_tab_realloc(cmd_node->cmd, arg_count + 2);
-				cmd_node->cmd[arg_count++] = strdup(ts->tokens[ts->current]->value);
-				cmd_node->cmd[arg_count] = NULL;
-				consume_token(ts);
+				int arg_count = 0;
+				while (cmd_node->cmd[arg_count])
+					arg_count++;
+				while (current_token_is(ts, TOKEN_WORD))
+				{
+					cmd_node->cmd = ft_tab_realloc(cmd_node->cmd, arg_count + 2);
+					cmd_node->cmd[arg_count++] = strdup(ts->tokens[ts->current]->value);
+					cmd_node->cmd[arg_count] = NULL;
+					consume_token(ts);
+				}
 			}
+		}
+		else
+		{
+			right = parse_command(ts);
+			node = create_node(type, node, right, NULL);
 		}
 	}
 	return (node);
