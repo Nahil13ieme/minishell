@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:26:49 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/17 14:20:07 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 01:17:09 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,13 @@ static int	is_redir(t_token_type type)
 static int	validate_token_list(t_token_stream *ts)
 {
 	int	i;
+	int	ret;
 
 	i = 0;
-	while (i < ts->size - 1)
+	while (i < ts->size)
 	{
-		if (is_control(ts->tokens[i]->type)
-			&& is_control(ts->tokens[i + 1]->type))
-		{
-			printf("minishell: syntax error near unexpected token `%s'\n",
-				ts->tokens[i + 1]->value);
-			return (0);
-		}
-		if (is_redir(ts->tokens[i]->type))
+		ret = is_control(ts->tokens[i]->type) || is_redir(ts->tokens[i]->type);
+		if (ret)
 		{
 			if (i == ts->size - 1)
 				return (ft_putstr_fd(ERR_NL, 2), 0);

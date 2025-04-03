@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/01 18:45:26 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 00:38:02 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,36 +76,6 @@ static void	execute_append(t_btree *tree, char **envp)
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		exit_error("dup2");
 	close(saved_stdout);
-}
-
-static void	execute_heredoc(t_btree *tree, char **envp)
-{
-	char	*line;
-	char	**cmd;
-	int		i;
-
-	i = 0;
-	line = NULL;
-	cmd = malloc(sizeof(char *) * 1);
-	if (!cmd)
-		exit_error("malloc");
-	cmd[0] = NULL;
-	while (1)
-	{
-		line = readline("> ");
-		if (ft_memcmp(line, tree->right->cmd[0], ft_strlen(tree->right->cmd[0])) == 0)
-			break ;
-		cmd[i] = ft_strdup(line);
-		if (!cmd[i])
-			exit_error("malloc");
-		i++;
-		cmd = ft_realloc(cmd, sizeof(char *) * (i + 1), sizeof(char *) * (i));
-		cmd[i] = NULL;
-		free(line);
-		line = NULL;
-	}
-	free(line);
-	(void)envp;
 }
 
 void	execute_redirection(t_btree *tree, char **envp)

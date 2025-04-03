@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:40:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/02 12:19:19 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 01:07:35 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	consume_token(t_token_stream *tokens)
 
 int	current_token_is(t_token_stream *tokens, t_token_type type)
 {
-	if (tokens->current >= tokens->size)
+	if (tokens->current >= tokens->size || tokens->current < 0)
 		return (0);
 	return (tokens->current < tokens->capacity
 		&& tokens->tokens[tokens->current]->type == type);

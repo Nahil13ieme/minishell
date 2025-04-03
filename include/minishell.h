@@ -34,7 +34,6 @@
 # define ERR_NL "minishell: syntax error near unexpected token `newline'\n"
 # define ERR_REDIR "minishell: syntax error near unexpected token `redir'\n"
 
-extern int						g_exit_code;
 extern volatile sig_atomic_t	g_signal;
 
 typedef enum e_token_type
@@ -92,8 +91,6 @@ typedef struct s_btree
 	int				status;
 	int				child;
 }	t_btree;
-
-extern t_btree					*g_tree;
 /* ----------- binary_tree.c ----------- */
 
 t_btree			*create_node(t_cmd_type type, t_btree *left,
@@ -123,7 +120,7 @@ void			consume_token(t_token_stream *tokens);
 int				current_token_is(t_token_stream *tokens, t_token_type type);
 
 int				execute_path(char **cmd, char **envp, int child);
-
+void			execute_heredoc(t_btree *tree, char **envp);
 void			execute_tree(t_btree *tree, char **envp);
 
 
@@ -168,5 +165,6 @@ char			*handle_env_variable(char *line, int *i, char **env);
 
 char			*find_path(char *cmd, char **envp);
 void			free_glob(void);
+t_btree			*set_root(t_btree *root, char c);
 
 #endif //MINISHELL_H

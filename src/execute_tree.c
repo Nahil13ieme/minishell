@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/02 13:54:34 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 00:24:29 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno)
 		close(fd[fileno]);
 		tree->child = 1;
 		execute_tree(tree, envp);
-		free_tree(g_tree);
+		set_root(NULL, 'f');
 		free_glob();
 		exit(EXIT_FAILURE);
 	}
