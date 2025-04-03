@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/02 16:21:05 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:33:03 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,19 @@
  * @brief Commande built-in pour ecrire dans la sortie.
  * @param args Parametre a ecrire en char **
  */
-void ft_echo(char **args)
+void	ft_echo(char **args)
 {
-	int i = 1;
-	int newline = 1;
+	int	i;
+	int	newline;
 	int	j;
 
-	if (ft_strncmp(args[0], "$?", 2))
-	{
-		printf("%d\n", get_exit_code());
-		return ;
-	}
+	i = 1;
+	newline = 1;
+		if (ft_strncmp(args[0], "$?", 2))
+		{
+			printf("%d\n", get_exit_code());
+			return ;
+		}
 	if (args[1] && ft_strncmp(args[1], "-n", 2) == 0)
 	{
 		newline = 0;
