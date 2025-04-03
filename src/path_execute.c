@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/02 16:23:52 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:54:21 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
