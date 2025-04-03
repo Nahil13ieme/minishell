@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:29:22 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/01 18:44:17 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:29:08 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static char	*handle_simple_quote(char *line, int *i)
 		perror("substr");
 		exit(EXIT_FAILURE);
 	}
-	if (line[*i] == '\'')
-		(*i)++;
+	if (line[*i] == 0)
+		return (free(segment), free_glob(), NULL);
 	(*i)--;
 	return (segment);
 }
@@ -44,7 +44,7 @@ static void	double_quote_segment(char **segment, char *line, int *i)
 	free(tmp);
 	if (!*segment)
 	{
-		perror("strjoin");
+		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -71,8 +71,8 @@ static char	*handle_double_quote(char *line, int *i, char **env)
 			double_quote_segment(&segment, line, i);
 		(*i)++;
 	}
-	if (line[*i] == '"')
-		(*i)++;
+	if (line[*i] == 0)
+		return (free(segment), free_glob(), NULL);
 	(*i)--;
 	return (segment);
 }
@@ -92,64 +92,16 @@ char	*handle_quoted_string(char *line, int *i, char **env)
 		return (handle_double_quote(line, i, env));
 }
 
-/**
- * Traite un mot (token standard)
- * @param ts    Le stream de tokens
- * @param line  La ligne d'entrée
- * @param i     Index actuel dans la ligne
- * @return      Nouvel index après traitement
- */
-static char	*handle_word(char *line, int *i)
-{
-	char	*segment;
-	int		start;
-	int		len;
-
-	start = *i;
-	while (line[*i] && !ft_isspace(line[*i])
-		&& line[*i] != '<' && line[*i] != '>'
-		&& line[*i] != ';' && line[*i] != '|'
-		&& line[*i] != '&' && line[*i] != '\''
-		&& line[*i] != '"')
-		(*i)++;
-	len = *i - start;
-	segment = ft_substr(line, start, len);
-	if (!segment)
-	{
-		perror("substr");
-		exit(EXIT_FAILURE);
-	}
-	(*i)--;
-	return (segment);
-}
-
 int	handle_segment(t_token_stream *ts, char *line, int i, char **env)
 {
 	char	*segment;
-	char	*tmp;
 	char	*word;
 
+	word = NULL;
 	segment = NULL;
 	while (line[i] && ft_isspace(line[i]))
 		i++;
-	while (line[i] && line[i] != ' ')
-	{
-		if (line[i] == '$')
-			word = handle_env_variable(line, &i, env);
-		else if (line[i] == '\'' || line[i] == '"')
-			word = handle_quoted_string(line, &i, env);
-		else if (line[i] != '<' && line[i] != '>'
-			&& line[i] != ';' && line[i] != '|'
-			&& line[i] != '&')
-			word = handle_word(line, &i);
-		else
-			break ;
-		i++;
-		tmp = segment;
-		segment = ft_strjoin(segment, word);
-		free(word);
-		free(tmp);
-	}
+	i = ft_while_handle_segment(line, env, word, i, &segment);
 	add_token(ts, create_token(TOKEN_WORD, segment));
 	return (free(segment), i);
 }

@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:27:15 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/02 13:11:25 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:30:14 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*handle_env_variable(char *line, int *i, char **env)
 	if (line[*i - 1] == '$')
 		var_value = "$";
 	else if (!var_value)
-		var_value = ft_strdup("");
+		var_value = "";
 	(*i)--;
 	return (ft_strdup(var_value));
 }

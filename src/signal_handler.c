@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 01:24:42 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 12:46:07 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:14:45 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:24:58 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/01 15:24:01 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:31:04 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 
 /**
  * The strnstr() function locates the first occurrence of the null-terminated
