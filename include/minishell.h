@@ -133,6 +133,20 @@ void			ft_unset(char *var);
 void			ft_env(char **envp);
 void			ft_exit(char *arg);
 int				built_in_check(char *str, char **args, char **envp);
+/*---------------------UTILS_BUILT_IN-----------------------------------------*/
+int				ft_while_echo(char **args, int i, int j);
+int				ft_if_export(char **envi, int i, char *var, char *equal_pos);
+void			ft_if_unset(char **envp, char **export,
+					char *var, int len, int i);
+/*---------------------UTILS_EXECUTE-----------------------------------------*/
+void			ft_if_execute_andor(t_btree *tree, char **envp);
+/*---------------------UTILS_HANDLE-----------------------------------------*/
+int				ft_while_handle_segment(char *line, char **env, char *word,
+					int i, char **segment);
+/*---------------------UTILS_EXPORT-----------------------------------------*/
+void			ft_while_print_export(char **tab, int i, int j);
+void			ft_if_modify_export(char *equal_pos, char *var,char **envi,
+					char **export);
 
 /*-----------------------------UTILS------------------------------------------*/
 void			get_env(char **envp);

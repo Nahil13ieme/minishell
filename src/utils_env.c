@@ -1,27 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/03 01:24:42 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 15:22:03 by tle-saut         ###   ########.fr       */
+/*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
+/*   Updated: 2025/04/03 15:56:13 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	signal_handler(int sig)
+void	get_env(char **envp)
 {
-	if (sig == SIGINT)
+	int		i;
+	char	**cpy_env;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	cpy_env = malloc(sizeof(char *) * (i + 1));
+	if (cpy_env == NULL)
+		return ;
+	i = 0;
+	while (envp[i])
 	{
-		write(1, "\n", 1);
-		g_signal = 130;
+		cpy_env[i] = ft_strdup(envp[i]);
+		if (cpy_env[i] == NULL)
+		{
+			free_tab(cpy_env);
+			break ;
+		}
+		i++;
 	}
-	else if (sig == SIGQUIT)
-	{
-		write(1, "Quit: 3\n", 8);
-		g_signal = 131;
-	}
+	cpy_env[i] = NULL;
+	sim_glob(cpy_env, 's');
+	set_export();
+	set_path();
+}
+
+void	free_glob(void)
+{
+	sim_glob(NULL, 'f');
 }
