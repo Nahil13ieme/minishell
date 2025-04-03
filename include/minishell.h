@@ -112,16 +112,16 @@ void			execute_heredoc(t_btree *tree, char **envp);
 
 /* ----------------------EXECUTE_REDIRECTION-------------------------------- */
 void			exit_error(char *msg);
-static void		execute_redir_in(t_btree *tree, char **envp);
-static void		execute_redir_out(t_btree *tree, char **envp);
-static void		execute_append(t_btree *tree, char **envp);
+//static void		execute_redir_in(t_btree *tree, char **envp);
+//static void		execute_redir_out(t_btree *tree, char **envp);
+//static void		execute_append(t_btree *tree, char **envp);
 void			execute_redirection(t_btree *tree, char **envp);
 
 /*---------------------------EXECUTE_TREE------------------------------------*/
-static void		execute_and(t_btree *tree, char **envp);
-static void		execute_or(t_btree *tree, char **envp);
-static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno);
-static void		execute_pipeline(t_btree *tree, char **envp);
+//static void		execute_and(t_btree *tree, char **envp);
+//static void		execute_or(t_btree *tree, char **envp);
+//static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno);
+//static void		execute_pipeline(t_btree *tree, char **envp);
 void			execute_tree(t_btree *tree, char **envp);
 
 /*-------------------------------EXIT----------------------------------------*/
@@ -135,7 +135,7 @@ char			*get_username(void);
 char			*make_prompt(void);
 
 /*--------------------------PARSE_INPUT_UTILS--------------------------------*/
-static char		**create_args(t_token_stream *tokens);
+//static char		**create_args(t_token_stream *tokens);
 t_btree			*parse_command(t_token_stream *tokens);
 void			consume_token(t_token_stream *tokens);
 int				current_token_is(t_token_stream *tokens, t_token_type type);
@@ -148,9 +148,9 @@ t_btree			*parse_pipeline(t_token_stream *ts);
 t_btree			*parse_redirection(t_token_stream *ts);
 
 /*---------------------------PATH_EXECUTE------------------------------------*/
-static void		free_paths(char **paths);
+//static void		free_paths(char **paths);
 char			*find_path(char *cmd, char **envp);
-static int		execute_child(char *path, char **cmd, char **envp);
+//static int		execute_child(char *path, char **cmd, char **envp);
 int				execute_path(char **cmd, char **envp, int child);
 int				built_in_check(char *str, char **args, char **envp);
 
@@ -168,23 +168,23 @@ void			free_token_stream(t_token_stream *ts);
 t_token_stream	*tokenize_input(char *line, char **env);
 
 /*-------------------------TOKENIZER_QUOTES----------------------------------*/
-static char		*handle_double_quote(char *line, int *i, char **env);
+//static char		*handle_double_quote(char *line, int *i, char **env);
 char			*handle_quoted_string(char *line, int *i, char **env);
-static char		*handle_word(char *line, int *i);
+//static char		*handle_word(char *line, int *i);
 int				handle_segment(t_token_stream *ts, char *line,
 					int i, char **env);
 
 /*----------------------------TOKENIZER--------------------------------------*/
-static int		handle_double_tokens(t_token_stream *ts, char *line, int i);
-static int		handle_single_tokens(t_token_stream *ts, char *line, int i);
+//static int		handle_double_tokens(t_token_stream *ts, char *line, int i);
+//static int		handle_single_tokens(t_token_stream *ts, char *line, int i);
 char			*handle_env_variable(char *line, int *i, char **env);
 int				process_char(t_token_stream *ts, char *line, int i,
 					char **env);
 
 /*---------------------------TOKENS_UTILS------------------------------------*/
-static int		is_control(t_token_type type);
-static int		is_redir(t_token_type type);
-static int		validate_token_list(t_token_stream *ts);
+//static int		is_control(t_token_type type);
+//static int		is_redir(t_token_type type);
+//static int		validate_token_list(t_token_stream *ts);
 int				validate_token_sequence(t_token_stream *ts);
 
 /*-----------------------------UTILS_2---------------------------------------*/
@@ -203,6 +203,7 @@ void			ft_if_unset(char **envp, char **export, char *var, int len,
 /*----------------------------UTILS_ENV--------------------------------------*/
 void			get_env(char **envp);
 void			free_glob(void);
+void			ft_env(char **envp);
 
 /*--------------------------UTILS_EXECUTE------------------------------------*/
 void			ft_if_execute_andor(t_btree *tree, char **envp);
@@ -212,13 +213,13 @@ char			**sim_glob(char **tab, char c);
 char			**ft_tab_realloc(char **tab, size_t new_size);
 void			add_export(char **tab, char *str);
 void			ft_while_print_export(char **tab, int i, int j);
-int				ft_while_set_export(char *export, int i);
+int				ft_while_set_export(char **export, int i);
 void			ft_if_modify_export(char *equal_pos, char *var, char **envi,
 					char **export);
 
 /*---------------------------UTILS_HANDLE------------------------------------*/
-static char		*handle_simple_quote(char *line, int *i);
-static void		double_quote_segment(char **segment, char *line, int *i);
+//static char		*handle_simple_quote(char *line, int *i);
+//static void		double_quote_segment(char **segment, char *line, int *i);
 int				ft_while_handle_segment(char *line, char **env, char *word,
 					int i, char **segment);
 

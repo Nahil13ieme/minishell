@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:34:30 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 17:35:16 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:31:31 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,40 +109,29 @@ int	ft_while_set_export(char **export, int i)
 		{
 			free(export[i]);
 			export[i] = ft_strjoin("PWD=", cwd);
-			free(cwd);
 			return (i);
 		}
-		free(cwd);
 		i++;
 	}
 	return (i);
 }
 
-void	ft_if_modify_export(char *equal_pos, char *var, char **envi, char **export)
+void	ft_if_modify_export(char *equal_pos, char *var, char **envi,
+	char **export)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (equal_pos)
 	{
-		while (envi[i])
-		{
+		while (envi[++i])
 			if (ft_strncmp(envi[i], var, equal_pos - var) == 0)
-			{
-				free(envi[i]);
-				return ;
-			}
-			i++;
-		}
+				return (free(envi[i]));
 	}
 	else
-		while (export[i])
-		{
+	{
+		while (export[++i])
 			if (ft_strncmp(export[i], var, ft_strlen(export[i])) == 0)
-			{
-				free(export[i]);
-				return ;
-			}
-			i++;
-		}
+				return (free(export[i]));
+	}
 }

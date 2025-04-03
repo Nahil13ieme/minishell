@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_built_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 15:59:20 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:21:44 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,15 @@ int	ft_while_echo(char **args, int i, int j)
 		j = 0;
 		while (args[i][j])
 		{
-			printf("%c", args[i][j]);
+			if (args[i][j] == '$' && args[i][j + 1] == '?')
+			{
+				printf("%d", get_exit_code());
+				j++;
+			}
+			else
+			{
+				printf("%c", args[i][j]);
+			}
 			j++;
 		}
 		if (args[i + 1])
@@ -39,7 +47,6 @@ int	ft_if_export(char **envi, int i, char *var, char *equal_pos)
 			{
 				free(envi[i]);
 				envi[i] = ft_strdup(var);
-				return ;
 			}
 			i++;
 		}

@@ -6,12 +6,11 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:00:09 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 16:15:53 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:28:24 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 t_btree	*parse_input(t_token_stream *ts)
 {

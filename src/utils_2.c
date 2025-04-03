@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:10:31 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 17:35:07 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:13:15 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,10 @@ void	set_export(void)
 void	modifi_env_export(char *var)
 {
 	char	*equal_pos;
-	int		i;
 	char	**envi;
 	char	**export;
 
 	equal_pos = ft_strchr(var, '=');
-	i = 0;
 	envi = sim_glob(NULL, 'g');
 	export = sim_glob(NULL, 'G');
 	ft_if_modify_export(equal_pos, var, envi, export);
@@ -101,5 +99,5 @@ void	set_path(void)
 		i++;
 	}
 	i = 0;
-	i =ft_while_set_export(export, i);
+	i = ft_while_set_export(export, i);
 }

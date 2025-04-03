@@ -3,50 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 16:09:42 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:09:48 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static void	execute_and(t_btree *tree, char **envp)
-{
-	execute_tree(tree->left, envp);
-	if (tree->left->status == 0)
-	{
-		execute_tree(tree->right, envp);
-		if (tree->right->status == 0)
-			tree->status = 0;
-		else
-			tree->status = -1;
-	}
-	else
-	{
-		tree->status = -1;
-		return ;
-	}
-}
-
-static void	execute_or(t_btree *tree, char **envp)
-{
-	execute_tree(tree->left, envp);
-	if (tree->left->status != 0)
-	{
-		execute_tree(tree->right, envp);
-		if (tree->right->status != 0)
-			tree->status = -1;
-		else
-			tree->status = 0;
-	}
-	else
-	{
-		tree->status = 0;
-		return ;
-	}
-}
 
 static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno)
 {

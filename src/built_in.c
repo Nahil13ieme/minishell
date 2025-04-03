@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 16:21:02 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:26:06 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,9 @@ void	ft_echo(char **args)
 	int	newline;
 	int	j;
 
-	i = 0;
+	i = 1;
 	j = 0;
-	newline = 0;
-	if (ft_strncmp(args[0], "$?", 2) == 0)
-	{
-		printf("%d\n", get_exit_code());
-		return ;
-	}
+	newline = 1;
 	if (args[1] && ft_strncmp(args[1], "-n", 2) == 0)
 	{
 		newline = 0;

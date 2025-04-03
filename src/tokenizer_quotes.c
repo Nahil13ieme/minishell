@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:29:22 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 18:04:29 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:29:08 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,42 +92,12 @@ char	*handle_quoted_string(char *line, int *i, char **env)
 		return (handle_double_quote(line, i, env));
 }
 
-/**
- * Traite un mot (token standard)
- * @param ts    Le stream de tokens
- * @param line  La ligne d'entrée
- * @param i     Index actuel dans la ligne
- * @return      Nouvel index après traitement
- */
-static char	*handle_word(char *line, int *i)
-{
-	char	*segment;
-	int		start;
-	int		len;
-
-	start = *i;
-	while (line[*i] && !ft_isspace(line[*i])
-		&& line[*i] != '<' && line[*i] != '>'
-		&& line[*i] != ';' && line[*i] != '|'
-		&& line[*i] != '&' && line[*i] != '\''
-		&& line[*i] != '"')
-		(*i)++;
-	len = *i - start;
-	segment = ft_substr(line, start, len);
-	if (!segment)
-	{
-		perror("substr");
-		exit(EXIT_FAILURE);
-	}
-	(*i)--;
-	return (segment);
-}
-
 int	handle_segment(t_token_stream *ts, char *line, int i, char **env)
 {
 	char	*segment;
 	char	*word;
 
+	word = NULL;
 	segment = NULL;
 	while (line[i] && ft_isspace(line[i]))
 		i++;
