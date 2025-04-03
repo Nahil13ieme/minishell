@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 00:37:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 18:05:20 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:54:19 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static char	**extract_content(char *delimiter)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_memcmp(line, delimiter, ft_strlen(delimiter)) == 0)
-			return (free(line), free_tab(cmd), NULL);
+		if (ft_memcmp(line, delimiter, ft_strlen(delimiter)) == 0)
+			break ;
 		cmd[i] = ft_strdup(line);
 		if (!cmd[i])
 			exit_error("malloc");
@@ -47,27 +47,35 @@ static char	**extract_content(char *delimiter)
 	return (free(line), cmd);
 }
 
-void	execute_heredoc(t_btree *tree, char **envp)
+void execute_heredoc(t_btree *tree, char **envp)
 {
-	char	**cmd;
-	int	fd;
-	int	saved_stdin;
+	char **cmd;
+	int pipe_fds[2];
+	int saved_stdin;
+	int i;
 	
 	cmd = extract_content(tree->right->cmd[0]);
 	if (!cmd)
-		return ;
+		return;
 	saved_stdin = dup(STDIN_FILENO);
 	if (saved_stdin == -1)
 		exit_error("dup");
-	fd = open(tree->file, O_RDONLY);
-	if (fd == -1)
-		exit_error("open");
-	if (dup2(fd, STDIN_FILENO) == -1)
+	if (pipe(pipe_fds) == -1)
+		exit_error("pipe");
+	i = 0;
+	while (cmd[i])
+	{
+		write(pipe_fds[1], cmd[i], ft_strlen(cmd[i]));
+		write(pipe_fds[1], "\n", 1);
+		i++;
+	}
+	close(pipe_fds[1]);
+	if (dup2(pipe_fds[0], STDIN_FILENO) == -1)
 		exit_error("dup2");
-	close(fd);
+	close(pipe_fds[0]);
 	execute_tree(tree->left, envp);
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 		exit_error("dup2");
 	close(saved_stdin);
-	free(cmd);
+	free_tab(cmd);
 }
