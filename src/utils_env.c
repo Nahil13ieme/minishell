@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 18:17:16 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:06:02 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,3 +61,23 @@ void	ft_env(char **envp)
 		i++;
 	}
 }
+
+char	*return_env(char *str)
+{
+	int		i;
+	char	**env;
+	int		len;
+
+	len = ft_strlen(str);
+	env = sim_glob(NULL, 'g');
+	i = 0;
+
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], str, len) == 0 && env[i][len] == '=')
+			return (env[i] + len + 1);
+		i++;
+	}
+	return (NULL);
+}
+

@@ -204,6 +204,7 @@ void			ft_if_unset(char **envp, char **export, char *var, int len,
 void			get_env(char **envp);
 void			free_glob(void);
 void			ft_env(char **envp);
+char			*return_env(char *str);
 
 /*--------------------------UTILS_EXECUTE------------------------------------*/
 void			ft_if_execute_andor(t_btree *tree, char **envp);
