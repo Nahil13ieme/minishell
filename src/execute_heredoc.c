@@ -6,12 +6,11 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 00:37:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 17:50:36 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:05:20 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 /**
  * @todo: Retrieve var value if flag is true

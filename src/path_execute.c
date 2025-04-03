@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   path_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 14:54:21 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:09:54 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/minishell.h"
 
@@ -101,20 +100,20 @@ int	execute_path(char **cmd, char **envp, int child)
 
 int	built_in_check(char *str, char **args, char **envp)
 {
-	if (ft_strncmp(str, "echo",4) == 0 && ft_strlen(str) == 4)
-		return(ft_echo(args), 0);
+	if (ft_strncmp(str, "echo", 4) == 0 && ft_strlen(str) == 4)
+		return (ft_echo(args), 0);
 	else if (ft_strncmp(str, "cd", 2) == 0 && ft_strlen(str) == 2)
-		return(ft_cd(args[1]), 0);
-	else if (ft_strncmp(str, "pwd",3) == 0 && ft_strlen(str) == 3)
-		return(ft_pwd(), 0);
-	else if (ft_strncmp(str, "export",6) == 0 && ft_strlen(str) == 6)
-		return(ft_export(args[1], envp), 0);
-	else if (ft_strncmp(str, "unset",5) == 0 && ft_strlen(str) == 5)
-		return(ft_unset(args[1]), 0);
-	else if (ft_strncmp(str, "env",3) == 0 && ft_strlen(str) == 3)
-		return(ft_env(envp), 0);
-	else if (ft_strncmp(str, "exit",4) == 0 && ft_strlen(str) == 4)
-		return(ft_exit(args[1]), 0);
+		return (ft_cd(args[1]), 0);
+	else if (ft_strncmp(str, "pwd", 3) == 0 && ft_strlen(str) == 3)
+		return (ft_pwd(), 0);
+	else if (ft_strncmp(str, "export", 6) == 0 && ft_strlen(str) == 6)
+		return (ft_export(args[1], envp), 0);
+	else if (ft_strncmp(str, "unset", 5) == 0 && ft_strlen(str) == 5)
+		return (ft_unset(args[1]), 0);
+	else if (ft_strncmp(str, "env", 3) == 0 && ft_strlen(str) == 3)
+		return (ft_env(envp), 0);
+	else if (ft_strncmp(str, "exit", 4) == 0 && ft_strlen(str) == 4)
+		return (ft_exit(args[1]), 0);
 	else
-		return(1);
+		return (1);
 }
