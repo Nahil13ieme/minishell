@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:34:30 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 16:01:38 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:35:16 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,17 @@ void	ft_while_print_export(char **tab, int i, int j)
 	printf("\n");
 }
 
-int	ft_while_set_export(char *export, int i)
+int	ft_while_set_export(char **export, int i)
 {
 	char	*cwd;
 
 	while (export[i])
 	{
-		cwd = getenv("HOME");
-		if (ft_strncmp(export[i], "PATH=", 5) == 0)
+		cwd = getenv("PWD");
+		if (ft_strncmp(export[i], "PWD=", 4) == 0)
 		{
 			free(export[i]);
-			export[i] = ft_strjoin("PATH=", cwd);
+			export[i] = ft_strjoin("PWD=", cwd);
 			free(cwd);
 			return (i);
 		}

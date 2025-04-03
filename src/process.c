@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:26:03 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 16:00:11 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:44:09 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	process_line(char *line, char **envp)
 		if (set_root(NULL, 'g'))
 		{
 			execute_tree(set_root(NULL, 'g'), envp);
-			set_exit_code(set_root(NULL, 'g')->status);
+			set_exit_code(set_root(NULL, 'g'));
 			set_root(NULL, 'f');
 		}
 		else

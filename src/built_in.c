@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 16:09:21 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:21:02 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ void	ft_echo(char **args)
 	int	newline;
 	int	j;
 
+	i = 0;
+	j = 0;
+	newline = 0;
 	if (ft_strncmp(args[0], "$?", 2) == 0)
 	{
 		printf("%d\n", get_exit_code());

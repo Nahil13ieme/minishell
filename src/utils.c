@@ -3,53 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 15:56:05 by tle-saut         ###   ########.fr       */
-=======
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 15:54:56 by nbenhami         ###   ########.fr       */
->>>>>>> 2008d0b9206332326cfc913d004775c515070950
+/*   Updated: 2025/04/03 17:19:18 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-<<<<<<< HEAD
-=======
-void	get_env(char **envp)
-{
-	int		i;
-	char	**cpy_env;
-	
-	i = 0;
-	while (envp[i])
-		i++;
-	cpy_env = malloc(sizeof(char *) * (i + 1));
-	if (cpy_env == NULL)
-		return ;
-	i = 0;
-	while (envp[i])
-		{
-			cpy_env[i] = ft_strdup(envp[i]);
-			if (cpy_env[i] == NULL)
-			{
-				free_tab(cpy_env);
-				break ;
-			}
-			i++;
-		}
-	cpy_env[i] = NULL;
-	sim_glob(cpy_env, 's');
-	set_export();
-	set_path();
-}
-
->>>>>>> 2008d0b9206332326cfc913d004775c515070950
 void	free_tab(char **tab)
 {
 	int	i;
@@ -58,8 +20,6 @@ void	free_tab(char **tab)
 	if (!tab)
 		return ;
 	while (tab[i])
-<<<<<<< HEAD
-=======
 		{
 			free(tab[i]);
 			i++;
@@ -67,7 +27,7 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-void	free_glob()
+void	free_glob(void)
 {
 	sim_glob(NULL, 'f');
 }
@@ -128,7 +88,6 @@ char	**ft_tab_realloc(char **tab, size_t new_size)
 	if (!new_tab)
 		return NULL;
 	while (i < old_size)
->>>>>>> 2008d0b9206332326cfc913d004775c515070950
 	{
 		free(tab[i]);
 		i++;
@@ -162,21 +121,6 @@ void	ft_print_env(int export)
 		}
 		i++;
 	}
-}
-
-int	contain_alpha(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] >= '0' && str[i] <= '9')
-			return (1);
-		else
-			i++;
-	}
-	return (0);
 }
 
 int	ft_tablen(char **tab)
