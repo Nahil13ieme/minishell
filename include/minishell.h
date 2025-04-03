@@ -129,17 +129,27 @@ void			ft_echo(char **args);
 int				ft_cd(char *path);
 void			ft_pwd(void);
 void			ft_export(char *var, char **envp);
-void			ft_unset(char *var, char **envp);
+void			ft_unset(char *var);
 void			ft_env(char **envp);
 void			ft_exit(char *arg);
 int				built_in_check(char *str, char **args, char **envp);
+
 /*-----------------------------UTILS------------------------------------------*/
 void			get_env(char **envp);
 void			free_tab(char **tab);
 char			**sim_glob(char **tab, char c);
 char			**ft_tab_realloc(char **tab, size_t new_size);
 void			ft_print_env(int export);
+
+/*-----------------------------UTILS_2----------------------------------------*/
+void			print_sort_export(void);
+void			swap_tab(char **a, char **b);
+void			set_export(void);
+int				ft_tablen(char **tab);
+int				contain_alpha(char *str);
 char			*handle_quoted_string(char *line, int *i, char **env);
+void			modifi_env_export(char *var);
+void			set_path(void);
 
 void			execute_redirection(t_btree *tree, char **envp);
 
