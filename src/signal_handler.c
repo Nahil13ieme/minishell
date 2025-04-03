@@ -6,12 +6,13 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 01:24:42 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 01:25:23 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:46:07 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+volatile sig_atomic_t	g_signal;
 
 void	signal_handler(int sig)
 {

@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:14:43 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/01 15:11:29 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:10:42 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ t_btree	*create_node(t_cmd_type type, t_btree *left, t_btree *right, char **cmd)
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
+	node->status = 0;
+	node->child = 0;
 	node->type = type;
 	node->cmd = cmd;
 	node->left = left;
 	node->right = right;
-	node->child = 0;
-	node->status = 0;
+	node->file = NULL;
 	return (node);
 }
 
@@ -59,5 +60,7 @@ void	free_tree(t_btree *root)
 		free(root->cmd);
 		root->cmd = NULL;
 	}
+	if (root->file)
+		free(root->file);
 	free(root);
 }

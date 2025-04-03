@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 00:38:02 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:39:51 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	execute_redir_in(t_btree *tree, char **envp)
 	saved_stdin = dup(STDIN_FILENO);
 	if (saved_stdin == -1)
 		exit_error("dup");
-	fd = open(tree->right->cmd[0], O_RDONLY);
+	fd = open(tree->file, O_RDONLY);
 	if (fd == -1)
 		exit_error("open");
 	if (dup2(fd, STDIN_FILENO) == -1)
@@ -46,7 +46,7 @@ static void	execute_redir_out(t_btree *tree, char **envp)
 	saved_stdout = dup(STDOUT_FILENO);
 	if (saved_stdout == -1)
 		exit_error("dup");
-	fd = open(tree->right->cmd[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(tree->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		exit_error("open");
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -66,7 +66,7 @@ static void	execute_append(t_btree *tree, char **envp)
 	saved_stdout = dup(STDOUT_FILENO);
 	if (saved_stdout == -1)
 		exit_error("dup");
-	fd = open(tree->right->cmd[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd = open(tree->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		exit_error("open");
 	if (dup2(fd, STDOUT_FILENO) == -1)
