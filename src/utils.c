@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/02 12:44:36 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:19:23 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	get_env(char **envp)
 		}
 	cpy_env[i] = NULL;
 	sim_glob(cpy_env, 's');
+	set_export();
+	set_path();
 }
 
 void	free_tab(char **tab)
@@ -58,14 +60,16 @@ void	free_glob()
 
 char	**sim_glob(char **tab, char c)
 {
-	static char **glob = NULL;
-
+	static char **export = NULL;
+	static char **env = NULL;
 	if (c == 'g')
-		return (glob);
-	else if (c == 'f')
-		free_tab(glob);
-	else
-		glob = tab;
+		return (env);
+	else if (c == 'G')
+		return (export);
+	else if (c == 's')
+		env = tab;
+	else if (c == 'S')
+		export = tab;
 	return NULL;
 }
 
@@ -106,23 +110,69 @@ void	add_export(char ** tab,char *str)
 	new_tab = ft_tab_realloc(tab, 1);
 	new_tab[i + 1] = ft_strdup(str);
 	sim_glob(new_tab, 's');
+	set_export();
 }
 
 void	ft_print_env(int export)
 {
 	char **tab;
 	int	i;
+	int	j;
+	int	pass;
 
+	pass = 0;
+	j = 0;
 	i = 0;
-	tab = sim_glob(NULL, 'g');
+	if (export == 0)
+		tab = sim_glob(NULL, 'g');
+	if (export == 1)
+		tab = sim_glob(NULL, 'G');
 	while (tab[i])
 		{
+			j = 0;
 			if (export == 0)
 				if (ft_strchr(tab[i], '=') != NULL)
 					printf("%s\n", tab[i]);
 			if (export == 1)
-				printf("define -x %s\n", tab[i]);
+			{
+				pass = 0;
+				if (tab[i][0] == '_' && tab[i][1] == '=')
+					break;
+				printf("define -x ");
+				while (tab[i][j])
+				{	
+					if (tab[i][j] == '=' && pass == 0)
+					{
+						printf("=");
+						pass = 1;
+						printf("\"");
+					}
+					else if (tab[i][j + 1] == '\0' && pass == 1)
+						{
+							printf("%c",tab[i][j]);
+							printf("\"");
+						}
+					else
+						printf("%c",tab[i][j]);
+					j++;
+				}
+				printf("\n");
+			}
 			i++;
 		}
 }
 
+int	contain_alpha(char *str)
+{
+	int	i;
+	
+	i = 0;
+	while (str[i])
+	{
+		if(str[i] >= '0' && str[i] <= '9')
+			return (1);
+		else
+			i++;
+	}
+	return (0);
+}
