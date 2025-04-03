@@ -10,7 +10,7 @@
 # getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 # tgetnum, tgetstr, tgoto, tputs
 
-
+valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell
 # Source for making a shell :
 1.	 - https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
 2.   - https://github.com/kamalmarhubi/shell-workshop
