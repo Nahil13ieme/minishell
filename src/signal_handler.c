@@ -6,11 +6,13 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 01:24:42 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 16:10:14 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:14:45 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+volatile sig_atomic_t	g_signal;
 
 void	signal_handler(int sig)
 {
