@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   path_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 16:09:54 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:21:51 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static void	free_paths(char **paths)
-{
-	int	i;
-
-	i = 0;
-	while (paths[i])
-	{
-		free(paths[i]);
-		i++;
-	}
-	free(paths);
-}
 
 char	*find_path(char *cmd, char **envp)
 {
@@ -43,7 +30,7 @@ char	*find_path(char *cmd, char **envp)
 		path = ft_strjoin(part_path, cmd);
 		free(part_path);
 		if (access(path, F_OK) == 0)
-			return (free_paths(paths), path);
+			return (free_tab(paths), path);
 		free(path);
 		i++;
 	}
@@ -63,6 +50,7 @@ static int	execute_child(char *path, char **cmd, char **envp)
 	ret = 0;
 	if (pid1 == 0)
 	{
+		setup_child_signals();
 		if (execve(path, cmd, envp) == -1)
 			exit(EXIT_FAILURE);
 	}
@@ -81,7 +69,10 @@ int	execute_path(char **cmd, char **envp, int child)
 	ret = 0;
 	if (built_in_check(cmd[0], cmd, envp) == 0)
 		return (ret);
-	path = find_path(cmd[0], envp);
+	if (access(cmd[0], F_OK) == 0)
+		path = ft_strdup(cmd[0]);
+	else
+		path = find_path(cmd[0], envp);
 	if (!path)
 	{
 		printf("%s: command not found\n", cmd[0]);
@@ -94,8 +85,7 @@ int	execute_path(char **cmd, char **envp, int child)
 	}
 	else
 		ret = execute_child(path, cmd, envp);
-	free(path);
-	return (ret / 256);
+	return (free(path), (ret / 256));
 }
 
 int	built_in_check(char *str, char **args, char **envp)

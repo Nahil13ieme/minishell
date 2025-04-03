@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 18:09:48 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:13:42 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno)
 		exit_error("fork");
 	else if (pid == 0)
 	{
+		setup_child_signals();
 		if (dup2(fd[fileno], fileno) == -1)
 			exit_error("dup2");
 		if (fileno == 1)

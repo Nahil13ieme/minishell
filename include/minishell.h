@@ -158,7 +158,9 @@ int				built_in_check(char *str, char **args, char **envp);
 void			process_line(char *line, char **envp);
 
 /*--------------------------SIGNAL_HANDLER-----------------------------------*/
-void			signal_handler(int sig);
+void			setup_signals(void);
+void			handle_sigint(int sig);
+void			setup_child_signals(void);
 
 /*---------------------------TOKEN_STREAM------------------------------------*/
 void			add_token(t_token_stream *stream, t_token *token);
