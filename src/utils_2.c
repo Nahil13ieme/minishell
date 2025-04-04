@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:10:31 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 16:09:18 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:31:10 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_sort_export(void)
 
 	size = 0;
 	i = 0;
-	tab = sim_glob(NULL, 'G');
+	tab = tab_cpy(sim_glob(NULL, 'g'));
 	size = ft_tablen(tab);
 	while (i < size - 1)
 	{
@@ -45,8 +45,7 @@ void	print_sort_export(void)
 		}
 		i++;
 	}
-	sim_glob(tab, 'S');
-	ft_print_env(1);
+	ft_print_env(tab, 1);
 }
 
 void	set_export(void)
@@ -85,12 +84,12 @@ void	set_path(void)
 {
 	char	**envi;
 	int		i;
-	char	**export;
+	//char	**export;
 	char	*cwd;
 
 	i = 0;
 	envi = sim_glob(NULL, 'g');
-	export = sim_glob(NULL, 'G');
+	//export = sim_glob(NULL, 'G');
 	cwd = NULL;
 	while (envi[i])
 	{
@@ -104,5 +103,5 @@ void	set_path(void)
 		}
 		i++;
 	}
-	ft_while_set_export();
+	//ft_while_set_export();
 }

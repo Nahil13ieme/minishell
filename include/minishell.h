@@ -235,7 +235,8 @@ void			free_tab(char **tab);
 void			free_glob(void);
 char			**sim_glob(char **tab, char c);
 char			**ft_tab_realloc(char **tab, size_t new_size);
-void			ft_print_env(int export);
+void			ft_print_env(char **tab, int export);
 int				ft_tablen(char **tab);
+char			**tab_cpy(char **tab);
 
 #endif //MINISHELL_H

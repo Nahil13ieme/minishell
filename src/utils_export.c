@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:34:30 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 15:55:57 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:28:06 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ char	**sim_glob(char **tab, char c)
 {
 	static char	**export = NULL;
 	static char	**env = NULL;
-	int			i;
 
-	i = 0;
 	if (c == 'g')
 		return (env);
 	else if (c == 'G')

@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 15:02:47 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:34:16 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-void	ft_print_env(int export)
+void	ft_print_env(char **tab, int export)
 {
-	char	**tab;
 	int		i;
 	int		j;
 
 	j = 0;
 	i = 0;
 	if (export == 0)
+	{
+		free_tab(tab);
 		tab = sim_glob(NULL, 'g');
-	if (export == 1)
-		tab = sim_glob(NULL, 'G');
+	}
 	while (tab[i])
 	{
 		j = 0;
@@ -52,6 +52,8 @@ void	ft_print_env(int export)
 		}
 		i++;
 	}
+	if (tab != NULL)
+		free_tab(tab);
 }
 
 int	ft_tablen(char **tab)
@@ -71,4 +73,25 @@ int	ft_tablen(char **tab)
         i++;
     }
     return (i);
+}
+/**
+ * @brief Fait une copie d un tableaux et le retoune malloc
+ * @param tab Tableaux a copier
+ * @return Tableaux copier malloc
+*/
+char	**tab_cpy(char **tab)
+{
+	char	**cpy;
+	int		i;
+
+	i = ft_tablen(tab);
+	cpy = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (tab[i])
+	{
+		cpy[i] = ft_strdup(tab[i]);
+		i++;
+	}
+	cpy[i] = NULL;
+	return (cpy);
 }

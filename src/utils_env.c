@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 16:04:59 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:25:07 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	get_env(char **envp)
 	}
 	cpy_env[i] = 0;
 	sim_glob(cpy_env, 's');
-	set_export();
-	set_path();
+	//set_export();
+	//set_path();
 }
 
 void	free_glob(void)
