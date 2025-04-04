@@ -199,8 +199,7 @@ void			set_path(void);
 /*-------------------------UTILS_BUILT_IN------------------------------------*/
 int				ft_while_echo(char **args, int i, int j);
 int				ft_if_export(char **envi, int i, char *var, char *equal_pos);
-void			ft_if_unset(char **envp, char **export, char *var, int len,
-					int i);
+void			ft_if_unset(char **export, char *var, int len, int i);
 
 /*----------------------------UTILS_ENV--------------------------------------*/
 void			get_env(char **envp);
@@ -216,7 +215,7 @@ char			**sim_glob(char **tab, char c);
 char			**ft_tab_realloc(char **tab, size_t new_size);
 void			add_export(char **tab, char *str);
 void			ft_while_print_export(char **tab, int i, int j);
-int				ft_while_set_export(char **export, int i);
+int				ft_while_set_export(void);
 void			ft_if_modify_export(char *equal_pos, char *var, char **envi,
 					char **export);
 

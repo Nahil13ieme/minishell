@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_built_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 18:21:44 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:59:45 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,43 +47,49 @@ int	ft_if_export(char **envi, int i, char *var, char *equal_pos)
 			{
 				free(envi[i]);
 				envi[i] = ft_strdup(var);
+				return (0);
 			}
 			i++;
 		}
 	}
 	else
-	{
-		i = 0;
 		while (envi[i])
+		{
+			if (ft_strncmp(envi[i], var, ft_strlen(var)) == 0)
+				{
+					free(envi[i]);
+					envi[i] = ft_strdup(var);
+					return (0);
+				}
 			i++;
-	}
+		}
 	return (i);
 }
 
-void	ft_if_unset(char **envp, char **export, char *var, int len, int i)
+void	ft_if_unset(char **export, char *var, int len, int i)
 {
-	int	j;
+	char	**envp;
 
-	j = 0;
+	envp = sim_glob(NULL, 'g');
 	if (ft_strncmp(envp[i], var, len) == 0 && envp[i][len] == '=')
 	{
-		j = i;
 		free(envp[i]);
-		while (envp[j])
+		while (envp[i])
 		{
-			envp[j] = envp[j + 1];
-			j++;
+			if (envp[i + 1])
+				envp[i] = envp[i + 1];
+			i++;
 		}
 		return ;
 	}
 	if (ft_strncmp(export[i], var, len) == 0)
 	{
-		j = i;
 		free(export[i]);
-		while (export[j])
+		while (export[i])
 		{
-			export[j] = export[j + 1];
-			j++;
+			if(export[i + 1])
+				export[i] = export[i + 1];
+			i++;
 		}
 		return ;
 	}

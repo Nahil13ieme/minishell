@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 12:33:57 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:02:47 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,19 @@ void	ft_print_env(int export)
 
 int	ft_tablen(char **tab)
 {
-	int	i;
+    int	i;
 
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
+    if (!tab)
+        return (0);
+    i = 0;
+    while (tab[i])
+    {
+        if (!tab[i]) // Évite un accès mémoire invalide
+        {
+            printf("\n\n\nErreur: tab[%d] est NULL\n\n\n", i);
+            return (i);
+        }
+        i++;
+    }
+    return (i);
 }

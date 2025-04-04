@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 12:57:30 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:15:28 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,14 @@ void	ft_export(char *var, char **envi)
 		return ;
 	}
 	i = ft_if_export(envi, i, var, equal_pos);
-	new_envp = ft_tab_realloc(envi, 1);
-	new_envp[i] = ft_strdup(var);
-	new_envp[i + 1] = NULL;
-	sim_glob(new_envp, 's');
-	set_export();
+	if (i != 0)
+	{
+		new_envp = ft_tab_realloc(envi, 1);
+		new_envp[i] = ft_strdup(var);
+		new_envp[i + 1] = NULL;
+		sim_glob(new_envp, 's');
+		set_export();
+	}
 }
 
 /**
@@ -133,7 +136,7 @@ void	ft_unset(char *var)
 		len++;
 	while (envp[i])
 	{
-		ft_if_unset(envp, export, var, len, i);
+		ft_if_unset(export, var, len, i);
 		i++;
 	}
 	return ;

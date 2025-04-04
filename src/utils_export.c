@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:34:30 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 18:31:31 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:55:57 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ char	**sim_glob(char **tab, char c)
 {
 	static char	**export = NULL;
 	static char	**env = NULL;
+	int			i;
 
+	i = 0;
 	if (c == 'g')
 		return (env);
 	else if (c == 'G')
@@ -36,9 +38,8 @@ char	**ft_tab_realloc(char **tab, size_t new_size)
 
 	old_size = 0;
 	i = 0;
-	while (tab && tab[old_size])
-		old_size++;
-	new_tab = (char **)malloc(sizeof(char *) * (old_size + new_size + 1));
+	old_size = ft_tablen(tab);
+	new_tab = malloc(sizeof(char *) * (old_size + new_size + 1));
 	if (!new_tab)
 		return (NULL);
 	while (i < old_size)
@@ -98,10 +99,14 @@ void	ft_while_print_export(char **tab, int i, int j)
 	printf("\n");
 }
 
-int	ft_while_set_export(char **export, int i)
+int	ft_while_set_export(void)
 {
 	char	*cwd;
-
+	int i;
+	char **export;
+	
+	export = sim_glob(NULL, 'g');
+	i = 0;
 	while (export[i])
 	{
 		cwd = getenv("PWD");
@@ -109,6 +114,7 @@ int	ft_while_set_export(char **export, int i)
 		{
 			free(export[i]);
 			export[i] = ft_strjoin("PWD=", cwd);
+			sim_glob(export, 'S');
 			return (i);
 		}
 		i++;

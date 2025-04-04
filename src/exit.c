@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:54:41 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/04 13:04:28 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:56:06 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ void	ft_exit(char *arg)
 		status = atoi(arg);
 	else
 		status = get_exit_code();
-	printf("%d\n", status);
+	printf("exit\n");
 	exit(status);
 }
