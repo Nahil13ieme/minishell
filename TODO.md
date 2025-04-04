@@ -10,7 +10,7 @@
 # getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 # tgetnum, tgetstr, tgoto, tputs
 
-
+valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell
 # Source for making a shell :
 1.	 - https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
 2.   - https://github.com/kamalmarhubi/shell-workshop
@@ -87,3 +87,31 @@ Following these steps, you can implement a mechanism to search and launch the ri
 	- Just free the variables that need to be freed.
 	- main.c (prompt) ✅
 	- parser.c (command) ✅
+
+
+	tle-saut@minishell:/home/tle-saut/minishell$ export cat=at
+tle-saut@minishell:/home/tle-saut/minishell$ c$cat Makefile 
+c$cat: command not found
+tle-saut@minishell:/home/tle-saut/minishell$ echo $PWD/home
+/home/tle-saut/minishell/home
+tle-saut@minishell:/home/tle-saut/minishell$ echo $PWD]home
+/home/tle-saut/minishell]home
+tle-saut@minishell:/home/tle-saut/minishell$ echo a$PWD]home
+a$PWD]home
+tle-saut@minishell:/home/tle-saut/minishell$ echo "Je suis $USER/$HOME"
+malloc: Success
+➜  minishell git:(builtin/export) ✗ ./minishell
+tle-saut@minishell:/home/tle-saut/minishell$ ls && ls
+include  libft	Makefile  minishell  obj  readline.supp  readme_branch_github.txt  src	tester.txt  TODO.md
+include  libft	Makefile  minishell  obj  readline.supp  readme_branch_github.txt  src	tester.txt  TODO.md
+tle-saut@minishell:/home/tle-saut/minishell$ eco && echo $?
+eco: command not found
+tle-saut@minishell:/home/tle-saut/minishell$ echo
+
+tle-saut@minishell:/home/tle-saut/minishell$ eco || echo $?
+eco: command not found
+127
+tle-saut@minishell:/home/tle-saut/minishell$ echo "|"
+malloc: Success
+➜  minishell git:(builtin/export) ✗ ./minishell
+tle-saut@minishell:/home/tle-saut/minishell$ 
