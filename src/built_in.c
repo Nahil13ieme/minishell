@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 14:15:28 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:48:00 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,20 +124,28 @@ void	ft_unset(char *var)
 	int		i;
 	size_t	len;
 	char	**envp;
-	char	**export;
+	int		j;
 
 	envp = sim_glob(NULL, 'g');
-	export = sim_glob(NULL, 'G');
 	if (!var || !envp)
 		return ;
-	len = 0;
+	len = ft_strlen(var);
 	i = 0;
-	while (var[len])
-		len++;
 	while (envp[i])
 	{
-		ft_if_unset(export, var, len, i);
-		i++;
+		if (ft_strncmp(envp[i], var, len) == 0)
+			{	
+				j = i;
+				free(envp[i]);
+				while (envp[j + 1])
+					{
+						envp[j] = envp[j + 1];
+						j++;
+					}
+				envp[j] = NULL;
+			}
+		else
+			i++;
 	}
 	return ;
 }

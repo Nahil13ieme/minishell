@@ -199,7 +199,6 @@ void			set_path(void);
 /*-------------------------UTILS_BUILT_IN------------------------------------*/
 int				ft_while_echo(char **args, int i, int j);
 int				ft_if_export(char **envi, int i, char *var, char *equal_pos);
-void			ft_if_unset(char **export, char *var, int len, int i);
 
 /*----------------------------UTILS_ENV--------------------------------------*/
 void			get_env(char **envp);
