@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 18:26:06 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/04 21:16:20 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,14 @@ void	ft_echo(char **args)
 	i = 1;
 	j = 0;
 	newline = 1;
-	if (args[1] && ft_strncmp(args[1], "-n", 2) == 0)
+	if (args[i] && args[i][j] == '-')
 	{
-		newline = 0;
-		i++;
+		while (args[i][++j] == 'n');
+		if (args[i][j] == '\0')
+		{
+			newline = 0;
+			i++;
+		}
 	}
 	i = ft_while_echo(args, i, j);
 	if (newline)
