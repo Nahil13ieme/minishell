@@ -104,7 +104,7 @@ void			free_tree(t_btree *root);
 void			ft_echo(char **args);
 int				ft_cd(char *path);
 void			ft_pwd(void);
-void			ft_export(char *var, char **envi);
+void			ft_export(char *var);
 void			ft_unset(char *var);
 
 /* ------------------------EXECUTE_HEREDOC---------------------------------- */
@@ -198,7 +198,7 @@ void			set_path(void);
 
 /*-------------------------UTILS_BUILT_IN------------------------------------*/
 int				ft_while_echo(char **args, int i, int j);
-int				ft_if_export(char **envi, int i, char *var, char *equal_pos);
+int				ft_if_export(int i, char *var, char *equal_pos);
 
 /*----------------------------UTILS_ENV--------------------------------------*/
 void			get_env(char **envp);
@@ -237,5 +237,6 @@ char			**ft_tab_realloc(char **tab, size_t new_size);
 void			ft_print_env(char **tab, int export);
 int				ft_tablen(char **tab);
 char			**tab_cpy(char **tab);
+void			ft_old_pwd_replace(char *var);
 
 #endif //MINISHELL_H

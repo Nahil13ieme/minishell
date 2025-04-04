@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 16:48:00 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/04 18:17:57 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,19 @@ void	ft_echo(char **args)
  */
 int	ft_cd(char *path)
 {
-	char	**envi;
-	int		del;
-	int		i;
-
-	i = 0;
-	envi = sim_glob(NULL, 'g');
-	del = 1;
-	while (envi[i])
+	char	*buff;
+	char	*pwd;
+	buff = NULL;
+	if (return_env("HOME") == NULL)
+		return (perror("Something disapear"), 1);
+	if (chdir(path) == 0)
 	{
-		if (ft_strncmp(envi[i], "HOME=", 5) == 0)
-			del = 0;
-		i++;
+		pwd = return_env("PWD");
+		ft_export((ft_strjoin("OLDPWD=",pwd)));
+		buff = getcwd(buff, 0);
+		ft_export((ft_strjoin("PWD=", buff)));
 	}
-	if (!path && del == 0)
-		path = getenv("HOME");
-	else if (del == 1)
-	{
-		printf("minishell: cd: HOME not set\n");
-		set_exit_code(1);
-	}
-	if (chdir(path) != 0)
+	else
 		return (perror("cd"), 1);
 	return (0);
 }
@@ -83,12 +75,14 @@ void	ft_pwd(void)
  * @brief Commande built-in pour exporter une variable dans ENV.
  * @param var Variable a exporter.
  */
-void	ft_export(char *var, char **envi)
+void	ft_export(char *var)
 {
 	char	*equal_pos ;
 	int		i;
 	char	**new_envp;
-
+	char	**envi;
+	
+	envi = sim_glob(NULL, 'g');
 	if (!var)
 	{
 		print_sort_export();
@@ -103,7 +97,7 @@ void	ft_export(char *var, char **envi)
 		set_exit_code(1);
 		return ;
 	}
-	i = ft_if_export(envi, i, var, equal_pos);
+	i = ft_if_export(i, var, equal_pos);
 	if (i != 0)
 	{
 		new_envp = ft_tab_realloc(envi, 1);

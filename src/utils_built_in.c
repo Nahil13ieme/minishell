@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 16:44:15 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/04 17:46:32 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,11 @@ int	ft_while_echo(char **args, int i, int j)
 	return (i);
 }
 
-int	ft_if_export(char **envi, int i, char *var, char *equal_pos)
+int	ft_if_export(int i, char *var, char *equal_pos)
 {
+	char	**envi;
+
+	envi = sim_glob(NULL, 'g');
 	if (equal_pos)
 	{
 		while (envi[i])

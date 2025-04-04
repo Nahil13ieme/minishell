@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 16:34:16 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/04 18:03:45 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,24 @@ char	**tab_cpy(char **tab)
 	}
 	cpy[i] = NULL;
 	return (cpy);
+}
+void	ft_old_pwd_replace(char *var)
+{
+	char	**env;
+	int		i;
+
+	i = 0;
+	env = sim_glob(NULL, 'g');
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0)
+		{
+			free(env[i]);
+			env[i] = ft_strjoin("OLDPWD=",var);
+			if (var != NULL)
+				free(var);
+			sim_glob(env, 's');
+		}
+		i++;
+	}
 }
