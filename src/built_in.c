@@ -6,11 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/04 18:17:57 by tle-saut         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/05 07:49:12 by nbenhami         ###   ########.fr       */
->>>>>>> ce7f93686a11ecd92fb0b98c244594bac676296b
+/*   Updated: 2025/04/05 13:43:28 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +49,27 @@ int	ft_cd(char **args)
 {
 	char	*buff;
 	char	*pwd;
+	char	*home;
+	
+	home = return_env("HOME");
+	pwd = NULL;
 	buff = NULL;
-	if (return_env("HOME") == NULL)
-		return (perror("Something disapear"), 1);
-	if (chdir(path) == 0)
-	{
-		pwd = return_env("PWD");
-		ft_export((ft_strjoin("OLDPWD=",pwd)));
-		buff = getcwd(buff, 0);
-		ft_export((ft_strjoin("PWD=", buff)));
-	}
+	if (args[1] == NULL)
+		{
+			if (home == NULL)
+				return (free(home), perror("Something disapear"), 1);
+			chdir(home);
+			export_pwd(pwd, buff);
+		}
+	else if (chdir(args[1]) == 0)
+		export_pwd(pwd, buff);
 	else
-		return (perror("cd"), 1);
+		return (free(home), perror("cd"), 1);
+	if (home != NULL)
+		free(home);
 	return (0);
 }
+
 
 /**
  * @brief Commande built-in pour afficher le chemin actuel
@@ -85,7 +88,7 @@ void	ft_pwd(void)
  * @brief Commande built-in pour exporter une variable dans ENV.
  * @param var Variable a exporter.
  */
-void	ft_export(char *var)
+int	ft_export(char *var)
 {
 	char	*equal_pos ;
 	int		i;
@@ -96,7 +99,7 @@ void	ft_export(char *var)
 	if (!var)
 	{
 		print_sort_export();
-		return 0;
+		return (0);
 	}
 	equal_pos = ft_strchr(var, '=');
 	i = 0;
@@ -118,6 +121,7 @@ void	ft_export(char *var)
 		sim_glob(new_envp, 's');
 		set_export();
 	}
+	return (0);
 }
 
 /**

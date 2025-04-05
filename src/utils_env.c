@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 16:25:07 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/05 13:44:58 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*return_env(char *str)
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], str, len) == 0 && env[i][len] == '=')
-			return (env[i] + len + 1);
+			return (ft_strdup(env[i] + len + 1));
 		i++;
 	}
 	return (NULL);

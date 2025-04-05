@@ -104,7 +104,7 @@ void			free_tree(t_btree *root);
 void			ft_echo(t_btree *tree);
 int				ft_cd(char **args);
 void			ft_pwd(void);
-void			ft_export(char *var);
+int				ft_export(char *var);
 void			ft_unset(char *var);
 
 /* ------------------------EXECUTE_HEREDOC---------------------------------- */
@@ -201,6 +201,7 @@ void			set_path(void);
 /*-------------------------UTILS_BUILT_IN------------------------------------*/
 int				ft_while_echo(char **args, int i, int j);
 int				ft_if_export(int i, char *var, char *equal_pos);
+void			export_pwd(char *pwd, char *buff);
 
 /*----------------------------UTILS_ENV--------------------------------------*/
 void			get_env(char **envp);
