@@ -6,25 +6,22 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:34:30 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 16:28:06 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/05 13:52:50 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 char	**sim_glob(char **tab, char c)
-{
-	static char	**export = NULL;
+{;
 	static char	**env = NULL;
 
 	if (c == 'g')
 		return (env);
-	else if (c == 'G')
-		return (export);
 	else if (c == 's')
 		env = tab;
-	else if (c == 'S')
-		export = tab;
+	else if (c == 'f')
+		free_tab(env);
 	return (NULL);
 }
 

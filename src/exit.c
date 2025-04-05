@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:54:41 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/05 12:57:19 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/05 13:52:10 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ void	ft_exit(char *arg)
 	else
 		status = get_exit_code();
 	printf("exit\n");
+	sim_glob(NULL, 'f');
 	exit(status);
 }
