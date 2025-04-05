@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:29:22 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 18:29:08 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/04 21:16:59 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static char	*handle_simple_quote(char *line, int *i)
 	}
 	if (line[*i] == 0)
 		return (free(segment), free_glob(), NULL);
-	(*i)--;
 	return (segment);
 }
 
@@ -73,7 +72,6 @@ static char	*handle_double_quote(char *line, int *i, char **env)
 	}
 	if (line[*i] == 0)
 		return (free(segment), free_glob(), NULL);
-	(*i)--;
 	return (segment);
 }
 

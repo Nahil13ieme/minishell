@@ -6,23 +6,22 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 19:21:51 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/04 23:04:22 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*find_path(char *cmd, char **envp)
+char	*find_path(char *cmd)
 {
 	char	**paths;
 	char	*path;
 	int		i;
 	char	*part_path;
 
-	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	paths = ft_split(envp[i] + 5, ':');
+	paths = ft_split(return_env("PATH") + 5, ':');
+	if (!paths)
+		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
@@ -35,13 +34,10 @@ char	*find_path(char *cmd, char **envp)
 		i++;
 	}
 	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
-	return (0);
+	return (NULL);
 }
 
-static int	execute_child(char *path, char **cmd, char **envp)
+static int	execute_child(char *path, char **cmd)
 {
 	pid_t	pid1;
 	int		ret;
@@ -51,7 +47,7 @@ static int	execute_child(char *path, char **cmd, char **envp)
 	if (pid1 == 0)
 	{
 		setup_child_signals();
-		if (execve(path, cmd, envp) == -1)
+		if (execve(path, cmd, sim_glob(NULL, 'g')) == -1)
 			exit(EXIT_FAILURE);
 	}
 	else if (pid1 > 0)
@@ -61,49 +57,67 @@ static int	execute_child(char *path, char **cmd, char **envp)
 	return (ret);
 }
 
-int	execute_path(char **cmd, char **envp, int child)
+void	execute_path(t_btree *tree)
 {
 	char	*path;
-	int		ret;
 
-	ret = 0;
-	if (built_in_check(cmd[0], cmd, envp) == 0)
-		return (ret);
-	if (access(cmd[0], F_OK) == 0)
-		path = ft_strdup(cmd[0]);
+	if (built_in_check(tree->cmd[0]))
+	{
+		exec_built_in(tree);	
+		return ;
+	}
+	if (access(tree->cmd[0], F_OK) == 0)
+		path = ft_strdup(tree->cmd[0]);
 	else
-		path = find_path(cmd[0], envp);
+		path = find_path(tree->cmd[0]);
 	if (!path)
 	{
-		printf("%s: command not found\n", cmd[0]);
-		return (127);
+		printf("%s: command not found\n", tree->cmd[0]);
+		tree->status = 127;
+		return ;
 	}
-	if (child == 1)
-	{
-		if (execve(path, cmd, envp) == -1)
-			return (free(path), EXIT_FAILURE);
-	}
+	if (tree->child == 0)
+		tree->status = execute_child(path, tree->cmd);
 	else
-		ret = execute_child(path, cmd, envp);
-	return (free(path), (ret / 256));
+		if (execve(path, tree->cmd, sim_glob(NULL, 'g')) == -1)
+			return (free(path));
+	return (free(path));
 }
 
-int	built_in_check(char *str, char **args, char **envp)
+int	built_in_check(char *str)
 {
-	if (ft_strncmp(str, "echo", 4) == 0 && ft_strlen(str) == 4)
-		return (ft_echo(args), 0);
-	else if (ft_strncmp(str, "cd", 2) == 0 && ft_strlen(str) == 2)
-		return (ft_cd(args[1]), 0);
-	else if (ft_strncmp(str, "pwd", 3) == 0 && ft_strlen(str) == 3)
-		return (ft_pwd(), 0);
-	else if (ft_strncmp(str, "export", 6) == 0 && ft_strlen(str) == 6)
-		return (ft_export(args[1], envp), 0);
-	else if (ft_strncmp(str, "unset", 5) == 0 && ft_strlen(str) == 5)
-		return (ft_unset(args[1]), 0);
-	else if (ft_strncmp(str, "env", 3) == 0 && ft_strlen(str) == 3)
-		return (ft_env(envp), 0);
-	else if (ft_strncmp(str, "exit", 4) == 0 && ft_strlen(str) == 4)
-		return (ft_exit(args[1]), 0);
-	else
+	if (ft_strcmp(str, "echo") == 0)
 		return (1);
+	else if (ft_strcmp(str, "cd") == 0)
+		return (1);
+	else if (ft_strcmp(str, "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(str, "export") == 0)
+		return (1);
+	else if (ft_strcmp(str, "unset") == 0)
+		return (1);
+	else if (ft_strcmp(str, "env") == 0)
+		return (1);
+	else if (ft_strcmp(str, "exit") == 0)
+		return (1);
+	else
+		return (0);
+}
+
+void	exec_built_in(t_btree *tree)
+{
+	if (ft_strcmp(tree->cmd[0], "echo") == 0)
+		ft_echo(tree);
+	else if (ft_strcmp(tree->cmd[0], "cd") == 0)
+		tree->status = ft_cd(tree->cmd);
+	else if (ft_strcmp(tree->cmd[0], "pwd") == 0)
+		ft_pwd();
+	else if (ft_strcmp(tree->cmd[0], "export") == 0)
+		tree->status = ft_export(tree->cmd[1], sim_glob(NULL, 'g'));
+	else if (ft_strcmp(tree->cmd[0], "unset") == 0)
+		ft_unset(tree->cmd[1]);
+	else if (ft_strcmp(tree->cmd[0], "env") == 0)
+		ft_env(sim_glob(NULL, 'g'));
+	else if (ft_strcmp(tree->cmd[0], "exit") == 0)
+		ft_exit(tree->cmd[1]);
 }

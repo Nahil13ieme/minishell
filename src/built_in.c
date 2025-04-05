@@ -6,7 +6,11 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/04 18:17:57 by tle-saut         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/05 07:49:12 by nbenhami         ###   ########.fr       */
+>>>>>>> ce7f93686a11ecd92fb0b98c244594bac676296b
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +20,25 @@
  * @brief Commande built-in pour ecrire dans la sortie.
  * @param args Parametre a ecrire en char **
  */
-void	ft_echo(char **args)
+void	ft_echo(t_btree *tree)
 {
-	int	i;
-	int	newline;
-	int	j;
+	int		i;
+	int		newline;
+	int		j;
+	char	**args;
 
+	args = tree->cmd;
 	i = 1;
 	j = 0;
 	newline = 1;
-	if (args[1] && ft_strncmp(args[1], "-n", 2) == 0)
+	if (args[i] && args[i][j] == '-')
 	{
-		newline = 0;
-		i++;
+		while (args[i][++j] == 'n');
+		if (args[i][j] == '\0')
+		{
+			newline = 0;
+			i++;
+		}
 	}
 	i = ft_while_echo(args, i, j);
 	if (newline)
@@ -39,7 +49,7 @@ void	ft_echo(char **args)
  * @brief Commande built-in pour changer de repertoire.
  * @param path Nouveau chemin desirer. en char *
  */
-int	ft_cd(char *path)
+int	ft_cd(char **args)
 {
 	char	*buff;
 	char	*pwd;
@@ -86,16 +96,18 @@ void	ft_export(char *var)
 	if (!var)
 	{
 		print_sort_export();
-		return ;
+		return 0;
 	}
 	equal_pos = ft_strchr(var, '=');
 	i = 0;
-	if ((var[0] >= '0' && var[0] <= '9') || var[0] <= 32 || ft_strlen(var) == 0
-		|| ft_strchr(var, '.') != 0)
+	while (var[i] && isalpha(var[i]))
+		i++;
+	if ((var[i] != '=' && var[i] != 0) || i == 0)
 	{
-		printf("minishell: export: `%c': not a valid identifier\n", var[0]);
-		set_exit_code(1);
-		return ;
+		ft_putstr_fd("minishell: export: ", 2);
+		ft_putstr_fd(var, 2);
+		ft_putstr_fd(" not a valid identifier\n", 2);
+		return (1);
 	}
 	i = ft_if_export(i, var, equal_pos);
 	if (i != 0)

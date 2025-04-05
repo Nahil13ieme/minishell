@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:22:47 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 18:15:31 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/04 21:17:26 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*handle_word(char *line, int *i)
 		&& line[*i] != '<' && line[*i] != '>'
 		&& line[*i] != ';' && line[*i] != '|'
 		&& line[*i] != '&' && line[*i] != '\''
-		&& line[*i] != '"')
+		&& line[*i] != '"' && line[*i] != '$')
 		(*i)++;
 	len = *i - start;
 	segment = ft_substr(line, start, len);
@@ -62,7 +62,7 @@ int	ft_while_handle_segment(char *line, char **env, char *word, int i, char **se
 		if (!word)
 		{
 			free(*segment);
-			perror("malloc");
+			write(2, "Error: unclosed quotes\n", 24);
 			exit(EXIT_FAILURE);
 		}
 		i++;

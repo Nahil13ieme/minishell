@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 17:46:32 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/05 12:57:28 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ int	ft_while_echo(char **args, int i, int j)
 				j++;
 			}
 			else
-			{
 				printf("%c", args[i][j]);
-			}
 			j++;
 		}
 		if (args[i + 1])

@@ -101,8 +101,8 @@ t_btree			*create_node(t_cmd_type type, t_btree *left,
 void			free_tree(t_btree *root);
 
 /*-----------------------------BUILT IN--------------------------------------*/
-void			ft_echo(char **args);
-int				ft_cd(char *path);
+void			ft_echo(t_btree *tree);
+int				ft_cd(char **args);
 void			ft_pwd(void);
 void			ft_export(char *var);
 void			ft_unset(char *var);
@@ -112,6 +112,7 @@ void			execute_heredoc(t_btree *tree, char **envp);
 
 /* ----------------------EXECUTE_REDIRECTION-------------------------------- */
 void			exit_error(char *msg);
+void			open_fd(int count, t_btree *nodes[100], int o_flags, int std);
 //static void		execute_redir_in(t_btree *tree, char **envp);
 //static void		execute_redir_out(t_btree *tree, char **envp);
 //static void		execute_append(t_btree *tree, char **envp);
@@ -148,11 +149,12 @@ t_btree			*parse_pipeline(t_token_stream *ts);
 t_btree			*parse_redirection(t_token_stream *ts);
 
 /*---------------------------PATH_EXECUTE------------------------------------*/
-//static void		free_paths(char **paths);
-char			*find_path(char *cmd, char **envp);
-//static int		execute_child(char *path, char **cmd, char **envp);
-int				execute_path(char **cmd, char **envp, int child);
-int				built_in_check(char *str, char **args, char **envp);
+//static void	free_paths(char **paths);
+char			*find_path(char *cmd);
+void			exec_built_in(t_btree *tree);
+//static int	execute_child(char *path, char **cmd, char **envp);
+void			execute_path(t_btree *tree);
+int				built_in_check(char *str);
 
 /*-----------------------------PROCESS---------------------------------------*/
 void			process_line(char *line, char **envp);
