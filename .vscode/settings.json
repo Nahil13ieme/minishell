@@ -4,7 +4,10 @@
 		"initializer_list": "c",
 		"cstdlib": "c",
 		"color.h": "c",
-		"types.h": "c"
+		"types.h": "c",
+		"compare": "c",
+		"type_traits": "c",
+		"utility": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

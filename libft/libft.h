@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:08:00 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/16 16:29:19 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/04 22:43:15 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void			ft_putstr_fd(char const *s, int fd);
 void			*ft_realloc(void *ptr, size_t new_size, size_t old_size);
 char			**ft_split(char const *s, char c);
 char			*ft_strchr(char const *str, int c);
+int				ft_strcmp(char const *s1, char const *s2);
 char			*ft_strdup(char const *s);
 void			ft_striteri(char *s, void (*f)(unsigned int, char*));
 char			*ft_strjoin(char const *s1, char const *s2);

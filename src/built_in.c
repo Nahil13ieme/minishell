@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 21:16:20 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/05 07:49:12 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
  * @brief Commande built-in pour ecrire dans la sortie.
  * @param args Parametre a ecrire en char **
  */
-void	ft_echo(char **args)
+void	ft_echo(t_btree *tree)
 {
-	int	i;
-	int	newline;
-	int	j;
+	int		i;
+	int		newline;
+	int		j;
+	char	**args;
 
+	args = tree->cmd;
 	i = 1;
 	j = 0;
 	newline = 1;
@@ -43,7 +45,7 @@ void	ft_echo(char **args)
  * @brief Commande built-in pour changer de repertoire.
  * @param path Nouveau chemin desirer. en char *
  */
-int	ft_cd(char *path)
+int	ft_cd(char **args)
 {
 	char	**envi;
 	int		del;
@@ -52,20 +54,25 @@ int	ft_cd(char *path)
 	i = 0;
 	envi = sim_glob(NULL, 'g');
 	del = 1;
+	if (args[2])
+	{
+		printf("minishell: cd: too many arguments\n");
+		return (1);
+	}
 	while (envi[i])
 	{
 		if (ft_strncmp(envi[i], "HOME=", 5) == 0)
 			del = 0;
 		i++;
 	}
-	if (!path && del == 0)
-		path = getenv("HOME");
+	if (!args[1] && del == 0)
+		args[1] = getenv("HOME");
 	else if (del == 1)
 	{
 		printf("minishell: cd: HOME not set\n");
 		set_exit_code(1);
 	}
-	if (chdir(path) != 0)
+	if (chdir(args[1]) != 0)
 		return (perror("cd"), 1);
 	return (0);
 }
@@ -87,7 +94,7 @@ void	ft_pwd(void)
  * @brief Commande built-in pour exporter une variable dans ENV.
  * @param var Variable a exporter.
  */
-void	ft_export(char *var, char **envi)
+int	ft_export(char *var, char **envi)
 {
 	char	*equal_pos ;
 	int		i;
@@ -96,16 +103,18 @@ void	ft_export(char *var, char **envi)
 	if (!var)
 	{
 		print_sort_export();
-		return ;
+		return 0;
 	}
 	equal_pos = ft_strchr(var, '=');
 	i = 0;
-	if ((var[0] >= '0' && var[0] <= '9') || var[0] <= 32 || ft_strlen(var) == 0
-		|| ft_strchr(var, '.') != 0)
+	while (var[i] && isalpha(var[i]))
+		i++;
+	if ((var[i] != '=' && var[i] != 0) || i == 0)
 	{
-		printf("minishell: export: `%c': not a valid identifier\n", var[0]);
-		set_exit_code(1);
-		return ;
+		ft_putstr_fd("minishell: export: ", 2);
+		ft_putstr_fd(var, 2);
+		ft_putstr_fd(" not a valid identifier\n", 2);
+		return (1);
 	}
 	i = ft_if_export(envi, i, var, equal_pos);
 	new_envp = ft_tab_realloc(envi, 1);
@@ -113,6 +122,7 @@ void	ft_export(char *var, char **envi)
 	new_envp[i + 1] = NULL;
 	sim_glob(new_envp, 's');
 	set_export();
+	return (0);
 }
 
 /**

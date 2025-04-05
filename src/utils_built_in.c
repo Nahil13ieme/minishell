@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 18:21:44 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/05 03:15:38 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ int	ft_while_echo(char **args, int i, int j)
 				j++;
 			}
 			else
-			{
 				printf("%c", args[i][j]);
-			}
 			j++;
 		}
 		if (args[i + 1])
