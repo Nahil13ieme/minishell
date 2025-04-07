@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/07 11:11:49 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/07 11:22:43 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@ char	*find_path(char *cmd)
 	char	*path;
 	int		i;
 	char	*part_path;
+	char 	*tmp;
 
-	paths = ft_split(return_env("PATH") + 5, ':');
+	tmp = return_env("PATH");
+	paths = ft_split(tmp + 5, ':');
+	free(tmp);
 	if (!paths)
 		return (NULL);
 	i = 0;
