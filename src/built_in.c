@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/07 12:11:52 by tle-saut         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/07 12:10:03 by nbenhami         ###   ########.fr       */
+>>>>>>> 6a9d14363282bb07a5ed904d19cb9c9b65c408b1
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +29,10 @@ void	ft_echo(t_btree *tree)
 
 	args = tree->cmd;
 	i = 1;
-	j = 0;
+	
 	newline = 1;
-	if (args[i] && args[i][j] == '-')
+	j = 0;
+	while (args[i] && args[i][j] == '-')
 	{
 		while (args[i][++j] == 'n');
 		if (args[i][j] == '\0')
@@ -35,7 +40,9 @@ void	ft_echo(t_btree *tree)
 			newline = 0;
 			i++;
 		}
+		j = 0;
 	}
+	j = 0;
 	i = ft_while_echo(args, i, j);
 	if (newline)
 		printf("\n");
