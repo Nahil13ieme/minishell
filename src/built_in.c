@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/07 12:11:52 by tle-saut         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/07 12:10:03 by nbenhami         ###   ########.fr       */
->>>>>>> 6a9d14363282bb07a5ed904d19cb9c9b65c408b1
+/*   Updated: 2025/04/07 13:35:55 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +61,7 @@ int	ft_cd(char **args)
 		{
 			if (home == NULL)
 				return (free(home), perror("Something disapear"), 1);
+			free(home);
 			home = getenv("HOME");
 			chdir(home);
 			export_pwd(pwd, buff);
@@ -73,8 +70,6 @@ int	ft_cd(char **args)
 		export_pwd(pwd, buff);
 	else
 		return (free(home), perror("cd"), 1);
-	if (home != NULL)
-		free(home);
 	return (0);
 }
 

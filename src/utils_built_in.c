@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/07 12:12:05 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/07 13:37:22 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,6 @@ void	export_pwd(char *pwd, char *buff)
 	ft_export(temp);
 	free(temp);
 	free(tempold);
+	free(pwd);
+	free(buff);
 }

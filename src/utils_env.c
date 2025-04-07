@@ -6,22 +6,24 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/07 12:28:00 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/07 13:34:50 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 void	add_shellvl(void)
 {
 	int		nbr;
 	char	*str;
 	char	*ret;
+	char	*env;
 	
-	nbr = ft_atoi(return_env("SHLVL"));
+	env = return_env("SHLVL");
+	nbr = ft_atoi(env);
+	free(env);
 	nbr++;
 	str = ft_itoa(nbr);
-	free(return_env("SHLVL"));
+	ft_unset("SHLVL");
 	ret = ft_strjoin("SHLVL=", str);
 	ft_export(ret);
 	free(ret);
