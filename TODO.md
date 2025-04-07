@@ -11,6 +11,8 @@
 # tgetnum, tgetstr, tgoto, tputs
 
 valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell
+valgrind --trace-children=yes --show-leak-kinds=all --leak-check=full --suppressions=readline.supp ./minishell
+
 # Source for making a shell :
 1.	 - https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
 2.   - https://github.com/kamalmarhubi/shell-workshop
