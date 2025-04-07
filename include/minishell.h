@@ -201,7 +201,7 @@ void			set_path(void);
 /*-------------------------UTILS_BUILT_IN------------------------------------*/
 int				ft_while_echo(char **args, int i, int j);
 int				ft_if_export(int i, char *var, char *equal_pos);
-void			export_pwd(char *pwd, char *buff);
+void			export_pwd(char *buff);
 
 /*----------------------------UTILS_ENV--------------------------------------*/
 void			get_env(char **envp);
