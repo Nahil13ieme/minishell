@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/07 12:10:03 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/07 14:36:23 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,26 @@ void	ft_echo(t_btree *tree)
 int	ft_cd(char **args)
 {
 	char	*buff;
-	char	*pwd;
 	char	*home;
 	
 	home = return_env("HOME");
-	pwd = NULL;
 	buff = NULL;
 	if (args[1] == NULL)
 		{
 			if (home == NULL)
 				return (free(home), perror("Something disapear"), 1);
+			free(home);
+			home = getenv("HOME");
 			chdir(home);
-			export_pwd(pwd, buff);
+			export_pwd(buff);
 		}
 	else if (chdir(args[1]) == 0)
-		export_pwd(pwd, buff);
+	{
+		export_pwd(buff);
+		free(home);
+	}
 	else
 		return (free(home), perror("cd"), 1);
-	if (home != NULL)
-		free(home);
 	return (0);
 }
 

@@ -6,11 +6,29 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/05 13:44:58 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/07 14:30:17 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+void	add_shellvl(void)
+{
+	int		nbr;
+	char	*str;
+	char	*ret;
+	char	*env;
+	
+	env = return_env("SHLVL");
+	nbr = ft_atoi(env);
+	free(env);
+	nbr++;
+	str = ft_itoa(nbr);
+	ft_unset("SHLVL");
+	ret = ft_strjoin("SHLVL=", str);
+	ft_export(ret);
+	free(ret);
+	free(str);
+}
 
 void	get_env(char **envp)
 {
@@ -34,6 +52,7 @@ void	get_env(char **envp)
 	}
 	cpy_env[i] = 0;
 	sim_glob(cpy_env, 's');
+	add_shellvl();
 	//set_export();
 	//set_path();
 }
@@ -65,7 +84,7 @@ char	*return_env(char *str)
 	int		i;
 	char	**env;
 	int		len;
-
+	char	*ret;
 	len = ft_strlen(str);
 	env = sim_glob(NULL, 'g');
 	i = 0;
@@ -73,7 +92,10 @@ char	*return_env(char *str)
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], str, len) == 0 && env[i][len] == '=')
-			return (ft_strdup(env[i] + len + 1));
+		{
+			ret = ft_strdup(env[i] + len + 1);
+			return (ret);
+		}
 		i++;
 	}
 	return (NULL);

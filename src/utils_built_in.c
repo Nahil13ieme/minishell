@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/07 09:53:02 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:16:24 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ int	ft_while_echo(char **args, int i, int j)
 				j++;
 			}
 			else
+			{
+				sim_quotes(0, 's');
 				printf("%c", args[i][j]);
+			}
 			j++;
 		}
 		if (args[i + 1])
@@ -67,17 +70,20 @@ int	ft_if_export(int i, char *var, char *equal_pos)
 	return (i);
 }
 
-void	export_pwd(char *pwd, char *buff)
+void	export_pwd(char *buff)
 {
 	char	*tempold;
 	char	*temp;
+	char	*pwd;
 	
-	pwd = return_env("PWD");
+	pwd = getenv("PWD");
 	tempold = ft_strjoin("OLDPWD=",pwd);
+	ft_unset("OLDPWD");
 	ft_export(tempold);
 	buff = getcwd(buff, 0);
 	temp = ft_strjoin("PWD=", buff);
 	ft_export(temp);
 	free(temp);
 	free(tempold);
+	free(buff);
 }
