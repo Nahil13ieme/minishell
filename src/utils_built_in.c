@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_built_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/05 03:15:38 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/07 09:53:02 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_while_echo(char **args, int i, int j)
 		j = 0;
 		while (args[i][j])
 		{
-			if (args[i][j] == '$' && args[i][j + 1] == '?')
+			if (args[i][j] == '$' && args[i][j + 1] == '?' && sim_quotes(0, 'g') == 0)
 			{
 				printf("%d", get_exit_code());
 				j++;
@@ -35,8 +35,11 @@ int	ft_while_echo(char **args, int i, int j)
 	return (i);
 }
 
-int	ft_if_export(char **envi, int i, char *var, char *equal_pos)
+int	ft_if_export(int i, char *var, char *equal_pos)
 {
+	char	**envi;
+
+	envi = sim_glob(NULL, 'g');
 	if (equal_pos)
 	{
 		while (envi[i])
@@ -45,44 +48,36 @@ int	ft_if_export(char **envi, int i, char *var, char *equal_pos)
 			{
 				free(envi[i]);
 				envi[i] = ft_strdup(var);
+				return (0);
 			}
 			i++;
 		}
 	}
 	else
-	{
-		i = 0;
 		while (envi[i])
+		{
+			if (ft_strncmp(envi[i], var, ft_strlen(var)) == 0)
+				{
+					free(envi[i]);
+					envi[i] = ft_strdup(var);
+					return (0);
+				}
 			i++;
-	}
+		}
 	return (i);
 }
 
-void	ft_if_unset(char **envp, char **export, char *var, int len, int i)
+void	export_pwd(char *pwd, char *buff)
 {
-	int	j;
-
-	j = 0;
-	if (ft_strncmp(envp[i], var, len) == 0 && envp[i][len] == '=')
-	{
-		j = i;
-		free(envp[i]);
-		while (envp[j])
-		{
-			envp[j] = envp[j + 1];
-			j++;
-		}
-		return ;
-	}
-	if (ft_strncmp(export[i], var, len) == 0)
-	{
-		j = i;
-		free(export[i]);
-		while (export[j])
-		{
-			export[j] = export[j + 1];
-			j++;
-		}
-		return ;
-	}
+	char	*tempold;
+	char	*temp;
+	
+	pwd = return_env("PWD");
+	tempold = ft_strjoin("OLDPWD=",pwd);
+	ft_export(tempold);
+	buff = getcwd(buff, 0);
+	temp = ft_strjoin("PWD=", buff);
+	ft_export(temp);
+	free(temp);
+	free(tempold);
 }

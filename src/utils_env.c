@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 20:06:02 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/05 13:44:58 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ void	get_env(char **envp)
 	int		i;
 	char	**cpy_env;
 
-	i = 0;
-	while (envp[i])
-		i++;
+	i = ft_tablen(envp);
 	cpy_env = malloc(sizeof(char *) * (i + 1));
 	if (cpy_env == NULL)
 		return ;
@@ -34,10 +32,10 @@ void	get_env(char **envp)
 		}
 		i++;
 	}
-	cpy_env[i] = NULL;
+	cpy_env[i] = 0;
 	sim_glob(cpy_env, 's');
-	set_export();
-	set_path();
+	//set_export();
+	//set_path();
 }
 
 void	free_glob(void)
@@ -75,7 +73,7 @@ char	*return_env(char *str)
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], str, len) == 0 && env[i][len] == '=')
-			return (env[i] + len + 1);
+			return (ft_strdup(env[i] + len + 1));
 		i++;
 	}
 	return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:10:31 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 18:13:15 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:31:10 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,25 @@ void	print_sort_export(void)
 	int		size;
 	char	**tab;
 
-	tab = sim_glob(NULL, 'G');
 	size = 0;
 	i = 0;
-	while (tab[size])
-		size++;
+	tab = tab_cpy(sim_glob(NULL, 'g'));
+	size = ft_tablen(tab);
 	while (i < size - 1)
 	{
 		if (tab[0][0] > tab[1][0])
 			i = 0;
 		if ((tab[i][0]) > (tab[i + 1][0]))
 		{
-			swap_tab(&tab[i], &tab[i + 1]);
-			i = 0;
+			if (tab[i + 1])
+			{
+				swap_tab(&tab[i], &tab[i + 1]);
+				i = 0;
+			}
 		}
 		i++;
 	}
-	sim_glob(tab, 'S');
-	ft_print_env(1);
+	ft_print_env(tab, 1);
 }
 
 void	set_export(void)
@@ -52,18 +53,19 @@ void	set_export(void)
 	char	**env;
 	char	**cpy;
 	int		i;
+	int		len;
 
-	env = sim_glob(NULL, 'g');
-	cpy = malloc(sizeof(char *) * (ft_tablen(env) + 1));
 	i = 0;
-	while (env[i])
+	env = sim_glob(NULL, 'g');
+	len = ft_tablen(env);
+	cpy = (char **)malloc(sizeof(char *) * (len + 1));
+	while (i < len + 1)
 	{
 		cpy[i] = env[i];
 		i++;
 	}
-	env = sim_glob(NULL, 'G');
-	free(env);
 	sim_glob(cpy, 'S');
+	free(cpy);
 }
 
 void	modifi_env_export(char *var)
@@ -82,22 +84,24 @@ void	set_path(void)
 {
 	char	**envi;
 	int		i;
-	char	**export;
+	//char	**export;
 	char	*cwd;
 
 	i = 0;
 	envi = sim_glob(NULL, 'g');
-	export = sim_glob(NULL, 'G');
+	//export = sim_glob(NULL, 'G');
+	cwd = NULL;
 	while (envi[i])
 	{
 		cwd = getenv("PATH");
 		if (ft_strncmp(envi[i], "PATH=", 5) == 0)
 		{
+			free(envi[i]);
 			envi[i] = ft_strjoin("PATH=", cwd);
+			sim_glob(envi, 's');
 			break ;
 		}
 		i++;
 	}
-	i = 0;
-	i = ft_while_set_export(export, i);
+	//ft_while_set_export();
 }
