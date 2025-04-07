@@ -1,26 +1,0 @@
-[?2004h[92mtle-saut@minishell[0;37m:[0;94m/home/tle-saut/minishell[0;37m$ ls
-[?2004linclude
-libft
-Makefile
-minishell
-obj
-readline.supp
-readme_branch_github.txt
-src
-tester.txt
-test.txt
-TODO.md
-[?2004h[92mtle-saut@minishell[0;37m:[0;94m/home/tle-saut/minishell[0;37m$ ls
-[?2004linclude
-libft
-Makefile
-minishell
-obj
-readline.supp
-readme_branch_github.txt
-src
-tester.txt
-test.txt
-TODO.md
-[?2004h[92mtle-saut@minishell[0;37m:[0;94m/home/tle-saut/minishell[0;37m$ ls[Kls[K[?2004l
-exit

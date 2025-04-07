@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:54:41 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/05 13:52:10 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/07 10:57:17 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ void	ft_exit(char *arg)
 		status = get_exit_code();
 	printf("exit\n");
 	sim_glob(NULL, 'f');
+	set_root(NULL, 'f');
 	exit(status);
 }
