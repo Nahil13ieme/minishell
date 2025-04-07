@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:26:03 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 23:07:18 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/07 11:44:35 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	process_line(char *line, char **envp)
 		ts = tokenize_input(line, envp);
 		if (!validate_token_sequence(ts))
 		{
+			set_exit_code(2);
 			free_token_stream(ts);
 			return ;
 		}
