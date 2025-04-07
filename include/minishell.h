@@ -241,5 +241,6 @@ void			ft_print_env(char **tab, int export);
 int				ft_tablen(char **tab);
 char			**tab_cpy(char **tab);
 void			ft_old_pwd_replace(char *var);
+int				sim_quotes(int	nbr, char c);
 
 #endif //MINISHELL_H

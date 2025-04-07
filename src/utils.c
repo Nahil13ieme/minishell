@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 18:03:45 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/07 09:49:01 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,19 @@ void	ft_old_pwd_replace(char *var)
 		}
 		i++;
 	}
+}
+int	sim_quotes(int	nbr, char c)
+{
+	static int	simple_quote = 0;
+	static int	double_quote = 0;
+	
+	if (c == 's')
+		simple_quote = nbr;
+	else if (c == 'S')
+		double_quote = nbr;
+	else if (c == 'g')
+		return (simple_quote);
+	else if (c == 'G')
+		return (double_quote);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:29:22 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/04 21:16:59 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/07 09:52:27 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static char	*handle_simple_quote(char *line, int *i)
 		perror("substr");
 		exit(EXIT_FAILURE);
 	}
+	sim_quotes(1, 's');
 	if (line[*i] == 0)
 		return (free(segment), free_glob(), NULL);
 	return (segment);
