@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/07 09:53:02 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/07 12:12:05 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	export_pwd(char *pwd, char *buff)
 	char	*temp;
 	
 	pwd = return_env("PWD");
+	if (pwd == NULL)
+		pwd = getenv("PWD");
 	tempold = ft_strjoin("OLDPWD=",pwd);
 	ft_export(tempold);
 	buff = getcwd(buff, 0);

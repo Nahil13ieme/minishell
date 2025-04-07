@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/05 13:43:28 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/07 12:11:52 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	ft_cd(char **args)
 		{
 			if (home == NULL)
 				return (free(home), perror("Something disapear"), 1);
+			home = getenv("HOME");
 			chdir(home);
 			export_pwd(pwd, buff);
 		}

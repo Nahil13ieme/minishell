@@ -208,6 +208,7 @@ void			get_env(char **envp);
 void			free_glob(void);
 void			ft_env(char **envp);
 char			*return_env(char *str);
+void			add_shellvl(void);
 
 /*--------------------------UTILS_EXECUTE------------------------------------*/
 void			ft_if_execute_andor(t_btree *tree, char **envp);
