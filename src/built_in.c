@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/07 13:43:32 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/07 13:57:10 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	ft_cd(char **args)
 		export_pwd(pwd, buff);
 	else
 		return (free(home), perror("cd"), 1);
-	return (free(home), 0);
+	return (0);
 }
 
 

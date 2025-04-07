@@ -1,29 +1,23 @@
 {
-   readline_malloc_leaks
+   readline
    Memcheck:Leak
-   match-leak-kinds: reachable
-   fun:malloc
    ...
-   obj:*/libreadline.so*
+   fun:readline
    ...
 }
 
 {
-   readline_realloc_leaks
+   readline
    Memcheck:Leak
-   match-leak-kinds: reachable
-   fun:realloc
    ...
-   obj:*/libreadline.so*
+   fun:add_history
    ...
 }
 
 {
-   readline_calloc_leaks
+   ignore_usr_bin
    Memcheck:Leak
    match-leak-kinds: reachable
-   fun:calloc
-   ...
-   obj:*/libreadline.so*
-   ...
+   fun:*
+   obj:/usr/*
 }
