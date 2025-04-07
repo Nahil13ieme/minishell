@@ -38,5 +38,5 @@ int	main(int ac, char **av, char **env)
 		process_line(line, sim_glob(NULL, 'g'));
 		free(line);
 	}
-	return (0);
+	return (free_glob(), 0);
 }
