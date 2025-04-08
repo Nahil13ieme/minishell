@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 05:14:26 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 14:18:54 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ void	execute_path(t_btree *tree)
 		exec_built_in(tree);	
 		return ;
 	}
-	if (access(tree->cmd[0], F_OK) == 0 && check_dir(tree, tree->cmd[0]))
+	if (access(tree->cmd[0], F_OK) == 0)
 		path = ft_strdup(tree->cmd[0]);
 	else
 		path = find_path(tree->cmd[0]);
-	if (check_dir(tree, path) == 1)
+	if (check_dir(tree) == 1)
 		return (free(path));
 	if (!path)
 	{
