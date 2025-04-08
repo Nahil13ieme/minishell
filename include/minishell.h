@@ -243,7 +243,7 @@ char			**tab_cpy(char **tab);
 void			ft_old_pwd_replace(char *var);
 int				sim_quotes(int	nbr, char c);
 
-int				check_dir(t_btree *tree, char *path);
+int				check_dir(t_btree *tree);
 
 /*----------------------------FT_FPRINTF-------------------------------------*/
 

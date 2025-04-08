@@ -6,7 +6,11 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/08 14:04:03 by tle-saut         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/08 14:18:54 by nbenhami         ###   ########.fr       */
+>>>>>>> 534b1b149ce80bcff1a598895aaf3d8e67f721d5
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +79,11 @@ void	execute_path(t_btree *tree)
 		exec_built_in(tree);	
 		return ;
 	}
-	if (access(tree->cmd[0], F_OK) == 0 && check_dir(tree, tree->cmd[0]))
+	if (access(tree->cmd[0], F_OK) == 0)
 		path = ft_strdup(tree->cmd[0]);
 	else
 		path = find_path(tree->cmd[0]);
-	if (check_dir(tree, path) == 1)
+	if (check_dir(tree) == 1)
 		return (free(path));
 	if (!path)
 	{
