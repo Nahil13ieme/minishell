@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 00:37:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/07 17:07:36 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 05:20:53 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	apply_heredoc(t_btree *tree, int child)
 	free_tab(content);
 }
 
-void execute_heredoc(t_btree *tree, char **envp)
+void execute_heredoc(t_btree *tree)
 {
 	t_btree	*nodes[100];
 	int		count;
@@ -88,7 +88,7 @@ void execute_heredoc(t_btree *tree, char **envp)
 	while (--count >= 0)
 		apply_heredoc(nodes[count], count);
 	if (cmd_node)
-		execute_tree(cmd_node, envp);
+		execute_tree(cmd_node);
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 		exit_error("dup2");
 	close(saved_stdin);

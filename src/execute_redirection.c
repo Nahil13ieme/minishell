@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/05 07:49:33 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 05:20:47 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exit_error(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-static void	execute_redir_in(t_btree *tree, char **envp)
+static void	execute_redir_in(t_btree *tree)
 {
 	t_btree *nodes[100];
 	int		count;
@@ -38,13 +38,13 @@ static void	execute_redir_in(t_btree *tree, char **envp)
 		exit_error("dup");
 	open_fd(count, nodes, O_RDONLY, STDIN_FILENO);
 	if (cmd_node)
-		execute_tree(cmd_node, envp);
+		execute_tree(cmd_node);
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 		exit_error("dup2");
 	close(saved_stdin);
 }
 
-static void execute_redir_out(t_btree *tree, char **envp)
+static void execute_redir_out(t_btree *tree)
 {
 	t_btree *nodes[100];
 	int		count;
@@ -63,7 +63,7 @@ static void execute_redir_out(t_btree *tree, char **envp)
 		exit_error("dup");
 	open_fd(count, nodes, O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO);
 	if (cmd_node)
-		execute_tree(cmd_node, envp);
+		execute_tree(cmd_node);
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		exit_error("dup2");
 	close(saved_stdout);
@@ -89,7 +89,7 @@ void open_fd(int count, t_btree * nodes[100], int o_flags, int std)
 	}
 }
 
-static void	execute_append(t_btree *tree, char **envp)
+static void	execute_append(t_btree *tree)
 {
 	t_btree *nodes[100];
 	int		count;
@@ -108,20 +108,20 @@ static void	execute_append(t_btree *tree, char **envp)
 		exit_error("dup");
 	open_fd(count, nodes, O_WRONLY | O_CREAT | O_APPEND, STDOUT_FILENO);
 	if (cmd_node)
-		execute_tree(cmd_node, envp);
+		execute_tree(cmd_node);
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		exit_error("dup2");
 	close(saved_stdout);
 }
 
-void	execute_redirection(t_btree *tree, char **envp)
+void	execute_redirection(t_btree *tree)
 {
 	if (tree->type == NODE_REDIR_IN)
-		execute_redir_in(tree, envp);
+		execute_redir_in(tree);
 	else if (tree->type == NODE_REDIR_OUT)
-		execute_redir_out(tree, envp);
+		execute_redir_out(tree);
 	else if (tree->type == NODE_APPEND)
-		execute_append(tree, envp);
+		execute_append(tree);
 	else if (tree->type == NODE_HEREDOC)
-		execute_heredoc(tree, envp);
+		execute_heredoc(tree);
 }

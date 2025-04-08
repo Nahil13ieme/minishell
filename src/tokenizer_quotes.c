@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:29:22 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 04:54:45 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 05:32:41 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*handle_simple_quote(char *line, int *i)
 	}
 	sim_quotes(1, 's');
 	if (line[*i] == 0)
-		return (free(segment), free_glob(), NULL);
+		return (free(segment), NULL);
 	return (segment);
 }
 
@@ -72,7 +72,7 @@ static char	*handle_double_quote(char *line, int *i)
 		(*i)++;
 	}
 	if (line[*i] == 0)
-		return (free(segment), free_glob(), NULL);
+		return (free(segment), NULL);
 	return (segment);
 }
 
@@ -104,9 +104,8 @@ int	handle_segment(t_token_stream *ts, char *line, int i)
 	if (i == -1)
 	{
 		free(segment);
-		free_token_stream(ts);
 		write(2, "Error: unclosed quotes\n", 24);
-		exit(EXIT_FAILURE);
+		return (-1);
 	}
 	add_token(ts, create_token(TOKEN_WORD, segment));
 	return (free(segment), i);

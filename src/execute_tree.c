@@ -6,13 +6,13 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/05 07:51:40 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 05:19:45 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno)
+static pid_t	execute_pid(t_btree *tree, int *fd, int fileno)
 {
 	pid_t	pid;
 
@@ -30,7 +30,7 @@ static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno)
 			close(fd[1]);
 		close(fd[fileno]);
 		tree->child = 1;
-		execute_tree(tree, envp);
+		execute_tree(tree);
 		set_root(NULL, 'f');
 		free_glob();
 		exit(EXIT_FAILURE);
@@ -38,7 +38,7 @@ static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno)
 	return (pid);
 }
 
-static void	execute_pipeline(t_btree *tree, char **envp)
+static void	execute_pipeline(t_btree *tree)
 {
 	int		fd[2];
 	pid_t	pid1;
@@ -51,15 +51,15 @@ static void	execute_pipeline(t_btree *tree, char **envp)
 		perror("pipe");
 		exit(EXIT_FAILURE);
 	}
-	pid1 = execute_pid(tree->left, envp, fd, STDOUT_FILENO);
-	pid2 = execute_pid(tree->right, envp, fd, STDIN_FILENO);
+	pid1 = execute_pid(tree->left, fd, STDOUT_FILENO);
+	pid2 = execute_pid(tree->right, fd, STDIN_FILENO);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid1, &tree->left->status, 0);
 	waitpid(pid2, &tree->right->status, 0);
 }
 
-void	execute_tree(t_btree *tree, char **envp)
+void	execute_tree(t_btree *tree)
 {
 	if (tree == NULL)
 		return ;
@@ -72,17 +72,17 @@ void	execute_tree(t_btree *tree, char **envp)
 		}
 		execute_path(tree);
 	}
-	ft_if_execute_andor(tree, envp);
+	ft_if_execute_andor(tree);
 	if (tree->type == NODE_SEMICOLON)
 	{
-		execute_tree(tree->left, envp);
-		execute_tree(tree->right, envp);
+		execute_tree(tree->left);
+		execute_tree(tree->right);
 		tree->status = tree->right->status;
 	}
 	if (tree->type == NODE_PIPE)
-		execute_pipeline(tree, envp);
+		execute_pipeline(tree);
 	if (tree->type == NODE_REDIR_IN || tree->type == NODE_REDIR_OUT
 		|| tree->type == NODE_APPEND || tree->type == NODE_HEREDOC)
-		execute_redirection(tree, envp);
+		execute_redirection(tree);
 	set_exit_code(tree->status);
 }

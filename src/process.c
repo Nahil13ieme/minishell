@@ -6,20 +6,20 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:26:03 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 04:36:49 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 05:34:49 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	process_line(char *line, char **envp)
+void	process_line(char *line)
 {
 	t_token_stream	*ts;
 
 	if (line[0])
 	{
 		add_history(line);
-		ts = tokenize_input(line, envp);
+		ts = tokenize_input(line);
 		if (!validate_token_sequence(ts))
 		{
 			set_exit_code(2);
@@ -30,7 +30,7 @@ void	process_line(char *line, char **envp)
 		free_token_stream(ts);
 		if (set_root(NULL, 'g'))
 		{
-			execute_tree(set_root(NULL, 'g'), envp);
+			execute_tree(set_root(NULL, 'g'));
 			set_exit_code(set_root(NULL, 'g')->status);
 			set_root(NULL, 'f');
 		}

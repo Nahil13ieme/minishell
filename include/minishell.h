@@ -108,22 +108,22 @@ int				ft_export(char *var);
 void			ft_unset(char *var);
 
 /* ------------------------EXECUTE_HEREDOC---------------------------------- */
-void			execute_heredoc(t_btree *tree, char **envp);
+void			execute_heredoc(t_btree *tree);
 
 /* ----------------------EXECUTE_REDIRECTION-------------------------------- */
 void			exit_error(char *msg);
 void			open_fd(int count, t_btree *nodes[100], int o_flags, int std);
-//static void		execute_redir_in(t_btree *tree, char **envp);
-//static void		execute_redir_out(t_btree *tree, char **envp);
-//static void		execute_append(t_btree *tree, char **envp);
-void			execute_redirection(t_btree *tree, char **envp);
+//static void		execute_redir_in(t_btree *tree);
+//static void		execute_redir_out(t_btree *tree);
+//static void		execute_append(t_btree *tree);
+void			execute_redirection(t_btree *tree);
 
 /*---------------------------EXECUTE_TREE------------------------------------*/
-//static void		execute_and(t_btree *tree, char **envp);
-//static void		execute_or(t_btree *tree, char **envp);
-//static pid_t	execute_pid(t_btree *tree, char **envp, int *fd, int fileno);
-//static void		execute_pipeline(t_btree *tree, char **envp);
-void			execute_tree(t_btree *tree, char **envp);
+//static void		execute_and(t_btree *tree);
+//static void		execute_or(t_btree *tree);
+//static pid_t	execute_pid(t_btree *tree, int *fd, int fileno);
+//static void		execute_pipeline(t_btree *tree);
+void			execute_tree(t_btree *tree);
 
 /*-------------------------------EXIT----------------------------------------*/
 void			set_exit_code(int code);
@@ -152,12 +152,12 @@ t_btree			*parse_redirection(t_token_stream *ts);
 //static void	free_paths(char **paths);
 char			*find_path(char *cmd);
 void			exec_built_in(t_btree *tree);
-//static int	execute_child(char *path, char **cmd, char **envp);
+//static int	execute_child(char *path, char **cmd);
 void			execute_path(t_btree *tree);
 int				built_in_check(char *str);
 
 /*-----------------------------PROCESS---------------------------------------*/
-void			process_line(char *line, char **envp);
+void			process_line(char *line);
 
 /*--------------------------SIGNAL_HANDLER-----------------------------------*/
 void			setup_signals(void);
@@ -209,7 +209,7 @@ char			*return_env(char *str);
 void			add_shellvl(void);
 
 /*--------------------------UTILS_EXECUTE------------------------------------*/
-void			ft_if_execute_andor(t_btree *tree, char **envp);
+void			ft_if_execute_andor(t_btree *tree);
 
 /*---------------------------UTILS_EXPORT------------------------------------*/
 char			**sim_glob(char **tab, char c);

@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:18:24 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 04:50:45 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 05:35:56 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,12 @@ t_token_stream	*tokenize_input(char *line)
 		if (line[i] == '\0')
 			break ;
 		i = process_char(ts, line, i);
+		if (i == -1)
+		{
+			free_token_stream(ts);
+			ts = create_token_stream();
+			return (ts);
+		}
 	}
 	return (ts);
 }
