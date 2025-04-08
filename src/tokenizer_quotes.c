@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:29:22 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/07 09:52:27 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:13:37 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ static char	*handle_simple_quote(char *line, int *i)
 	}
 	sim_quotes(1, 's');
 	if (line[*i] == 0)
-		return (free(segment), free_glob(), NULL);
+		return (free(segment), NULL);
 	return (segment);
 }
 
-static void	double_quote_segment(char **segment, char *line, int *i)
+static void	double_quote_segment(char *line, char **segment, int *i)
 {
 	char	*tmp;
 
@@ -49,7 +49,7 @@ static void	double_quote_segment(char **segment, char *line, int *i)
 	}
 }
 
-static char	*handle_double_quote(char *line, int *i, char **env)
+static char	*handle_double_quote(char *line, int *i)
 {
 	char	*segment;
 	char	*tmp;
@@ -62,17 +62,17 @@ static char	*handle_double_quote(char *line, int *i, char **env)
 		if (line[*i] == '$')
 		{
 			tmp = segment;
-			var_value = handle_env_variable(line, i, env);
+			var_value = handle_env_variable(line, i);
 			segment = ft_strjoin(segment, var_value);
 			free(var_value);
 			free(tmp);
 		}
 		else
-			double_quote_segment(&segment, line, i);
+			double_quote_segment(line, &segment, i);
 		(*i)++;
 	}
 	if (line[*i] == 0)
-		return (free(segment), free_glob(), NULL);
+		return (free(segment), NULL);
 	return (segment);
 }
 
@@ -83,24 +83,30 @@ static char	*handle_double_quote(char *line, int *i, char **env)
  * @param i     Index actuel dans la ligne
  * @return      Nouvel index après traitement
  */
-char	*handle_quoted_string(char *line, int *i, char **env)
+char	*handle_quoted_string(char *line, int *i)
 {
 	if (line[*i] == '\'')
 		return (handle_simple_quote(line, i));
 	else
-		return (handle_double_quote(line, i, env));
+		return (handle_double_quote(line, i));
 }
 
-int	handle_segment(t_token_stream *ts, char *line, int i, char **env)
+int	handle_segment(t_token_stream *ts, int i)
 {
 	char	*segment;
 	char	*word;
 
 	word = NULL;
 	segment = NULL;
-	while (line[i] && ft_isspace(line[i]))
+	while (ts->line[i] && ft_isspace(ts->line[i]))
 		i++;
-	i = ft_while_handle_segment(line, env, word, i, &segment);
+	i = ft_while_handle_segment(ts, word, i, &segment);
+	if (i == -1)
+	{
+		free(segment);
+		write(2, "Error: unclosed quotes\n", 24);
+		return (-1);
+	}
 	add_token(ts, create_token(TOKEN_WORD, segment));
 	return (free(segment), i);
 }

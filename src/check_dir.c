@@ -1,40 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                          :+:      :+:    :+:   */
+/*   check_dir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/03 14:26:03 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 05:34:49 by nbenhami         ###   ########.fr       */
+/*   Created: 2025/04/08 05:04:22 by nbenhami          #+#    #+#             */
+/*   Updated: 2025/04/08 05:13:02 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	process_line(char *line)
+int	check_dir(t_btree *tree, char *path)
 {
-	t_token_stream	*ts;
+	DIR	*dir;
 
-	if (line[0])
+	if (path && path[ft_strlen(path) - 1] == '/')
 	{
-		add_history(line);
-		ts = tokenize_input(line);
-		if (!validate_token_sequence(ts))
+		dir = opendir(path);
+		if (dir)
 		{
-			set_exit_code(2);
-			free_token_stream(ts);
-			return ;
+			write(2, path, ft_strlen(path));
+			write(2, "/: ", 3);
+			write(2, "is a directory\n", 15);
+			tree->status = 126;
+			return (1);
 		}
-		set_root(parse_input(ts), 's');
-		free_token_stream(ts);
-		if (set_root(NULL, 'g'))
-		{
-			execute_tree(set_root(NULL, 'g'));
-			set_exit_code(set_root(NULL, 'g')->status);
-			set_root(NULL, 'f');
-		}
-		else
-			printf("Error parsing input\n");
 	}
+	return (0);
 }

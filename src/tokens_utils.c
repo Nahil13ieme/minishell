@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:26:49 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 01:17:09 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 04:37:57 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ static int	validate_token_list(t_token_stream *ts)
 int	validate_token_sequence(t_token_stream *ts)
 {
 	if (ts->size == 0)
-	{
-		ft_putstr_fd("Error: Empty token stream\n", 2);
 		return (0);
-	}
 	if (is_control(ts->tokens[0]->type))
 	{
 		printf("minishell: syntax error near unexpected token `%s'\n",

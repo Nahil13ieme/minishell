@@ -6,18 +6,18 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:18:23 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/03 18:09:58 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 05:20:05 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	execute_and(t_btree *tree, char **envp)
+static void	execute_and(t_btree *tree)
 {
-	execute_tree(tree->left, envp);
+	execute_tree(tree->left);
 	if (tree->left->status == 0)
 	{
-		execute_tree(tree->right, envp);
+		execute_tree(tree->right);
 		if (tree->right->status == 0)
 			tree->status = 0;
 		else
@@ -30,12 +30,12 @@ static void	execute_and(t_btree *tree, char **envp)
 	}
 }
 
-static void	execute_or(t_btree *tree, char **envp)
+static void	execute_or(t_btree *tree)
 {
-	execute_tree(tree->left, envp);
+	execute_tree(tree->left);
 	if (tree->left->status != 0)
 	{
-		execute_tree(tree->right, envp);
+		execute_tree(tree->right);
 		if (tree->right->status != 0)
 			tree->status = -1;
 		else
@@ -48,10 +48,10 @@ static void	execute_or(t_btree *tree, char **envp)
 	}
 }
 
-void	ft_if_execute_andor(t_btree *tree, char **envp)
+void	ft_if_execute_andor(t_btree *tree)
 {
 	if (tree->type == NODE_AND)
-		execute_and(tree, envp);
+		execute_and(tree);
 	else if (tree->type == NODE_OR)
-		execute_or(tree, envp);
+		execute_or(tree);
 }
