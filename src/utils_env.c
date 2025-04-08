@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/07 14:30:17 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:42:52 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,11 @@ char	*return_env(char *str)
 	char	**env;
 	int		len;
 	char	*ret;
+	char	*tmp;
+	
 	len = ft_strlen(str);
 	env = sim_glob(NULL, 'g');
 	i = 0;
-
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], str, len) == 0 && env[i][len] == '=')
@@ -98,6 +99,7 @@ char	*return_env(char *str)
 		}
 		i++;
 	}
-	return (NULL);
+	tmp = ft_strdup(getenv(str));
+	return (tmp);
 }
 

@@ -15,6 +15,7 @@
 /******************************INCLUDE****************************************/
 
 # include <stdio.h>
+# include <stdarg.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
@@ -244,5 +245,9 @@ void			ft_old_pwd_replace(char *var);
 int				sim_quotes(int	nbr, char c);
 
 int				check_dir(t_btree *tree);
+
+/*----------------------------FT_FPRINTF-------------------------------------*/
+
+unsigned int	ft_fprintf(const char *str, ...);
 
 #endif //MINISHELL_H

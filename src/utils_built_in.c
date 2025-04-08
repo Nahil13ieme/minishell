@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 16:25:41 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:04:34 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,7 @@ int	ft_while_echo(char **args, int i, int j)
 		j = 0;
 		while (args[i][j])
 		{
-			if (args[i][j] == '$' && args[i][j + 1] == '?' && sim_quotes(0, 'g') == 0)
-			{
-				printf("%d", get_exit_code());
-				j++;
-			}
-			else
-			{
-				sim_quotes(0, 's');
-				printf("%c", args[i][j]);
-			}
+			printf("%c", args[i][j]);
 			j++;
 		}
 		if (args[i + 1])
@@ -75,15 +66,22 @@ void	export_pwd(char *buff)
 	char	*tempold;
 	char	*temp;
 	char	*pwd;
-	
-	pwd = getenv("PWD");
+	int		freeint;
+
+	freeint = 0;
+	pwd = return_env("PWD");
+	buff = getcwd(buff, 0);
+	if (buff == NULL)
+	{
+		buff = pwd;
+		freeint = 1;
+	}
 	tempold = ft_strjoin("OLDPWD=",pwd);
 	ft_unset("OLDPWD");
 	ft_export(tempold);
-	buff = getcwd(buff, 0);
 	temp = ft_strjoin("PWD=", buff);
 	ft_export(temp);
-	free(temp);
-	free(tempold);
-	free(buff);
+	if (freeint == 0)
+		return (free(temp), free(tempold), free(buff), free(pwd));
+	return (free(temp), free(tempold), free(pwd));
 }
