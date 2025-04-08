@@ -35,7 +35,7 @@ int	main(int ac, char **av, char **env)
 			printf("exit\n");
 			break ;
 		}
-		process_line(line, sim_glob(NULL, 'g'));
+		process_line(line);
 		free(line);
 	}
 	return (free_glob(), 0);

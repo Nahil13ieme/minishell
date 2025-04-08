@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:22:47 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 04:54:23 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 11:53:23 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,20 @@
  * @param i     Index actuel dans la ligne
  * @return      Nouvel index après traitement
  */
-static char	*handle_word(char *line, int *i)
+static char	*handle_word(t_token_stream *ts, int *i)
 {
 	char	*segment;
 	int		start;
 	int		len;
 
 	start = *i;
-	while (line[*i] && !ft_isspace(line[*i])
-		&& line[*i] != '<' && line[*i] != '>'
-		&& line[*i] != ';' && line[*i] != '|'
-		&& line[*i] != '&' && line[*i] != '\''
-		&& line[*i] != '"' && line[*i] != '$')
+	while (ts->line[*i] && !ft_isspace(ts->line[*i])
+		&& ts->line[*i] != '<' && ts->line[*i] != '>'
+		&& ts->line[*i] != ';' && ts->line[*i] != '|'
+		&& ts->line[*i] != '&')
 		(*i)++;
 	len = *i - start;
-	segment = ft_substr(line, start, len);
+	segment = ft_substr(ts->line, start, len);
 	if (!segment)
 	{
 		perror("substr");
@@ -43,20 +42,17 @@ static char	*handle_word(char *line, int *i)
 	return (segment);
 }
 
-int	ft_while_handle_segment(char *line, char *word, int i, char **segment)
+int	ft_while_handle_segment(t_token_stream *ts,
+	char *word, int i, char **segment)
 {
 	char	*tmp;
 
-	while (line[i] && line[i] != ' ')
+	while (ts->line[i] && ts->line[i] != ' ')
 	{
-		if (line[i] == '$')
-			word = handle_env_variable(line, &i);
-		else if (line[i] == '\'' || line[i] == '"')
-			word = handle_quoted_string(line, &i);
-		else if (line[i] != '<' && line[i] != '>'
-			&& line[i] != ';' && line[i] != '|'
-			&& line[i] != '&')
-			word = handle_word(line, &i);
+		if (ts->line[i] != '<' && ts->line[i] != '>'
+			&& ts->line[i] != ';' && ts->line[i] != '|'
+			&& ts->line[i] != '&')
+			word = handle_word(ts, &i);
 		else
 			break ;
 		if (!word)

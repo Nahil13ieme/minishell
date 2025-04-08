@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:18:24 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 05:35:56 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 11:25:12 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_token	*create_token(t_token_type type, char *value)
  * * @return Un pointeur vers le stream de tokens.
  * * 		 Exit si malloc echoue.
  */
-t_token_stream	*create_token_stream(void)
+t_token_stream	*create_token_stream(char *line)
 {
 	t_token_stream	*ts;
 
@@ -83,6 +83,7 @@ t_token_stream	*create_token_stream(void)
 	ts->size = 0;
 	ts->current = 0;
 	ts->tokens = malloc(ts->capacity * sizeof(t_token *));
+	ts->line = line;
 	if (!ts->tokens)
 	{
 		perror("malloc");
@@ -119,19 +120,19 @@ t_token_stream	*tokenize_input(char *line)
 	t_token_stream	*ts;
 	int				i;
 
-	ts = create_token_stream();
+	ts = create_token_stream(line);
 	i = 0;
-	while (line[i])
+	while (ts->line[i])
 	{
-		while (line[i] && ft_isspace(line[i]))
+		while (ts->line[i] && ft_isspace(ts->line[i]))
 			i++;
-		if (line[i] == '\0')
+		if (ts->line[i] == '\0')
 			break ;
-		i = process_char(ts, line, i);
+		i = process_char(ts, i);
 		if (i == -1)
 		{
 			free_token_stream(ts);
-			ts = create_token_stream();
+			ts = create_token_stream(line);
 			return (ts);
 		}
 	}

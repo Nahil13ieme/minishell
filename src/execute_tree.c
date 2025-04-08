@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 05:19:45 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:24:28 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,73 @@ static void	execute_pipeline(t_btree *tree)
 	waitpid(pid2, &tree->right->status, 0);
 }
 
+static char	*handle_word2(char *line, int *i)
+{
+	char	*segment;
+	int		start;
+	int		len;
+
+	start = *i;
+	while (line[*i] && !ft_isspace(line[*i])
+		&& line[*i] != '<' && line[*i] != '>'
+		&& line[*i] != ';' && line[*i] != '|'
+		&& line[*i] != '&' && line[*i] != '\''
+		&& line[*i] != '$'&& line[*i] != '\"')
+		(*i)++;
+	len = *i - start;
+	segment = ft_substr(line, start, len);
+	if (!segment)
+	{
+		perror("substr");
+		exit(EXIT_FAILURE);
+	}
+	(*i)--;
+	return (segment);
+}
+
+static char	**retrieve_var(char **cmd)
+{
+	char	*segment;
+	char	*tmp = NULL;
+	char	*word;
+	char	*line;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (cmd[i])
+	{
+		j = 0;
+		line = cmd[i];
+		segment = NULL;
+		while (line[j] && line[j] != ' ')
+		{
+			if (line[j] == '$')
+				word = handle_env_variable(line, &j);
+			else if (line[j] == '\'' || line[j] == '"')
+				word = handle_quoted_string(line, &j);
+			else if (line[j] != '<' && line[j] != '>'
+				&& line[j] != ';' && line[j] != '|'
+				&& line[j] != '&')
+				word = handle_word2(line, &j);
+			else
+				break ;
+			if (!word)
+				return (NULL);
+			j++;
+			tmp = segment;
+			segment = ft_strjoin(segment, word);
+			free(word);
+			free(tmp);
+		}
+		free(line);
+		cmd[i] = ft_strdup(segment);
+		free(segment);
+		i++;
+	}
+	return (cmd);
+}
+
 void	execute_tree(t_btree *tree)
 {
 	if (tree == NULL)
@@ -70,6 +137,7 @@ void	execute_tree(t_btree *tree)
 			free(tree->cmd[0]);
 			tree->cmd[0] = ft_itoa(get_exit_code());
 		}
+		tree->cmd = retrieve_var(tree->cmd);
 		execute_path(tree);
 	}
 	ft_if_execute_andor(tree);

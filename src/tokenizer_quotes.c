@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:29:22 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 05:32:41 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:13:37 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*handle_simple_quote(char *line, int *i)
 	return (segment);
 }
 
-static void	double_quote_segment(char **segment, char *line, int *i)
+static void	double_quote_segment(char *line, char **segment, int *i)
 {
 	char	*tmp;
 
@@ -68,7 +68,7 @@ static char	*handle_double_quote(char *line, int *i)
 			free(tmp);
 		}
 		else
-			double_quote_segment(&segment, line, i);
+			double_quote_segment(line, &segment, i);
 		(*i)++;
 	}
 	if (line[*i] == 0)
@@ -91,16 +91,16 @@ char	*handle_quoted_string(char *line, int *i)
 		return (handle_double_quote(line, i));
 }
 
-int	handle_segment(t_token_stream *ts, char *line, int i)
+int	handle_segment(t_token_stream *ts, int i)
 {
 	char	*segment;
 	char	*word;
 
 	word = NULL;
 	segment = NULL;
-	while (line[i] && ft_isspace(line[i]))
+	while (ts->line[i] && ft_isspace(ts->line[i]))
 		i++;
-	i = ft_while_handle_segment(line, word, i, &segment);
+	i = ft_while_handle_segment(ts, word, i, &segment);
 	if (i == -1)
 	{
 		free(segment);

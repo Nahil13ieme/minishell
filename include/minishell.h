@@ -67,6 +67,7 @@ typedef struct s_token_stream
 	int			size;
 	int			capacity;
 	int			current;
+	char		*line;
 }	t_token_stream;
 
 typedef enum e_cmd_type
@@ -167,7 +168,7 @@ void			setup_child_signals(void);
 /*---------------------------TOKEN_STREAM------------------------------------*/
 void			add_token(t_token_stream *stream, t_token *token);
 t_token			*create_token(t_token_type type, char *value);
-t_token_stream	*create_token_stream(void);
+t_token_stream	*create_token_stream(char *line);
 void			free_token_stream(t_token_stream *ts);
 t_token_stream	*tokenize_input(char *line);
 
@@ -175,13 +176,13 @@ t_token_stream	*tokenize_input(char *line);
 //static char		*handle_double_quote(char *line, int *i, char **env);
 char			*handle_quoted_string(char *line, int *i);
 //static char		*handle_word(char *line, int *i);
-int				handle_segment(t_token_stream *ts, char *line, int i);
+int				handle_segment(t_token_stream *ts, int i);
 
 /*----------------------------TOKENIZER--------------------------------------*/
 //static int		handle_double_tokens(t_token_stream *ts, char *line, int i);
 //static int		handle_single_tokens(t_token_stream *ts, char *line, int i);
 char			*handle_env_variable(char *line, int *i);
-int				process_char(t_token_stream *ts, char *line, int i);
+int				process_char(t_token_stream *ts, int i);
 
 /*---------------------------TOKENS_UTILS------------------------------------*/
 //static int		is_control(t_token_type type);
@@ -223,7 +224,7 @@ void			ft_if_modify_export(char *equal_pos, char *var, char **envi,
 /*---------------------------UTILS_HANDLE------------------------------------*/
 //static char		*handle_simple_quote(char *line, int *i);
 //static void		double_quote_segment(char **segment, char *line, int *i);
-int				ft_while_handle_segment(char *line, char *word,
+int				ft_while_handle_segment(t_token_stream *ts, char *word,
 					int i, char **segment);
 
 /*----------------------------UTILS_TREE-------------------------------------*/
