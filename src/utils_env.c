@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 17:51:49 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:10:31 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	add_shellvl(void)
 	char	*env;
 	
 	env = return_env("SHLVL");
+	if (!env)
+		env = ft_strdup("1");
 	nbr = ft_atoi(env);
 	free(env);
 	nbr++;

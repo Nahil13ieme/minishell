@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 16:15:31 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:05:05 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static void	execute_pipeline(t_btree *tree)
 	pid2 = execute_pid(tree->right, fd, STDIN_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid1, &tree->left->status, 0);
-	waitpid(pid2, &tree->right->status, 0);
+	waitpid(pid1, &tree->status, 0);
+	waitpid(pid2, &tree-> 	status, 0);
 }
 
 static char	*handle_word2(char *line, int *i)
