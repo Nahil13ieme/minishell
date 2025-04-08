@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 15:07:30 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:53:48 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ void	ft_pwd(void)
 int	ft_export(char *var)
 {
 	char	*equal_pos ;
-	int		i;
 	char	**new_envp;
 	char	**envi;
+	int		i;
 	
 	envi = sim_glob(NULL, 'g');
 	if (!var)
@@ -107,15 +107,8 @@ int	ft_export(char *var)
 	}
 	equal_pos = ft_strchr(var, '=');
 	i = 0;
-	while (var[i] && isalpha(var[i]))
-		i++;
-	if ((var[i] != '=' && var[i] != 0) || i == 0)
-	{
-		ft_putstr_fd("minishell: export: ", 2);
-		ft_putstr_fd(var, 2);
-		ft_putstr_fd(" not a valid identifier\n", 2);
-		return (1);
-	}
+	if (var[0] == '=' || ft_isdigit(var[0]))
+		return (ft_fprintf("minishell: export: %s not a valid identifier\n", var), 1);
 	i = ft_if_export(i, var, equal_pos);
 	if (i != 0)
 	{
