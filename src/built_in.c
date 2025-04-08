@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 14:11:05 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:07:30 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_cd(char **args)
 	if (args[1] == NULL)
 		{
 			if (home == NULL)
-				return (free(home), perror("Something disapear"), 1);
+				return (free(home), ft_fprintf("Something disapear"));
 			free(home);
 			home = getenv("HOME");
 			chdir(home);
