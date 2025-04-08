@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:18:24 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/03/28 23:50:48 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 04:50:45 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	free_token_stream(t_token_stream *ts)
  * * @param env  The environment variables.
  * * @return a pointer to the token stream.
  */
-t_token_stream	*tokenize_input(char *line, char **env)
+t_token_stream	*tokenize_input(char *line)
 {
 	t_token_stream	*ts;
 	int				i;
@@ -127,7 +127,7 @@ t_token_stream	*tokenize_input(char *line, char **env)
 			i++;
 		if (line[i] == '\0')
 			break ;
-		i = process_char(ts, line, i, env);
+		i = process_char(ts, line, i);
 	}
 	return (ts);
 }

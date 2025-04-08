@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:22:47 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 21:17:26 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 04:54:23 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ static char	*handle_word(char *line, int *i)
 	return (segment);
 }
 
-int	ft_while_handle_segment(char *line, char **env, char *word, int i, char **segment)
+int	ft_while_handle_segment(char *line, char *word, int i, char **segment)
 {
 	char	*tmp;
 
 	while (line[i] && line[i] != ' ')
 	{
 		if (line[i] == '$')
-			word = handle_env_variable(line, &i, env);
+			word = handle_env_variable(line, &i);
 		else if (line[i] == '\'' || line[i] == '"')
-			word = handle_quoted_string(line, &i, env);
+			word = handle_quoted_string(line, &i);
 		else if (line[i] != '<' && line[i] != '>'
 			&& line[i] != ';' && line[i] != '|'
 			&& line[i] != '&')
@@ -60,11 +60,7 @@ int	ft_while_handle_segment(char *line, char **env, char *word, int i, char **se
 		else
 			break ;
 		if (!word)
-		{
-			free(*segment);
-			write(2, "Error: unclosed quotes\n", 24);
-			exit(EXIT_FAILURE);
-		}
+			return (-1);
 		i++;
 		tmp = *segment;
 		*segment = ft_strjoin(*segment, word);

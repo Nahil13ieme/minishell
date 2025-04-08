@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:27:15 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/03 17:30:14 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 04:53:38 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,26 +84,25 @@ static int	handle_single_tokens(t_token_stream *ts, char *line, int i)
  * @param i     Index actuel dans la ligne
  * @return      Nouvel index après traitement
  */
-char	*handle_env_variable(char *line, int *i, char **env)
+char	*handle_env_variable(char *line, int *i)
 {
 	int		start;
 	char	*var_name;
 	char	*var_value;
 
-	(void)env;
 	start = *i + 1;
 	(*i)++;
 	while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_'))
 		(*i)++;
 	var_name = ft_substr(line, start, *i - start);
-	var_value = getenv(var_name);
+	var_value = return_env(var_name);
 	free(var_name);
 	if (line[*i - 1] == '$')
-		var_value = "$";
+		var_value = ft_strdup("$");
 	else if (!var_value)
-		var_value = "";
+		var_value = ft_strdup("");
 	(*i)--;
-	return (ft_strdup(var_value));
+	return (var_value);
 }
 
 /**
@@ -113,7 +112,7 @@ char	*handle_env_variable(char *line, int *i, char **env)
  * @param i     Index actuel dans la ligne
  * @return      Nouvel index après traitement
  */
-int	process_char(t_token_stream *ts, char *line, int i, char **env)
+int	process_char(t_token_stream *ts, char *line, int i)
 {
 	int	new_i;
 
@@ -123,5 +122,5 @@ int	process_char(t_token_stream *ts, char *line, int i, char **env)
 	new_i = handle_single_tokens(ts, line, i);
 	if (new_i != i)
 		return (new_i);
-	return (handle_segment(ts, line, i, env));
+	return (handle_segment(ts, line, i));
 }

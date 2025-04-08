@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:26:03 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/07 11:44:35 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 04:36:49 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	process_line(char *line, char **envp)
 {
 	t_token_stream	*ts;
 
-	if (line[0] != '\0')
+	if (line[0])
 	{
 		add_history(line);
 		ts = tokenize_input(line, envp);
