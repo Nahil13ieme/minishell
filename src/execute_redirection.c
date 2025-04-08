@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 05:20:47 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:36:29 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ static void	execute_redir_in(t_btree *tree)
 	count = 0;
 	while (cmd_node && cmd_node->type == NODE_REDIR_IN)
 	{
+		if (cmd_node->type == NODE_APPEND)
+		{
+			execute_redir_in(cmd_node);
+			return ;
+		}
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
 	}
@@ -53,7 +58,7 @@ static void execute_redir_out(t_btree *tree)
 
 	cmd_node = tree;
 	count = 0;
-	while (cmd_node && cmd_node->type == NODE_REDIR_OUT)
+	while (cmd_node && (cmd_node->type == NODE_APPEND || cmd_node->type == NODE_REDIR_OUT))
 	{
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
@@ -98,7 +103,7 @@ static void	execute_append(t_btree *tree)
 
 	cmd_node = tree;
 	count = 0;
-	while (cmd_node && cmd_node->type == NODE_APPEND)
+	while (cmd_node && (cmd_node->type == NODE_APPEND || cmd_node->type == NODE_REDIR_OUT))
 	{
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
