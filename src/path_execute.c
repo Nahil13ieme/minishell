@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 14:26:39 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:15:45 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	execute_child(char *path, char **cmd)
 		waitpid(pid1, &ret, 0);
 	else if (pid1 < 0)
 		exit(EXIT_FAILURE);
-	return (ret);
+	return (ret / 256);
 }
 
 void	execute_path(t_btree *tree)

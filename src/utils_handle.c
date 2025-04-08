@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:22:47 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 11:53:23 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:55:11 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static char	*handle_word(t_token_stream *ts, int *i)
 	while (ts->line[*i] && !ft_isspace(ts->line[*i])
 		&& ts->line[*i] != '<' && ts->line[*i] != '>'
 		&& ts->line[*i] != ';' && ts->line[*i] != '|'
-		&& ts->line[*i] != '&')
+		&& ts->line[*i] != '&' && ts->line[*i] !='\''
+		&& ts->line[*i] != '\"')
 		(*i)++;
 	len = *i - start;
 	segment = ft_substr(ts->line, start, len);
@@ -42,6 +43,29 @@ static char	*handle_word(t_token_stream *ts, int *i)
 	return (segment);
 }
 
+static char	*handle_quote(t_token_stream *ts, int *i)
+{
+	char	*segment;
+	char	quote;
+	int		start;
+	int		len;
+
+	start = *i;
+	quote = ts->line[*i];
+	(*i)++;
+	while (ts->line[*i] && ts->line[*i] != quote)
+		(*i)++;
+	if (ts->line[*i] == 0)
+		return (NULL);
+	(*i)++;
+	len = *i - start;
+	segment = ft_substr(ts->line, start, len);
+	if (!segment)
+		exit_error("malloc failure");
+	(*i)--;
+	return (segment);
+}
+
 int	ft_while_handle_segment(t_token_stream *ts,
 	char *word, int i, char **segment)
 {
@@ -49,7 +73,9 @@ int	ft_while_handle_segment(t_token_stream *ts,
 
 	while (ts->line[i] && ts->line[i] != ' ')
 	{
-		if (ts->line[i] != '<' && ts->line[i] != '>'
+		if (ts->line[i] == '\'' || ts->line[i] == '\"')
+			word = handle_quote(ts, &i);
+		else if (ts->line[i] != '<' && ts->line[i] != '>'
 			&& ts->line[i] != ';' && ts->line[i] != '|'
 			&& ts->line[i] != '&')
 			word = handle_word(ts, &i);
