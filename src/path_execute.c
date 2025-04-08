@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 14:18:54 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:15:58 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	execute_child(char *path, char **cmd)
 		waitpid(pid1, &ret, 0);
 	else if (pid1 < 0)
 		exit(EXIT_FAILURE);
-	return (ret);
+	return (ret / 256);
 }
 
 void	execute_path(t_btree *tree)
