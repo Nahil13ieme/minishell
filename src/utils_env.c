@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 16:42:52 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:51:49 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,9 @@ char	*return_env(char *str)
 		}
 		i++;
 	}
-	tmp = ft_strdup(getenv(str));
-	return (tmp);
+	tmp = getenv(str);
+	if (tmp)
+		return (ft_strdup(tmp));
+	return (NULL);
 }
 

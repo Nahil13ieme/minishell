@@ -1,0 +1,1 @@
+ls | exit X doesn't return the appripriate return code

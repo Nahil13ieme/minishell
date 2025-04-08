@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 16:37:39 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:55:57 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ char	*find_path(char *cmd)
 	char 	*tmp;
 
 	tmp = return_env("PATH");
-	paths = ft_split(tmp + 5, ':');
+	if (!tmp)
+		return (NULL);
+	paths = ft_split(tmp, ':');
 	free(tmp);
 	if (!paths)
 		return (NULL);
