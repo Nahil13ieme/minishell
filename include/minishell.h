@@ -245,4 +245,8 @@ int				sim_quotes(int	nbr, char c);
 
 int				check_dir(t_btree *tree, char *path);
 
+/*----------------------------FT_FPRINTF-------------------------------------*/
+
+unsigned int	ft_fprintf(const char *str, ...);
+
 #endif //MINISHELL_H

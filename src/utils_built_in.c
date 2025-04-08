@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/07 15:16:24 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/08 14:11:43 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,7 @@ int	ft_while_echo(char **args, int i, int j)
 		j = 0;
 		while (args[i][j])
 		{
-			if (args[i][j] == '$' && args[i][j + 1] == '?' && sim_quotes(0, 'g') == 0)
-			{
-				printf("%d", get_exit_code());
-				j++;
-			}
-			else
-			{
-				sim_quotes(0, 's');
-				printf("%c", args[i][j]);
-			}
+			printf("%c", args[i][j]);
 			j++;
 		}
 		if (args[i + 1])

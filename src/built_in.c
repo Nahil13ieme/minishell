@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/07 14:36:23 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/08 14:11:05 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_echo(t_btree *tree)
 
 	args = tree->cmd;
 	i = 1;
-	
+
 	newline = 1;
 	j = 0;
 	while (args[i] && args[i][j] == '-')
