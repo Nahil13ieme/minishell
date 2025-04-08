@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:27:15 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 15:12:51 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:08:07 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ char	*handle_env_variable(char *line, int *i)
 	(*i)++;
 	while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_'))
 		(*i)++;
+	if (line[*i - 1] == '$' && line[*i] == '?')
+		return (ft_itoa(get_exit_code()));
 	var_name = ft_substr(line, start, *i - start);
 	var_value = return_env(var_name);
 	free(var_name);
-	if (line[*i - 1] == '$' && line[*i] == '?')
-		return (ft_itoa(get_exit_code()));
 	if (line[*i - 1] == '$')
 		var_value = ft_strdup("$");
 	else if (!var_value)
