@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:29:22 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 12:13:37 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:17:25 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,11 @@ int	handle_segment(t_token_stream *ts, int i)
 	{
 		free(segment);
 		write(2, "Error: unclosed quotes\n", 24);
+		return (-1);
+	}
+	if (!segment)
+	{
+		printf("Couldnt resolve line : %c\n", ts->line[i]);
 		return (-1);
 	}
 	add_token(ts, create_token(TOKEN_WORD, segment));

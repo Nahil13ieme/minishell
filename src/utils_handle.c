@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:22:47 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 15:55:11 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:16:02 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	ft_while_handle_segment(t_token_stream *ts,
 			word = handle_quote(ts, &i);
 		else if (ts->line[i] != '<' && ts->line[i] != '>'
 			&& ts->line[i] != ';' && ts->line[i] != '|'
-			&& ts->line[i] != '&')
+			&& (ts->line[i] != '&' && ts->line[i + 1] != '&'))
 			word = handle_word(ts, &i);
 		else
 			break ;
