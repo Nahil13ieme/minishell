@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 12:15:57 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:48:07 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,36 +90,14 @@ static char	**retrieve_var(char **cmd, int i)
 {
 	char	*segment;
 	char	*tmp;
-	char	*word;
 	char	*line;
-	int		j;
 
 	tmp = NULL;
 	while (cmd[i])
 	{
-		j = 0;
 		line = cmd[i];
 		segment = NULL;
-		while (line[j] && line[j] != ' ')
-		{
-			if (line[j] == '$')
-				word = handle_env_variable(line, &j);
-			else if (line[j] == '\'' || line[j] == '"')
-				word = handle_quoted_string(line, &j);
-			else if (line[j] != '<' && line[j] != '>'
-				&& line[j] != ';' && line[j] != '|'
-				&& (line[j] != '&' || line[j + 1] != '&'))
-				word = handle_word2(line, &j);
-			else
-				break ;
-			if (!word)
-				return (NULL);
-			j++;
-			tmp = segment;
-			segment = ft_strjoin(segment, word);
-			free(word);
-			free(tmp);
-		}
+		segment = ft_while_handle_word2(line, NULL, NULL, segment);
 		free(line);
 		cmd[i] = ft_strdup(segment);
 		free(segment);

@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/09 12:18:51 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:31:04 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,8 @@ int	ft_export(char *var, int i)
  * @param var Variable a unset.
  * @param envp Variable environement
  */
-void	ft_unset(char *var)
+void	ft_unset(char *var, int i)
 {
-	int		i;
 	size_t	len;
 	char	**envp;
 	int		j;
@@ -136,7 +135,6 @@ void	ft_unset(char *var)
 	if (!var || !envp)
 		return ;
 	len = ft_strlen(var);
-	i = 0;
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], var, len) == 0)

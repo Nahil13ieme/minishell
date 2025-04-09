@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:26:05 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/09 12:27:45 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:47:57 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,33 @@ void	open_fd(int count, t_btree *nodes[100], int o_flags, int std)
 		close(fd);
 		i--;
 	}
+}
+
+char	*ft_while_handle_word2(char *line, char *word, char *tmp, char *segment)
+{
+	int	j;
+
+	j = 0;
+	while (line[j] && line[j] != ' ')
+	{
+		j = 0;
+		if (line[j] == '$')
+			word = handle_env_variable(line, &j);
+		else if (line[j] == '\'' || line[j] == '"')
+			word = handle_quoted_string(line, &j);
+		else if (line[j] != '<' && line[j] != '>'
+			&& line[j] != ';' && line[j] != '|'
+			&& (line[j] != '&' || line[j + 1] != '&'))
+			word = handle_word2(line, &j);
+		else
+			break ;
+		if (!word)
+			return (NULL);
+		j++;
+		tmp = segment;
+		segment = ft_strjoin(segment, word);
+		free(word);
+		free(tmp);
+	}
+	return (segment);
 }

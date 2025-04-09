@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/09 12:21:17 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:31:51 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	add_shellvl(void)
 	free(env);
 	nbr++;
 	str = ft_itoa(nbr);
-	ft_unset("SHLVL");
+	ft_unset("SHLVL", 0);
 	ret = ft_strjoin("SHLVL=", str);
 	ft_export(ret, 0);
 	free(ret);

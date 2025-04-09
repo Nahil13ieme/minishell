@@ -107,7 +107,7 @@ void			ft_echo(t_btree *tree);
 int				ft_cd(char **args);
 void			ft_pwd(void);
 int				ft_export(char *var, int i);
-void			ft_unset(char *var);
+void			ft_unset(char *var, int i);
 
 /* ------------------------EXECUTE_HEREDOC---------------------------------- */
 void			execute_heredoc(t_btree *tree);
@@ -126,6 +126,8 @@ void			execute_redirection(t_btree *tree);
 //static pid_t	execute_pid(t_btree *tree, int *fd, int fileno);
 //static void		execute_pipeline(t_btree *tree);
 void			execute_tree(t_btree *tree);
+char			*ft_while_handle_word2(char *line, char *word, char *tmp,
+					char *segment);
 
 /*-------------------------------EXIT----------------------------------------*/
 void			set_exit_code(int code);
@@ -202,6 +204,7 @@ void			set_path(void);
 int				ft_while_echo(char **args, int i, int j);
 int				ft_if_export(int i, char *var, char *equal_pos);
 void			export_pwd(char *buff);
+int				ft_if_else_while_export(int i, char **envi, char *var, int len);
 
 /*----------------------------UTILS_ENV--------------------------------------*/
 void			get_env(char **envp);
