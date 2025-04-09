@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 17:55:57 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 10:52:01 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,5 @@ void	exec_built_in(t_btree *tree)
 	else if (ft_strcmp(tree->cmd[0], "env") == 0)
 		ft_env(sim_glob(NULL, 'g'));
 	else if (ft_strcmp(tree->cmd[0], "exit") == 0)
-		ft_exit(tree->cmd[1]);
+		ft_exit(tree);
 }

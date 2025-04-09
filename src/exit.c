@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:54:41 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/07 10:57:17 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 10:53:03 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,19 @@ int	sim_exit(int code, char c)
  * @param arg Possibilite de mettre un argument pour sortir un 
  * code exit specifique.
  */
-void	ft_exit(char *arg)
+void	ft_exit(t_btree *tree)
 {
 	int	status;
 
 	status = 0;
-	if (arg)
-		status = atoi(arg);
+	if (tree->cmd[1])
+		status = atoi(tree->cmd[1]);
 	else
 		status = get_exit_code();
-	printf("exit\n");
+	if (!tree->child)
+		printf("exit\n");
 	sim_glob(NULL, 'f');
 	set_root(NULL, 'f');
+	tree->status = status;
 	exit(status);
 }

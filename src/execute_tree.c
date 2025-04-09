@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 18:05:05 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:19:44 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ static void	execute_pipeline(t_btree *tree)
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid1, &tree->status, 0);
-	waitpid(pid2, &tree-> 	status, 0);
+	waitpid(pid2, &tree->status, 0);
+	if (WIFEXITED(tree->status))
+		tree->status = WEXITSTATUS(tree->status);
 }
 
 static char	*handle_word2(char *line, int *i)
@@ -69,8 +71,9 @@ static char	*handle_word2(char *line, int *i)
 	while (line[*i] && !ft_isspace(line[*i])
 		&& line[*i] != '<' && line[*i] != '>'
 		&& line[*i] != ';' && line[*i] != '|'
-		&& line[*i] != '&' && line[*i] != '\''
-		&& line[*i] != '$'&& line[*i] != '\"')
+		&& !(line[*i] == '&' && line[(*i) + 1] == '&')
+		&& line[*i] !='\''
+		&& line[*i] != '\"')
 		(*i)++;
 	len = *i - start;
 	segment = ft_substr(line, start, len);
@@ -106,7 +109,7 @@ static char	**retrieve_var(char **cmd)
 				word = handle_quoted_string(line, &j);
 			else if (line[j] != '<' && line[j] != '>'
 				&& line[j] != ';' && line[j] != '|'
-				&& line[j] != '&')
+				&& (line[j] != '&' || line[j + 1] != '&'))
 				word = handle_word2(line, &j);
 			else
 				break ;
