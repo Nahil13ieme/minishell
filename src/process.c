@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:26:03 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 05:34:49 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:10:55 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ void	process_line(char *line)
 			set_root(NULL, 'f');
 		}
 		else
-			printf("Error parsing input\n");
+			ft_fprintf("Error parsing input\n");
 	}
 }

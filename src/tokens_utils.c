@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:26:49 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 04:37:57 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:13:00 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	validate_token_sequence(t_token_stream *ts)
 		return (0);
 	if (is_control(ts->tokens[0]->type))
 	{
-		printf("minishell: syntax error near unexpected token `%s'\n",
+		ft_fprintf("minishell: syntax error near unexpected token `%s'\n",
 			ts->tokens[0]->value);
 		return (0);
 	}
@@ -60,7 +60,7 @@ int	validate_token_sequence(t_token_stream *ts)
 		return (0);
 	if (is_control(ts->tokens[ts->size - 1]->type))
 	{
-		printf("minishell: syntax error near unexpected token `newline'\n");
+		ft_fprintf(ERR_NL);
 		return (0);
 	}
 	return (1);

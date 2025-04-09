@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 11:45:50 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:57:44 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static pid_t	execute_pid(t_btree *tree, int *fd, int fileno)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -31,9 +32,10 @@ static pid_t	execute_pid(t_btree *tree, int *fd, int fileno)
 		close(fd[fileno]);
 		tree->child = 1;
 		execute_tree(tree);
+		status = tree->status;
 		set_root(NULL, 'f');
 		free_glob();
-		exit(EXIT_FAILURE);
+		exit(status);
 	}
 	return (pid);
 }

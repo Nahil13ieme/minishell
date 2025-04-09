@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 10:52:01 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:10:24 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	execute_path(t_btree *tree)
 		return (free(path));
 	if (!path)
 	{
-		printf("%s: command not found\n", tree->cmd[0]);
+		ft_fprintf("%s: command not found\n", tree->cmd[0]);
 		tree->status = 127;
 		return ;
 	}

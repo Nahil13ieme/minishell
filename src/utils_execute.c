@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:18:23 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 05:20:05 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:44:25 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ static void	execute_and(t_btree *tree)
 			tree->status = -1;
 	}
 	else
-	{
 		tree->status = -1;
-		return ;
-	}
 }
 
 static void	execute_or(t_btree *tree)
@@ -42,10 +39,7 @@ static void	execute_or(t_btree *tree)
 			tree->status = 0;
 	}
 	else
-	{
 		tree->status = 0;
-		return ;
-	}
 }
 
 void	ft_if_execute_andor(t_btree *tree)
