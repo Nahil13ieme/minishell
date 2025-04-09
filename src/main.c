@@ -23,6 +23,7 @@ int	main(int ac, char **av, char **env)
 	get_env(env);
 	set_exit_code(0);
 	setup_signals();
+	signal(SIGPIPE, SIG_IGN);
 	while (1)
 	{
 		g_signal = 0;
