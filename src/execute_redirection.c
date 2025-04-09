@@ -6,16 +6,22 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 12:27:37 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:20:47 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "minishell.h"
 
+static void execute_append(t_btree *tree);
+static void execute_redir_in(t_btree *tree);
+static void execute_redir_out(t_btree *tree);
+
 void	exit_error(char *msg)
 {
 	perror(msg);
+	free_glob();
+	set_root(NULL, 'f');
 	exit(EXIT_FAILURE);
 }
 
@@ -30,8 +36,6 @@ static void	execute_redir_in(t_btree *tree)
 	count = 0;
 	while (cmd_node && cmd_node->type == NODE_REDIR_IN)
 	{
-		if (cmd_node->type == NODE_APPEND)
-			return (execute_redir_in(cmd_node));
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
 	}
@@ -58,6 +62,11 @@ static void	execute_redir_out(t_btree *tree)
 	while (cmd_node && (cmd_node->type == NODE_APPEND
 			|| cmd_node->type == NODE_REDIR_OUT))
 	{
+		if (cmd_node->type == NODE_APPEND)
+		{
+			execute_append(cmd_node);
+			return ;
+		}
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
 	}
@@ -84,6 +93,11 @@ static void	execute_append(t_btree *tree)
 	while (cmd_node && (cmd_node->type == NODE_APPEND
 			|| cmd_node->type == NODE_REDIR_OUT))
 	{
+		if (cmd_node->type == NODE_REDIR_OUT)
+		{
+			execute_redir_out(cmd_node);
+			return ;
+		}
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
 	}

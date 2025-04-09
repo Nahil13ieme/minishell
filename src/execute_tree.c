@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 12:48:07 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:21:25 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static pid_t	execute_pid(t_btree *tree, int *fd, int fileno)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -31,9 +32,10 @@ static pid_t	execute_pid(t_btree *tree, int *fd, int fileno)
 		close(fd[fileno]);
 		tree->child = 1;
 		execute_tree(tree);
+		status = tree->status;
 		set_root(NULL, 'f');
 		free_glob();
-		exit(EXIT_FAILURE);
+		exit(status);
 	}
 	return (pid);
 }
@@ -127,8 +129,7 @@ void	execute_tree(t_btree *tree)
 		execute_tree(tree->right);
 		tree->status = tree->right->status;
 	}
-	if (tree->type == NODE_PIPE)
-		execute_pipeline(tree);
+	if (tree->type == NODE_PIPE)		execute_pipeline(tree);
 	if (tree->type == NODE_REDIR_IN || tree->type == NODE_REDIR_OUT
 		|| tree->type == NODE_APPEND || tree->type == NODE_HEREDOC)
 		execute_redirection(tree);

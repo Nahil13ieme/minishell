@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 12:32:03 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:17:38 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	execute_path(t_btree *tree)
 		return (free(path));
 	if (!path)
 	{
-		printf("%s: command not found\n", tree->cmd[0]);
+		ft_fprintf("%s: command not found\n", tree->cmd[0]);
 		tree->status = 127;
 		return ;
 	}
