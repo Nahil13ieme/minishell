@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 00:37:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 05:20:53 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 16:14:05 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char **extract_content(char *delimiter)
 	return (free(line), cmd);
 }
 
-static void	apply_heredoc(t_btree *tree, int child)
+void	apply_heredoc(t_btree *tree, int child)
 {
 	char	**content;
 	int		pipe_fds[2];

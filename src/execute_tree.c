@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 13:57:44 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:58:29 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char	*handle_word2(char *line, int *i)
 		&& line[*i] != ';' && line[*i] != '|'
 		&& !(line[*i] == '&' && line[(*i) + 1] == '&')
 		&& line[*i] !='\''
-		&& line[*i] != '\"')
+		&& line[*i] != '\"' && line[*i] != '$')
 		(*i)++;
 	len = *i - start;
 	segment = ft_substr(line, start, len);

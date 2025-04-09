@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 17:03:33 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:30:50 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ void	ft_echo(t_btree *tree)
 	j = 0;
 	while (args[i] && args[i][j] == '-')
 	{
+		j = 0;
 		while (args[i][++j] == 'n');
 		if (args[i][j] == '\0')
 		{
 			newline = 0;
 			i++;
 		}
-		j = 0;
 	}
 	j = 0;
 	i = ft_while_echo(args, i, j);

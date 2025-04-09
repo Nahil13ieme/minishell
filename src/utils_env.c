@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 18:10:31 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:45:50 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ char	*return_env(char *str)
 	char	**env;
 	int		len;
 	char	*ret;
-	char	*tmp;
 	
 	len = ft_strlen(str);
 	env = sim_glob(NULL, 'g');
@@ -101,9 +100,6 @@ char	*return_env(char *str)
 		}
 		i++;
 	}
-	tmp = getenv(str);
-	if (tmp)
-		return (ft_strdup(tmp));
 	return (NULL);
 }
 
