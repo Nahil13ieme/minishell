@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:34:30 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/09 11:55:51 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:27:05 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,6 @@ char	**sim_glob(char **tab, char c)
 	else if (c == 'f')
 		free_tab(env);
 	return (NULL);
-}
-
-char	**ft_tab_realloc(char **tab, size_t new_size)
-{
-	size_t	old_size;
-	char	**new_tab;
-	size_t	i;
-
-	old_size = 0;
-	i = 0;
-	old_size = ft_tablen(tab);
-	new_tab = malloc(sizeof(char *) * (old_size + new_size + 1));
-	if (!new_tab)
-		return (NULL);
-	while (i < old_size)
-	{
-		new_tab[i] = tab[i];
-		i++;
-	}
-	while (i < old_size + new_size)
-	{
-		new_tab[i] = NULL;
-		i++;
-	}
-	new_tab[i] = NULL;
-	free(tab);
-	return (new_tab);
 }
 
 void	add_export(char **tab, char *str)

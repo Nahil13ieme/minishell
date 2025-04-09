@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/09 12:04:22 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:18:51 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,11 @@ void	ft_pwd(void)
  * @brief Commande built-in pour exporter une variable dans ENV.
  * @param var Variable a exporter.
  */
-int	ft_export(char *var)
+int	ft_export(char *var, int i)
 {
 	char	*equal_pos ;
 	char	**new_envp;
 	char	**envi;
-	int		i;
 
 	envi = sim_glob(NULL, 'g');
 	if (!var)

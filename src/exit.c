@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:54:41 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 10:53:03 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:24:01 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	ft_exit(t_btree *tree)
 		status = get_exit_code();
 	if (!tree->child)
 		printf("exit\n");
+	tree->status = status;
 	sim_glob(NULL, 'f');
 	set_root(NULL, 'f');
-	tree->status = status;
 	exit(status);
 }

@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 12:10:23 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:27:37 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,24 +70,6 @@ static void	execute_redir_out(t_btree *tree)
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		exit_error("dup2");
 	close(saved_stdout);
-}
-
-void	open_fd(int count, t_btree *nodes[100], int o_flags, int std)
-{
-	int	i;
-	int	fd;
-
-	i = count - 1;
-	while (i >= 0)
-	{
-		fd = open(nodes[i]->file, o_flags, 0644);
-		if (fd == -1)
-			exit_error("open");
-		if (dup2(fd, std) == -1)
-			exit_error("dup2");
-		close(fd);
-		i--;
-	}
 }
 
 static void	execute_append(t_btree *tree)

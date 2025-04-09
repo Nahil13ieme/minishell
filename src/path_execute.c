@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 12:13:48 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:20:03 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	exec_built_in(t_btree *tree)
 	else if (ft_strcmp(tree->cmd[0], "pwd") == 0)
 		ft_pwd();
 	else if (ft_strcmp(tree->cmd[0], "export") == 0)
-		tree->status = ft_export(tree->cmd[1]);
+		tree->status = ft_export(tree->cmd[1], 0);
 	else if (ft_strcmp(tree->cmd[0], "unset") == 0)
 		ft_unset(tree->cmd[1]);
 	else if (ft_strcmp(tree->cmd[0], "env") == 0)
