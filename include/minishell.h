@@ -131,7 +131,7 @@ void			execute_tree(t_btree *tree);
 void			set_exit_code(int code);
 int				get_exit_code(void);
 int				sim_exit(int code, char c);
-void			ft_exit(char *arg);
+void			ft_exit(t_btree *tree);
 
 /*-----------------------------GET_PROMPT------------------------------------*/
 char			*get_username(void);
