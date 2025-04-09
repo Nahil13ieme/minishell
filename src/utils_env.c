@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 18:10:31 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:11:10 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 void	add_shellvl(void)
 {
 	int		nbr;
 	char	*str;
 	char	*ret;
 	char	*env;
-	
+
 	env = return_env("SHLVL");
 	if (!env)
 		env = ft_strdup("1");
@@ -55,8 +56,6 @@ void	get_env(char **envp)
 	cpy_env[i] = 0;
 	sim_glob(cpy_env, 's');
 	add_shellvl();
-	//set_export();
-	//set_path();
 }
 
 void	free_glob(void)
@@ -88,7 +87,7 @@ char	*return_env(char *str)
 	int		len;
 	char	*ret;
 	char	*tmp;
-	
+
 	len = ft_strlen(str);
 	env = sim_glob(NULL, 'g');
 	i = 0;
@@ -106,4 +105,3 @@ char	*return_env(char *str)
 		return (ft_strdup(tmp));
 	return (NULL);
 }
-

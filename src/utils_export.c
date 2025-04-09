@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:34:30 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 05:29:53 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:55:51 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ void	ft_while_print_export(char **tab, int i, int j)
 int	ft_while_set_export(void)
 {
 	char	*cwd;
-	int i;
-	char **export;
-	
+	int		i;
+	char	**export;
+
 	export = sim_glob(NULL, 'g');
 	i = 0;
 	while (export[i])

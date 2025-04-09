@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 11:45:50 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:15:57 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static char	*handle_word2(char *line, int *i)
 		&& line[*i] != '<' && line[*i] != '>'
 		&& line[*i] != ';' && line[*i] != '|'
 		&& !(line[*i] == '&' && line[(*i) + 1] == '&')
-		&& line[*i] !='\''
+		&& line[*i] != '\''
 		&& line[*i] != '\"')
 		(*i)++;
 	len = *i - start;
@@ -86,16 +86,15 @@ static char	*handle_word2(char *line, int *i)
 	return (segment);
 }
 
-static char	**retrieve_var(char **cmd)
+static char	**retrieve_var(char **cmd, int i)
 {
 	char	*segment;
-	char	*tmp = NULL;
+	char	*tmp;
 	char	*word;
 	char	*line;
-	int		i;
 	int		j;
 
-	i = 0;
+	tmp = NULL;
 	while (cmd[i])
 	{
 		j = 0;
@@ -118,7 +117,7 @@ static char	**retrieve_var(char **cmd)
 			j++;
 			tmp = segment;
 			segment = ft_strjoin(segment, word);
-				free(word);
+			free(word);
 			free(tmp);
 		}
 		free(line);
@@ -140,7 +139,7 @@ void	execute_tree(t_btree *tree)
 			free(tree->cmd[0]);
 			tree->cmd[0] = ft_itoa(get_exit_code());
 		}
-		tree->cmd = retrieve_var(tree->cmd);
+		tree->cmd = retrieve_var(tree->cmd, 0);
 		execute_path(tree);
 	}
 	ft_if_execute_andor(tree);

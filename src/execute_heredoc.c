@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   execute_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 00:37:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 05:20:53 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:51:01 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char **extract_content(char *delimiter)
+static char	**extract_content(char *delimiter)
 {
 	char	**cmd;
 	char	*line;
 	int		i;
-	
+
 	cmd = malloc(sizeof(char *) * 1);
 	if (!cmd)
 		exit_error("malloc");
@@ -28,7 +28,7 @@ static char **extract_content(char *delimiter)
 	{
 		line = readline("> ");
 		if (!line || strcmp(line, delimiter) == 0)
-			break;
+			break ;
 		cmd[i] = ft_strdup(line);
 		if (!cmd[i])
 			exit_error("malloc");
@@ -45,12 +45,12 @@ static void	apply_heredoc(t_btree *tree, int child)
 	char	**content;
 	int		pipe_fds[2];
 	int		i;
-	
+
 	content = extract_content(tree->right->cmd[0]);
 	if (!child)
 	{
 		if (!content)
-			return;
+			return ;
 		if (pipe(pipe_fds) == -1)
 			exit_error("pipe");
 		i = 0;
@@ -68,13 +68,13 @@ static void	apply_heredoc(t_btree *tree, int child)
 	free_tab(content);
 }
 
-void execute_heredoc(t_btree *tree)
+void	execute_heredoc(t_btree *tree)
 {
 	t_btree	*nodes[100];
 	int		count;
 	t_btree	*cmd_node;
 	int		saved_stdin;
-	
+
 	cmd_node = tree;
 	count = 0;
 	while (cmd_node && cmd_node->type == NODE_HEREDOC)
@@ -93,4 +93,3 @@ void execute_heredoc(t_btree *tree)
 		exit_error("dup2");
 	close(saved_stdin);
 }
-

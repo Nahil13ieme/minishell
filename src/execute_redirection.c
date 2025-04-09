@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_redirection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/08 17:36:29 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:10:23 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	exit_error(char *msg)
 
 static void	execute_redir_in(t_btree *tree)
 {
-	t_btree *nodes[100];
+	t_btree	*nodes[100];
 	int		count;
-	t_btree *cmd_node;
+	t_btree	*cmd_node;
 	int		saved_stdin;
 
 	cmd_node = tree;
@@ -31,10 +31,7 @@ static void	execute_redir_in(t_btree *tree)
 	while (cmd_node && cmd_node->type == NODE_REDIR_IN)
 	{
 		if (cmd_node->type == NODE_APPEND)
-		{
-			execute_redir_in(cmd_node);
-			return ;
-		}
+			return (execute_redir_in(cmd_node));
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
 	}
@@ -49,16 +46,17 @@ static void	execute_redir_in(t_btree *tree)
 	close(saved_stdin);
 }
 
-static void execute_redir_out(t_btree *tree)
+static void	execute_redir_out(t_btree *tree)
 {
-	t_btree *nodes[100];
+	t_btree	*nodes[100];
 	int		count;
-	t_btree *cmd_node;
+	t_btree	*cmd_node;
 	int		saved_stdout;
 
 	cmd_node = tree;
 	count = 0;
-	while (cmd_node && (cmd_node->type == NODE_APPEND || cmd_node->type == NODE_REDIR_OUT))
+	while (cmd_node && (cmd_node->type == NODE_APPEND
+			|| cmd_node->type == NODE_REDIR_OUT))
 	{
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
@@ -74,11 +72,10 @@ static void execute_redir_out(t_btree *tree)
 	close(saved_stdout);
 }
 
-
-void open_fd(int count, t_btree * nodes[100], int o_flags, int std)
+void	open_fd(int count, t_btree *nodes[100], int o_flags, int std)
 {
-	int i;
-	int fd;
+	int	i;
+	int	fd;
 
 	i = count - 1;
 	while (i >= 0)
@@ -86,7 +83,6 @@ void open_fd(int count, t_btree * nodes[100], int o_flags, int std)
 		fd = open(nodes[i]->file, o_flags, 0644);
 		if (fd == -1)
 			exit_error("open");
-		
 		if (dup2(fd, std) == -1)
 			exit_error("dup2");
 		close(fd);
@@ -96,14 +92,15 @@ void open_fd(int count, t_btree * nodes[100], int o_flags, int std)
 
 static void	execute_append(t_btree *tree)
 {
-	t_btree *nodes[100];
+	t_btree	*nodes[100];
 	int		count;
-	t_btree *cmd_node;
+	t_btree	*cmd_node;
 	int		saved_stdout;
 
 	cmd_node = tree;
 	count = 0;
-	while (cmd_node && (cmd_node->type == NODE_APPEND || cmd_node->type == NODE_REDIR_OUT))
+	while (cmd_node && (cmd_node->type == NODE_APPEND
+			|| cmd_node->type == NODE_REDIR_OUT))
 	{
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;

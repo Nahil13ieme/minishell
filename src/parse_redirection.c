@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 06:57:05 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/05 07:51:02 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:51:36 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static t_cmd_type	get_redirection_type(t_token_stream *ts)
 	return (type);
 }
 
-static t_btree	*handle_redirection(t_token_stream *ts, t_cmd_type type, t_btree *node)
+static t_btree	*handle_redirection(t_token_stream *ts, t_cmd_type type,
+		t_btree *node)
 {
 	t_btree	*cmd_node;
 	char	*redir_file;

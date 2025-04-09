@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:00:09 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/05 06:57:19 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:51:21 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_btree	*parse_input(t_token_stream *ts)
 {
-	t_btree *root;
+	t_btree	*root;
 
 	root = parse_sequence(ts);
 	return (root);

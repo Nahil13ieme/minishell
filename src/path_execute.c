@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   path_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 10:52:01 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:13:48 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*find_path(char *cmd)
+char	*find_path(char *cmd, int i)
 {
 	char	**paths;
 	char	*path;
-	int		i;
 	char	*part_path;
-	char 	*tmp;
+	char	*tmp;
 
 	tmp = return_env("PATH");
 	if (!tmp)
@@ -27,7 +26,6 @@ char	*find_path(char *cmd)
 	free(tmp);
 	if (!paths)
 		return (NULL);
-	i = 0;
 	while (paths[i])
 	{
 		part_path = ft_strjoin(paths[i], "/");
@@ -74,13 +72,13 @@ void	execute_path(t_btree *tree)
 
 	if (built_in_check(tree->cmd[0]))
 	{
-		exec_built_in(tree);	
+		exec_built_in(tree);
 		return ;
 	}
 	if (access(tree->cmd[0], F_OK) == 0)
 		path = ft_strdup(tree->cmd[0]);
 	else
-		path = find_path(tree->cmd[0]);
+		path = find_path(tree->cmd[0], 0);
 	if (check_dir(tree) == 1)
 		return (free(path));
 	if (!path)

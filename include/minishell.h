@@ -152,7 +152,7 @@ t_btree			*parse_redirection(t_token_stream *ts);
 
 /*---------------------------PATH_EXECUTE------------------------------------*/
 //static void	free_paths(char **paths);
-char			*find_path(char *cmd);
+char			*find_path(char *cmd, int i);
 void			exec_built_in(t_btree *tree);
 //static int	execute_child(char *path, char **cmd);
 void			execute_path(t_btree *tree);
@@ -242,7 +242,7 @@ void			ft_print_env(char **tab, int export);
 int				ft_tablen(char **tab);
 char			**tab_cpy(char **tab);
 void			ft_old_pwd_replace(char *var);
-int				sim_quotes(int	nbr, char c);
+int				sim_quotes(int nbr, char c);
 
 int				check_dir(t_btree *tree);
 
