@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 06:57:05 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 14:40:25 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:28:59 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
