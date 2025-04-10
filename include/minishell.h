@@ -93,6 +93,8 @@ typedef struct s_btree
 	struct s_btree	*left;
 	struct s_btree	*right;
 	char			*file;
+	char			**heredoc;
+	char			*delimiter;
 }	t_btree;
 
 /******************************FILES**************************************** */
@@ -252,5 +254,7 @@ unsigned int	ft_fprintf(const char *str, ...);
 
 void	apply_heredoc(t_btree *tree, int child);
 
+// TEST ZONE
+char	**extract_content_heredoc(char *delimiter);
 
 #endif //MINISHELL_H
