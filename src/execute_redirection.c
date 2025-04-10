@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 15:27:58 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 21:14:27 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int	open_fd(int count, t_btree *nodes[100])
 	oflags = 0;
 	while (i >= 0)
 	{
-		std = (nodes[i]->type == NODE_REDIR_IN) ? STDIN_FILENO : STDOUT_FILENO;
+		std = (nodes[i]->type == NODE_REDIR_IN || nodes[i]->type == NODE_HEREDOC) 
+			? STDIN_FILENO : STDOUT_FILENO;
 		oflags = get_oflags(nodes[i]->type);
 		if (nodes[i]->type != NODE_HEREDOC)
 		{
@@ -118,19 +119,17 @@ int	open_fd(int count, t_btree *nodes[100])
 		}
 		else
 		{
-			nodes[i]->heredoc = extract_content_heredoc(nodes[i]->delimiter);
+			if (nodes[i]->heredoc == NULL)
+				nodes[i]->heredoc = extract_content_heredoc(nodes[i]->delimiter);
 			if (pipe(pipe_fds) == -1)
 				exit_error("pipe");
-			if (nodes[i]->heredoc)
+			j = 0;
+			while (nodes[i]->heredoc && nodes[i]->heredoc[j])
 			{
-				j = 0;
-				while (nodes[i]->heredoc[j])
-				{
-					write(pipe_fds[1], nodes[i]->heredoc[j],
-						ft_strlen(nodes[i]->heredoc[j]));
-					write(pipe_fds[1], "\n", 1);
-					j++;
-				}
+				write(pipe_fds[1], nodes[i]->heredoc[j],
+					ft_strlen(nodes[i]->heredoc[j]));
+				write(pipe_fds[1], "\n", 1);
+				j++;
 			}
 			close(pipe_fds[1]);
 			if (dup2(pipe_fds[0], std) == -1)
