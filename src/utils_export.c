@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:34:30 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 14:52:19 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:14:25 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,24 +115,4 @@ int	ft_while_set_export(void)
 		i++;
 	}
 	return (i);
-}
-
-void	ft_if_modify_export(char *equal_pos, char *var, char **envi,
-	char **export)
-{
-	int	i;
-
-	i = -1;
-	if (equal_pos)
-	{
-		while (envi[++i])
-			if (ft_strncmp(envi[i], var, equal_pos - var) == 0)
-				return (free(envi[i]));
-	}
-	else
-	{
-		while (export[++i])
-			if (ft_strncmp(export[i], var, ft_strlen(export[i])) == 0)
-				return (free(export[i]));
-	}
 }

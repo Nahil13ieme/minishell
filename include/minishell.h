@@ -200,6 +200,9 @@ void			set_export(void);
 //void			modifi_env_export(char *var);
 void			set_path(void);
 
+/*-----------------------------UTILS_3---------------------------------------*/
+int	get_oflags(int type);
+
 /*-------------------------UTILS_BUILT_IN------------------------------------*/
 int				ft_while_echo(char **args, int i, int j);
 int				ft_if_export(int i, char *var, char *equal_pos);

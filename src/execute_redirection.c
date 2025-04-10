@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 14:36:05 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:12:12 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,6 @@
 static void	execute_append(t_btree *tree);
 static void	execute_redir_in(t_btree *tree);
 static void	execute_redir_out(t_btree *tree);
-
-void	exit_error(char *msg)
-{
-	perror(msg);
-	free_glob();
-	set_root(NULL, 'f');
-	exit(EXIT_FAILURE);
-}
 
 static void	execute_redir_in(t_btree *tree)
 {
@@ -92,18 +84,6 @@ static void	execute_redir_out(t_btree *tree)
 	tree->status = 0;
 }
 
-static int	get_oflags(int type)
-{
-	if (type == NODE_REDIR_IN)
-		return (O_RDONLY);
-	else if (type == NODE_REDIR_OUT)
-		return (O_WRONLY | O_CREAT | O_TRUNC);
-	else if (type == NODE_APPEND)
-		return (O_WRONLY | O_CREAT | O_APPEND);
-	else
-		return (-1);
-}
-
 int	open_fd(int count, t_btree *nodes[100])
 {
 	int	i;
@@ -112,7 +92,7 @@ int	open_fd(int count, t_btree *nodes[100])
 	int	oflags;
 	int	std;
 	int	j;
-	
+
 	i = count - 1;
 	oflags = 0;
 	while (i >= 0)
