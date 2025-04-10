@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:54:41 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 14:27:04 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 09:33:05 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,20 @@ int	sim_exit(int code, char c)
 	return (0);
 }
 
+static int	check_alpha(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]) && !(str[i] == '-' || str[i] == '+'))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 /**
  * @brief Commande built-in pour terminer l execution.
  * @param arg Possibilite de mettre un argument pour sortir un 
@@ -43,12 +57,24 @@ void	ft_exit(t_btree *tree)
 	int	status;
 
 	status = 0;
+	if (check_alpha(tree->cmd[1]))
+	{
+		ft_fprintf("minishell: exit: %s: numeric argument required\n", tree->cmd[1]);
+		tree->status = 2;
+		return ;
+	}
 	if (tree->cmd[1])
-		status = atoi(tree->cmd[1]);
+		status = ft_atoi(tree->cmd[1]);
 	else
 		status = get_exit_code();
 	if (!tree->child)
 		printf("exit\n");
+	if (tree->cmd[2] != NULL)
+	{
+		ft_fprintf("minishell: exit: too many arguments\n");
+		tree->status = 1;
+		return ;
+	}
 	sim_glob(NULL, 'f');
 	set_root(NULL, 'f');
 	exit(status);

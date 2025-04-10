@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 06:57:05 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 15:16:13 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 09:41:59 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static t_btree	*handle_redirection(t_token_stream *ts, t_cmd_type type, t_btree 
 t_btree	*parse_redirection(t_token_stream *ts)
 {
 	t_btree		*node;
-	t_btree		*right;
 	t_cmd_type	type;
 
 	node = parse_command(ts);
@@ -72,12 +71,12 @@ t_btree	*parse_redirection(t_token_stream *ts)
 	{
 		type = get_redirection_type(ts);
 		consume_token(ts);
-		if (type != NODE_HEREDOC)
-			node = handle_redirection(ts, type, node);
-		else
+		node = handle_redirection(ts, type, node);
+		if (type == NODE_HEREDOC)
 		{
-			right = parse_command(ts);
-			node = create_node(type, node, right, NULL);
+			node->delimiter = ft_strdup(node->file);
+			free(node->file);
+			node->file = NULL;
 		}
 	}
 	return (node);

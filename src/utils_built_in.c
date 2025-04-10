@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 17:04:34 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 06:21:52 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int	ft_while_echo(char **args, int i, int j)
 		j = 0;
 		while (args[i][j])
 		{
-			printf("%c", args[i][j]);
+			write(1, &args[i][j], 1);
 			j++;
 		}
 		if (args[i + 1])
-			printf(" ");
+			write(1, " ", 1);
 		i++;
 	}
 	return (i);

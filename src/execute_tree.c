@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 15:58:29 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 09:41:45 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,41 +88,49 @@ static char	*handle_word2(char *line, int *i)
 	return (segment);
 }
 
-static char	**retrieve_var(char **cmd)
+static char *retrieve_var_word(char *line)
 {
 	char	*segment;
 	char	*tmp = NULL;
 	char	*word;
+	int		i;
+
+	i = 0;
+	segment = NULL;
+	while (line[i] && line[i] != ' ')
+	{
+		if (line[i] == '$')
+			word = handle_env_variable(line, &i);
+		else if (line[i] == '\'' || line[i] == '"')
+			word = handle_quoted_string(line, &i);
+		else if (line[i] != '<' && line[i] != '>'
+			&& line[i] != ';' && line[i] != '|'
+			&& (line[i] != '&' || line[i + 1] != '&'))
+			word = handle_word2(line, &i);
+		else
+			break ;
+		if (!word)
+			return (NULL);
+		i++;
+		tmp = segment;
+		segment = ft_strjoin(segment, word);
+			free(word);
+		free(tmp);
+	}
+	return (segment);
+}
+
+static char	**retrieve_var(char **cmd)
+{
+	char	*segment;
 	char	*line;
 	int		i;
-	int		j;
 
 	i = 0;
 	while (cmd[i])
 	{
-		j = 0;
 		line = cmd[i];
-		segment = NULL;
-		while (line[j] && line[j] != ' ')
-		{
-			if (line[j] == '$')
-				word = handle_env_variable(line, &j);
-			else if (line[j] == '\'' || line[j] == '"')
-				word = handle_quoted_string(line, &j);
-			else if (line[j] != '<' && line[j] != '>'
-				&& line[j] != ';' && line[j] != '|'
-				&& (line[j] != '&' || line[j + 1] != '&'))
-				word = handle_word2(line, &j);
-			else
-				break ;
-			if (!word)
-				return (NULL);
-			j++;
-			tmp = segment;
-			segment = ft_strjoin(segment, word);
-				free(word);
-			free(tmp);
-		}
+		segment = retrieve_var_word(line);
 		free(line);
 		cmd[i] = ft_strdup(segment);
 		free(segment);
@@ -143,6 +151,11 @@ void	execute_tree(t_btree *tree)
 			tree->cmd[0] = ft_itoa(get_exit_code());
 		}
 		tree->cmd = retrieve_var(tree->cmd);
+		if (tree->cmd[0][0] == 0)
+		{
+			tree->status = 0;
+			return ;
+		}
 		execute_path(tree);
 	}
 	ft_if_execute_andor(tree);
@@ -156,6 +169,14 @@ void	execute_tree(t_btree *tree)
 		execute_pipeline(tree);
 	if (tree->type == NODE_REDIR_IN || tree->type == NODE_REDIR_OUT
 		|| tree->type == NODE_APPEND || tree->type == NODE_HEREDOC)
+	{
+		if (tree->file)
+		{
+			char	*tmp = tree->file;
+			tree->file = retrieve_var_word(tree->file);
+			free(tmp);
+		}
 		execute_redirection(tree);
+	}
 	set_exit_code(tree->status);
 }
