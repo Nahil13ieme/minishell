@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_built_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 15:30:21 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:08:38 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_if_export(int i, char *var, char *equal_pos)
 	{
 		while (envi[i])
 		{
-			if (ft_strncmp(envi[i], var, equal_pos - var) == 0)
+			if (ft_strncmp(envi[i], var, (equal_pos - envi[i])) == 0)
 			{
 				free(envi[i]);
 				envi[i] = ft_strdup(var);

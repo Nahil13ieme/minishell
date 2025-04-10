@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 17:16:12 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:30:07 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ int	ft_export(char *var, int i)
 		return (0);
 	}
 	equal_pos = ft_strchr(var, '=');
-	if (var[0] == '=' || ft_isdigit(var[0]))
+	if (var[0] == '=' || ft_isdigit(var[0]) || var[0] < 48
+		|| (var[0] > 57 && var[0] <= 63))
 		return (ft_fprintf("minishell: export: %s not a valid identifier\n",
 				var), 1);
 	i = ft_if_export(i, var, equal_pos);
@@ -126,7 +127,7 @@ int	ft_export(char *var, int i)
 	}
 	return (0);
 }
-
+int	search_max(char *s1, char *s2);
 /**
  * @brief Commande built-in pour sortir une variable de ENV.
  * @param var Variable a unset.
@@ -134,17 +135,15 @@ int	ft_export(char *var, int i)
  */
 void	ft_unset(char *var, int i)
 {
-	size_t	len;
 	char	**envp;
 	int		j;
 
 	envp = sim_glob(NULL, 'g');
 	if (!var || !envp)
 		return ;
-	len = ft_strlen(var);
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], var, len) == 0)
+		if (ft_strncmp(envp[i], var, search_max(envp[i], var)) == 0)
 		{
 			j = i;
 			free(envp[i]);
@@ -159,4 +158,16 @@ void	ft_unset(char *var, int i)
 			i++;
 	}
 	return ;
+}
+
+int	search_max(char *s1, char *s2)
+{
+	int	a;
+	int	b;
+	
+	a = ft_strchr(s1, '=') - s1;
+	b = ft_strlen(s2);
+	if (a > b)
+		return (a);
+	return (b);
 }
