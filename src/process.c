@@ -6,19 +6,20 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:26:03 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 05:35:38 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:29:05 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void apply_all_heredoc(t_btree *tree)
+static void	apply_all_heredoc(t_btree *tree)
 {
 	if (!tree)
-		return;
+		return ;
 	if (tree->left)
 		apply_all_heredoc(tree->left);
-	if (tree->right && tree->type != NODE_REDIR_IN && tree->type != NODE_REDIR_OUT 
+	if (tree->right && tree->type != NODE_REDIR_IN
+		&& tree->type != NODE_REDIR_OUT
 		&& tree->type != NODE_APPEND && tree->type != NODE_HEREDOC)
 		apply_all_heredoc(tree->right);
 	if (tree->type == NODE_HEREDOC)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:34:30 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/08 05:29:53 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:14:25 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ void	ft_while_print_export(char **tab, int i, int j)
 int	ft_while_set_export(void)
 {
 	char	*cwd;
-	int i;
-	char **export;
-	
+	int		i;
+	char	**export;
+
 	export = sim_glob(NULL, 'g');
 	i = 0;
 	while (export[i])
@@ -115,24 +115,4 @@ int	ft_while_set_export(void)
 		i++;
 	}
 	return (i);
-}
-
-void	ft_if_modify_export(char *equal_pos, char *var, char **envi,
-	char **export)
-{
-	int	i;
-
-	i = -1;
-	if (equal_pos)
-	{
-		while (envi[++i])
-			if (ft_strncmp(envi[i], var, equal_pos - var) == 0)
-				return (free(envi[i]));
-	}
-	else
-	{
-		while (export[++i])
-			if (ft_strncmp(export[i], var, ft_strlen(export[i])) == 0)
-				return (free(export[i]));
-	}
 }

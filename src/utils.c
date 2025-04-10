@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:17:41 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/09 14:13:44 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:13:45 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,6 @@ void	ft_print_env(char **tab, int export)
 		free_tab(tab);
 }
 
-int	ft_tablen(char **tab)
-{
-	int	i;
-
-	if (!tab)
-		return (0);
-	i = 0;
-	while (tab[i])
-	{
-		if (!tab[i])
-		{
-			ft_fprintf("\n\n\nErreur: tab[%d] est NULL\n\n\n", i);
-			return (i);
-		}
-		i++;
-	}
-	return (i);
-}
 /**
  * @brief Fait une copie d un tableaux et le retoune malloc
  * @param tab Tableaux a copier
@@ -95,6 +77,7 @@ char	**tab_cpy(char **tab)
 	cpy[i] = NULL;
 	return (cpy);
 }
+
 void	ft_old_pwd_replace(char *var)
 {
 	char	**env;
@@ -107,7 +90,7 @@ void	ft_old_pwd_replace(char *var)
 		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0)
 		{
 			free(env[i]);
-			env[i] = ft_strjoin("OLDPWD=",var);
+			env[i] = ft_strjoin("OLDPWD=", var);
 			if (var != NULL)
 				free(var);
 			sim_glob(env, 's');
@@ -115,11 +98,12 @@ void	ft_old_pwd_replace(char *var)
 		i++;
 	}
 }
-int	sim_quotes(int	nbr, char c)
+
+int	sim_quotes(int nbr, char c)
 {
 	static int	simple_quote = 0;
 	static int	double_quote = 0;
-	
+
 	if (c == 's')
 		simple_quote = nbr;
 	else if (c == 'S')
