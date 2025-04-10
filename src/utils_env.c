@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/09 14:45:50 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:51:46 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 void	add_shellvl(void)
 {
 	int		nbr;
 	char	*str;
 	char	*ret;
 	char	*env;
-	
+
 	env = return_env("SHLVL");
 	if (!env)
 		env = ft_strdup("1");
@@ -25,9 +26,9 @@ void	add_shellvl(void)
 	free(env);
 	nbr++;
 	str = ft_itoa(nbr);
-	ft_unset("SHLVL");
+	ft_unset("SHLVL", 0);
 	ret = ft_strjoin("SHLVL=", str);
-	ft_export(ret);
+	ft_export(ret, 0);
 	free(ret);
 	free(str);
 }
@@ -55,8 +56,6 @@ void	get_env(char **envp)
 	cpy_env[i] = 0;
 	sim_glob(cpy_env, 's');
 	add_shellvl();
-	//set_export();
-	//set_path();
 }
 
 void	free_glob(void)
@@ -87,7 +86,7 @@ char	*return_env(char *str)
 	char	**env;
 	int		len;
 	char	*ret;
-	
+
 	len = ft_strlen(str);
 	env = sim_glob(NULL, 'g');
 	i = 0;
@@ -102,4 +101,3 @@ char	*return_env(char *str)
 	}
 	return (NULL);
 }
-

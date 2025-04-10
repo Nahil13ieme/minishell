@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 14:10:24 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:41:37 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*find_path(char *cmd)
 	char	*path;
 	int		i;
 	char	*part_path;
-	char 	*tmp;
+	char	*tmp;
 
 	tmp = return_env("PATH");
 	if (!tmp)
@@ -74,7 +74,7 @@ void	execute_path(t_btree *tree)
 
 	if (built_in_check(tree->cmd[0]))
 	{
-		exec_built_in(tree);	
+		exec_built_in(tree);
 		return ;
 	}
 	if (access(tree->cmd[0], F_OK) == 0)
@@ -126,9 +126,9 @@ void	exec_built_in(t_btree *tree)
 	else if (ft_strcmp(tree->cmd[0], "pwd") == 0)
 		ft_pwd();
 	else if (ft_strcmp(tree->cmd[0], "export") == 0)
-		tree->status = ft_export(tree->cmd[1]);
+		tree->status = ft_export(tree->cmd[1], 0);
 	else if (ft_strcmp(tree->cmd[0], "unset") == 0)
-		ft_unset(tree->cmd[1]);
+		ft_unset(tree->cmd[1], 0);
 	else if (ft_strcmp(tree->cmd[0], "env") == 0)
 		ft_env(sim_glob(NULL, 'g'));
 	else if (ft_strcmp(tree->cmd[0], "exit") == 0)

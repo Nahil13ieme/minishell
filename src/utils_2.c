@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:10:31 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/04 16:31:10 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:46:01 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,10 @@ void	set_path(void)
 {
 	char	**envi;
 	int		i;
-	//char	**export;
 	char	*cwd;
 
 	i = 0;
 	envi = sim_glob(NULL, 'g');
-	//export = sim_glob(NULL, 'G');
 	cwd = NULL;
 	while (envi[i])
 	{
@@ -103,5 +101,4 @@ void	set_path(void)
 		}
 		i++;
 	}
-	//ft_while_set_export();
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:29:22 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 14:11:11 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:43:34 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	handle_segment(t_token_stream *ts, int i)
 	}
 	if (!segment)
 	{
-			ft_fprintf("Couldnt resolve line : %c\n", ts->line[i]);
+		ft_fprintf("Couldnt resolve line : %c\n", ts->line[i]);
 		return (-1);
 	}
 	add_token(ts, create_token(TOKEN_WORD, segment));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:22:47 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/09 11:16:45 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:52:31 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*handle_word(t_token_stream *ts, int *i)
 		&& ts->line[*i] != '<' && ts->line[*i] != '>'
 		&& ts->line[*i] != ';' && ts->line[*i] != '|'
 		&& !(ts->line[*i] == '&' && ts->line[(*i) + 1] == '&')
-		&& ts->line[*i] !='\''
+		&& ts->line[*i] != '\''
 		&& ts->line[*i] != '\"')
 		(*i)++;
 	len = *i - start;

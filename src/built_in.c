@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 09:42:44 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:26:10 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ void	ft_echo(t_btree *tree)
 
 	args = tree->cmd;
 	i = 1;
-
 	newline = 1;
 	j = 0;
 	while (args[i] && args[i][j] == '-')
 	{
 		j = 0;
-		while (args[i][++j] == 'n');
+		while (args[i][++j] == 'n')
+		{
+		}
 		if (args[i][j] == '\0')
 		{
 			newline = 0;
@@ -52,18 +53,18 @@ int	ft_cd(char **args)
 {
 	char	*buff;
 	char	*home;
-	
+
 	home = return_env("HOME");
 	buff = NULL;
 	if (args[1] == NULL)
-		{
-			if (home == NULL)
-				return (free(home), ft_fprintf("Something disapear"));
-			free(home);
-			home = getenv("HOME");
-			chdir(home);
-			export_pwd(buff);
-		}
+	{
+		if (home == NULL)
+			return (free(home), ft_fprintf("Something disapear"));
+		free(home);
+		home = getenv("HOME");
+		chdir(home);
+		export_pwd(buff);
+	}
 	else if (chdir(args[1]) == 0 && args[2] == NULL)
 	{
 		export_pwd(buff);
@@ -73,7 +74,6 @@ int	ft_cd(char **args)
 		return (ft_fprintf("minishell: cd: too many arguments\n"), 1);
 	return (0);
 }
-
 
 /**
  * @brief Commande built-in pour afficher le chemin actuel
@@ -92,13 +92,12 @@ void	ft_pwd(void)
  * @brief Commande built-in pour exporter une variable dans ENV.
  * @param var Variable a exporter.
  */
-int	ft_export(char *var)
+int	ft_export(char *var, int i)
 {
 	char	*equal_pos ;
 	char	**new_envp;
 	char	**envi;
-	int		i;
-	
+
 	envi = sim_glob(NULL, 'g');
 	if (!var)
 	{
@@ -106,9 +105,9 @@ int	ft_export(char *var)
 		return (0);
 	}
 	equal_pos = ft_strchr(var, '=');
-	i = 0;
 	if (var[0] == '=' || ft_isdigit(var[0]))
-		return (ft_fprintf("minishell: export: %s not a valid identifier\n", var), 1);
+		return (ft_fprintf("minishell: export: %s not a valid identifier\n",
+				var), 1);
 	i = ft_if_export(i, var, equal_pos);
 	if (i != 0)
 	{
@@ -126,9 +125,8 @@ int	ft_export(char *var)
  * @param var Variable a unset.
  * @param envp Variable environement
  */
-void	ft_unset(char *var)
+void	ft_unset(char *var, int i)
 {
-	int		i;
 	size_t	len;
 	char	**envp;
 	int		j;
@@ -137,20 +135,19 @@ void	ft_unset(char *var)
 	if (!var || !envp)
 		return ;
 	len = ft_strlen(var);
-	i = 0;
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], var, len) == 0)
-			{	
-				j = i;
-				free(envp[i]);
-				while (envp[j + 1])
-					{
-						envp[j] = envp[j + 1];
-						j++;
-					}
-				envp[j] = NULL;
+		{
+			j = i;
+			free(envp[i]);
+			while (envp[j + 1])
+			{
+				envp[j] = envp[j + 1];
+				j++;
 			}
+			envp[j] = NULL;
+		}
 		else
 			i++;
 	}

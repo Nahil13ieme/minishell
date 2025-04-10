@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   execute_redirection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 09:56:04 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:36:05 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "minishell.h"
 
-static void execute_append(t_btree *tree);
-static void execute_redir_in(t_btree *tree);
-static void execute_redir_out(t_btree *tree);
+static void	execute_append(t_btree *tree);
+static void	execute_redir_in(t_btree *tree);
+static void	execute_redir_out(t_btree *tree);
 
 void	exit_error(char *msg)
 {
@@ -25,7 +25,7 @@ void	exit_error(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-static void execute_redir_in(t_btree *tree)
+static void	execute_redir_in(t_btree *tree)
 {
 	t_btree	*nodes[100];
 	int		count;
@@ -35,7 +35,8 @@ static void execute_redir_in(t_btree *tree)
 	cmd_node = tree;
 	count = 0;
 	while (cmd_node && (cmd_node->type == NODE_REDIR_IN
-		|| cmd_node->type == NODE_HEREDOC || cmd_node->type == NODE_REDIR_OUT))
+			|| cmd_node->type == NODE_HEREDOC
+			|| cmd_node->type == NODE_REDIR_OUT))
 	{
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
@@ -58,16 +59,17 @@ static void execute_redir_in(t_btree *tree)
 	close(saved_stdin);
 }
 
-static void execute_redir_out(t_btree *tree)
+static void	execute_redir_out(t_btree *tree)
 {
-	t_btree *nodes[100];
+	t_btree	*nodes[100];
 	int		count;
-	t_btree *cmd_node;
+	t_btree	*cmd_node;
 	int		saved_stdout;
 
 	cmd_node = tree;
 	count = 0;
-	while (cmd_node && (cmd_node->type == NODE_APPEND || cmd_node->type == NODE_REDIR_OUT))
+	while (cmd_node && (cmd_node->type == NODE_APPEND
+			|| cmd_node->type == NODE_REDIR_OUT))
 	{
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
@@ -90,7 +92,7 @@ static void execute_redir_out(t_btree *tree)
 	tree->status = 0;
 }
 
-static int get_oflags(int type)
+static int	get_oflags(int type)
 {
 	if (type == NODE_REDIR_IN)
 		return (O_RDONLY);
@@ -102,14 +104,15 @@ static int get_oflags(int type)
 		return (-1);
 }
 
-int	open_fd(int count, t_btree * nodes[100])
+int	open_fd(int count, t_btree *nodes[100])
 {
-	int i;
-	int fd;
-	int pipe_fds[2];
+	int	i;
+	int	fd;
+	int	pipe_fds[2];
 	int	oflags;
 	int	std;
-
+	int	j;
+	
 	i = count - 1;
 	oflags = 0;
 	while (i >= 0)
@@ -121,7 +124,8 @@ int	open_fd(int count, t_btree * nodes[100])
 			fd = open(nodes[i]->file, oflags, 0644);
 			if (fd == -1)
 			{
-				ft_fprintf("minishell: %s: No such file or directory\n", nodes[i]->file);
+				ft_fprintf("minishell: %s: No such file or directory\n",
+					nodes[i]->file);
 				nodes[0]->status = 1;
 				return (-1);
 			}
@@ -139,10 +143,11 @@ int	open_fd(int count, t_btree * nodes[100])
 				exit_error("pipe");
 			if (nodes[i]->heredoc)
 			{
-				int j = 0;
+				j = 0;
 				while (nodes[i]->heredoc[j])
 				{
-					write(pipe_fds[1], nodes[i]->heredoc[j], ft_strlen(nodes[i]->heredoc[j]));
+					write(pipe_fds[1], nodes[i]->heredoc[j],
+						ft_strlen(nodes[i]->heredoc[j]));
 					write(pipe_fds[1], "\n", 1);
 					j++;
 				}
@@ -159,14 +164,15 @@ int	open_fd(int count, t_btree * nodes[100])
 
 static void	execute_append(t_btree *tree)
 {
-	t_btree *nodes[100];
+	t_btree	*nodes[100];
 	int		count;
-	t_btree *cmd_node;
+	t_btree	*cmd_node;
 	int		saved_stdout;
 
 	cmd_node = tree;
 	count = 0;
-	while (cmd_node && (cmd_node->type == NODE_APPEND || cmd_node->type == NODE_REDIR_OUT))
+	while (cmd_node && (cmd_node->type == NODE_APPEND
+			|| cmd_node->type == NODE_REDIR_OUT))
 	{
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;

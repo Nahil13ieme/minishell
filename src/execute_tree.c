@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 09:41:45 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:38:36 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static char	*handle_word2(char *line, int *i)
 		&& line[*i] != '<' && line[*i] != '>'
 		&& line[*i] != ';' && line[*i] != '|'
 		&& !(line[*i] == '&' && line[(*i) + 1] == '&')
-		&& line[*i] !='\''
+		&& line[*i] != '\''
 		&& line[*i] != '\"' && line[*i] != '$')
 		(*i)++;
 	len = *i - start;
@@ -88,13 +88,14 @@ static char	*handle_word2(char *line, int *i)
 	return (segment);
 }
 
-static char *retrieve_var_word(char *line)
+static char	*retrieve_var_word(char *line)
 {
 	char	*segment;
-	char	*tmp = NULL;
+	char	*tmp;
 	char	*word;
 	int		i;
 
+	temp = NULL;
 	i = 0;
 	segment = NULL;
 	while (line[i] && line[i] != ' ')
@@ -114,7 +115,7 @@ static char *retrieve_var_word(char *line)
 		i++;
 		tmp = segment;
 		segment = ft_strjoin(segment, word);
-			free(word);
+		free(word);
 		free(tmp);
 	}
 	return (segment);
@@ -141,6 +142,8 @@ static char	**retrieve_var(char **cmd)
 
 void	execute_tree(t_btree *tree)
 {
+	char	*tmp;
+
 	if (tree == NULL)
 		return ;
 	if (tree->cmd)
@@ -172,7 +175,7 @@ void	execute_tree(t_btree *tree)
 	{
 		if (tree->file)
 		{
-			char	*tmp = tree->file;
+			tmp = tree->file;
 			tree->file = retrieve_var_word(tree->file);
 			free(tmp);
 		}

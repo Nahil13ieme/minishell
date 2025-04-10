@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:54:41 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 09:33:05 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:39:36 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static int	check_alpha(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_isdigit(str[i]) && !(str[i] == '-' || str[i] == '+'))
+		if (!ft_isdigit(str[i]) && !(str[i] == '-'
+				|| str[i] == '+'))
 			return (1);
 		i++;
 	}
@@ -59,7 +60,8 @@ void	ft_exit(t_btree *tree)
 	status = 0;
 	if (check_alpha(tree->cmd[1]))
 	{
-		ft_fprintf("minishell: exit: %s: numeric argument required\n", tree->cmd[1]);
+		ft_fprintf("minishell: exit: %s: numeric argument required\n",
+			tree->cmd[1]);
 		tree->status = 2;
 		return ;
 	}

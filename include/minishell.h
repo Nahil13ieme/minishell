@@ -108,15 +108,15 @@ void			free_tree(t_btree *root);
 void			ft_echo(t_btree *tree);
 int				ft_cd(char **args);
 void			ft_pwd(void);
-int				ft_export(char *var);
-void			ft_unset(char *var);
+int				ft_export(char *var, int i);
+void			ft_unset(char *var, int i);
 
 /* ------------------------EXECUTE_HEREDOC---------------------------------- */
 void			execute_heredoc(t_btree *tree);
 
 /* ----------------------EXECUTE_REDIRECTION-------------------------------- */
 void			exit_error(char *msg);
-int				open_fd(int count, t_btree * nodes[100]);
+int				open_fd(int count, t_btree *nodes[100]);
 //static void		execute_redir_in(t_btree *tree);
 //static void		execute_redir_out(t_btree *tree);
 //static void		execute_append(t_btree *tree);
@@ -244,7 +244,7 @@ void			ft_print_env(char **tab, int export);
 int				ft_tablen(char **tab);
 char			**tab_cpy(char **tab);
 void			ft_old_pwd_replace(char *var);
-int				sim_quotes(int	nbr, char c);
+int				sim_quotes(int nbr, char c);
 
 int				check_dir(t_btree *tree);
 
@@ -252,9 +252,9 @@ int				check_dir(t_btree *tree);
 
 unsigned int	ft_fprintf(const char *str, ...);
 
-void	apply_heredoc(t_btree *tree, int child);
+void			apply_heredoc(t_btree *tree, int child);
 
 // TEST ZONE
-char	**extract_content_heredoc(char *delimiter);
+char			**extract_content_heredoc(char *delimiter);
 
 #endif //MINISHELL_H
