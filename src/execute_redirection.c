@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 04:44:08 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 09:56:04 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static void execute_redir_in(t_btree *tree)
 
 	cmd_node = tree;
 	count = 0;
-	while (cmd_node && (cmd_node->type == NODE_REDIR_IN || cmd_node->type == NODE_HEREDOC))
+	while (cmd_node && (cmd_node->type == NODE_REDIR_IN
+		|| cmd_node->type == NODE_HEREDOC || cmd_node->type == NODE_REDIR_OUT))
 	{
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
@@ -42,13 +43,16 @@ static void execute_redir_in(t_btree *tree)
 	saved_stdin = dup(STDIN_FILENO);
 	if (saved_stdin == -1)
 		exit_error("dup");
-	if (open_fd(count, nodes, O_RDONLY, STDIN_FILENO) == -1)
+	if (open_fd(count, nodes) == -1)
 	{
+		if (dup2(saved_stdin, STDIN_FILENO) == -1)
+			exit_error("dup2");
 		close(saved_stdin);
-		return;
+		return ;
 	}
 	if (cmd_node)
 		execute_tree(cmd_node);
+	tree->status = cmd_node->status;
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 		exit_error("dup2");
 	close(saved_stdin);
@@ -65,19 +69,16 @@ static void execute_redir_out(t_btree *tree)
 	count = 0;
 	while (cmd_node && (cmd_node->type == NODE_APPEND || cmd_node->type == NODE_REDIR_OUT))
 	{
-		if (cmd_node->type == NODE_APPEND)
-		{
-			execute_append(cmd_node);
-			return ;
-		}
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
 	}
 	saved_stdout = dup(STDOUT_FILENO);
 	if (saved_stdout == -1)
 		exit_error("dup");
-	if (open_fd(count, nodes, O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO) == -1)
+	if (open_fd(count, nodes) == -1)
 	{
+		if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+			exit_error("dup2");
 		close(saved_stdout);
 		return ;
 	}
@@ -89,27 +90,47 @@ static void execute_redir_out(t_btree *tree)
 	tree->status = 0;
 }
 
+static int get_oflags(int type)
+{
+	if (type == NODE_REDIR_IN)
+		return (O_RDONLY);
+	else if (type == NODE_REDIR_OUT)
+		return (O_WRONLY | O_CREAT | O_TRUNC);
+	else if (type == NODE_APPEND)
+		return (O_WRONLY | O_CREAT | O_APPEND);
+	else
+		return (-1);
+}
 
-int open_fd(int count, t_btree * nodes[100], int o_flags, int std)
+int	open_fd(int count, t_btree * nodes[100])
 {
 	int i;
 	int fd;
 	int pipe_fds[2];
+	int	oflags;
+	int	std;
 
 	i = count - 1;
+	oflags = 0;
 	while (i >= 0)
 	{
+		std = (nodes[i]->type == NODE_REDIR_IN) ? STDIN_FILENO : STDOUT_FILENO;
+		oflags = get_oflags(nodes[i]->type);
 		if (nodes[i]->type != NODE_HEREDOC)
 		{
-			fd = open(nodes[i]->file, o_flags, 0644);
+			fd = open(nodes[i]->file, oflags, 0644);
 			if (fd == -1)
 			{
 				ft_fprintf("minishell: %s: No such file or directory\n", nodes[i]->file);
+				nodes[0]->status = 1;
 				return (-1);
 			}
-			if (dup2(fd, std) == -1)
-				exit_error("dup2");
-			close(fd);
+			if (i == 0)
+			{
+				if (dup2(fd, std) == -1)
+					exit_error("dup2");
+				close(fd);
+			}
 		}
 		else
 		{
@@ -147,19 +168,16 @@ static void	execute_append(t_btree *tree)
 	count = 0;
 	while (cmd_node && (cmd_node->type == NODE_APPEND || cmd_node->type == NODE_REDIR_OUT))
 	{
-		if (cmd_node->type == NODE_REDIR_OUT)
-		{
-			execute_redir_out(cmd_node);
-			return ;
-		}
 		nodes[count++] = cmd_node;
 		cmd_node = cmd_node->left;
 	}
 	saved_stdout = dup(STDOUT_FILENO);
 	if (saved_stdout == -1)
 		exit_error("dup");
-	if (open_fd(count, nodes, O_WRONLY | O_CREAT | O_APPEND, STDOUT_FILENO) == -1)
+	if (open_fd(count, nodes) == -1)
 	{
+		if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+			exit_error("dup2");
 		close(saved_stdout);
 		return ;
 	}

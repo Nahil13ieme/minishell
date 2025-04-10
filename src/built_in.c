@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/09 14:30:50 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 09:42:44 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ int	ft_cd(char **args)
 			chdir(home);
 			export_pwd(buff);
 		}
-	else if (chdir(args[1]) == 0)
+	else if (chdir(args[1]) == 0 && args[2] == NULL)
 	{
 		export_pwd(buff);
 		free(home);
 	}
 	else
-		return (free(home), perror("cd"), 1);
+		return (ft_fprintf("minishell: cd: too many arguments\n"), 1);
 	return (0);
 }
 
