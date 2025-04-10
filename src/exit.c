@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:54:41 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 15:30:07 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:59:49 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,22 @@ void	ft_exit(t_btree *tree)
 	int	status;
 
 	status = 0;
-	if (check_alpha(tree->cmd[1]))
-	{
-		ft_fprintf("minishell: exit: %s: numeric argument required\n",
-			tree->cmd[1]);
-		tree->status = 2;
-		return ;
-	}
 	if (tree->cmd[1])
+	{
 		status = ft_atoi(tree->cmd[1]);
+		if (check_alpha(tree->cmd[1]))
+		{
+			ft_fprintf("minishell: exit: %s: numeric argument required\n",
+				tree->cmd[1]);
+			tree->status = 2;
+			return ;
+		}
+	}
 	else
 		status = get_exit_code();
 	if (!tree->child)
 		printf("exit\n");
-	if (tree->cmd[2] != NULL)
+	if (tree->cmd[1] && tree->cmd[2] != NULL)
 	{
 		ft_fprintf("minishell: exit: too many arguments\n");
 		tree->status = 1;

@@ -1,0 +1,78 @@
+tle-saut@minishell:/home/tle-saut/minishell$ echo $abc
+a     b
+tle-saut@minishell:/home/tle-saut/minishell$ bash
+tle-saut@c1r3p3:~/minishell$ echo $abc
+a b
+tle-saut@c1r3p3:~/minishell$ echo "$abc"
+a     b
+
+
+unset PWD
+cd /
+
+tle-saut@minishell:/home/tle-saut/minishell$ sleep 4
+^C
+tle-saut@minishell:/home/tle-saut/minishell$ tle-saut@minishell:/home/tle-saut/minishell$ 
+
+tle-saut@minishell:/home/tle-saut/minishell$ ^C
+tle-saut@minishell:/home/tle-saut/minishell$ echo $?
+0 (should be 130)
+
+ctrl \ doens't display core dumped
+
+export ?=truc  ne renvoie pas d'erreure
+
+tle-saut@minishell:/home/tle-saut/minishell$ exit a 2
+minishell: exit: a: numeric argument required
+tle-saut@minishell:/home/tle-saut/minishell$ bash
+tle-saut@c1r3p3:~/minishell$ exit a 2
+exit
+bash: exit: a: numeric argument required
+
+
+tle-saut@minishell:/home/tle-saut/minishell$ exit 1111111111111111111111111111111111111111111111111
+exit
+➜  minishell git:(main) ✗ echo $?
+199
+➜  minishell git:(main) ✗ bash
+tle-saut@c1r3p3:~/minishell$ exit 1111111111111111111111111111111111111111111111111111111111111
+exit
+bash: exit: 1111111111111111111111111111111111111111111111111111111111111: numeric argument required
+
+
+tle-saut@minishell:/home/tle-saut/minishell$ echo -n -n a
+-n atle-saut@minishell:/home/tle-saut/minishell$ bash
+tle-saut@c1r3p3:~/minishell$ echo -n -n a
+atle-saut@c1r3p3:~/minishell$ 
+exit
+
+
+le-saut@minishell:/home/tle-saut/minishell$ export PATH
+tle-saut@minishell:/home/tle-saut/minishell$ ls
+ls: command not found
+tle-saut@minishell:/home/tle-saut/minishell$ ^C
+tle-saut@minishell:/home/tle-saut/minishell$ 
+exit
+➜  minishell git:(main) ✗ ./minishell
+tle-saut@minishell:/home/tle-saut/minishell$ bash
+tle-saut@c1r3p3:~/minishell$ export PATH
+tle-saut@c1r3p3:~/minishell$ ls
+a  eof	errors	errors.txt  include  libft  Makefile  minishell  obj  readline.supp  readme_branch_github.txt  src  test.txt  TODO.md
+tle-saut@c1r3p3:~/minishell$ 
+
+tle-saut@minishell:/home/tle-saut/minishell$ export HOMEE=lol
+tle-saut@minishell:/home/tle-saut/minishell$ echo $HOMEE
+lol
+tle-saut@minishell:/home/tle-saut/minishell$ unset HO
+tle-saut@minishell:/home/tle-saut/minishell$ echo $HOMEE
+
+tle-saut@minishell:/home/tle-saut/minishell$ cat <<a<<b<errors
+> a
+> b
+> a
+cat: write error: Bad file descriptor
+
+tle-saut@minishell:/home/tle-saut/minishell$ unset SHLVL
+tle-saut@minishell:/home/tle-saut/minishell$ ./minishell 
+tle-saut@minishell:/home/tle-saut/minishell$ echo $SHLVL
+2 (should be 1)

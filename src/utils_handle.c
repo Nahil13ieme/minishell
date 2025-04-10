@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:22:47 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 14:52:31 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:14:08 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_while_handle_segment(t_token_stream *ts,
 {
 	char	*tmp;
 
-	while (ts->line[i] && ts->line[i] != ' ')
+	while (ts->line[i] && !ft_strchr(" \t", ts->line[i]))
 	{
 		if (ts->line[i] == '\'' || ts->line[i] == '\"')
 			word = handle_quote(ts, &i);
