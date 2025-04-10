@@ -7,9 +7,6 @@ tle-saut@c1r3p3:~/minishell$ echo "$abc"
 a     b
 
 
-unset PWD
-cd /
-
 tle-saut@minishell:/home/tle-saut/minishell$ sleep 4
 ^C
 tle-saut@minishell:/home/tle-saut/minishell$ tle-saut@minishell:/home/tle-saut/minishell$ 
@@ -20,7 +17,7 @@ tle-saut@minishell:/home/tle-saut/minishell$ echo $?
 
 ctrl \ doens't display core dumped
 
-export ?=truc  ne renvoie pas d'erreure
+export ?=truc  ne renvoie pas d'erreur
 
 tle-saut@minishell:/home/tle-saut/minishell$ exit a 2
 minishell: exit: a: numeric argument required

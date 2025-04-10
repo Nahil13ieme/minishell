@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 15:23:13 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:16:12 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,26 @@ int	ft_cd(char **args)
 {
 	char	*buff;
 	char	*home;
-
+	char	*pwd;
+	
 	home = return_env("HOME");
+	pwd = return_env("PWD");
 	buff = NULL;
 	if (args[1] == NULL)
 	{
 		if (home == NULL)
-			return (free(home), ft_fprintf("Something disapear"));
+			return (free(home), ft_fprintf("Something disapear, looser\n"));
 		free(home);
+		free(pwd);
 		home = getenv("HOME");
 		chdir(home);
 		export_pwd(buff);
 	}
-	else if (chdir(args[1]) == 0 && args[2] == NULL)
+	if (pwd == NULL)
+		return (free(home), free(pwd), ft_fprintf("Something disapear, looser\n"));
+	if (args[1][0] == '~')
+		return (chdir(home), free(home), free(pwd), 0);
+	if (chdir(args[1]) == 0 && args[2] == NULL)
 	{
 		export_pwd(buff);
 		free(home);

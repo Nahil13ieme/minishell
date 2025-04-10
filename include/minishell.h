@@ -257,6 +257,7 @@ int				check_dir(t_btree *tree);
 unsigned int	ft_fprintf(const char *str, ...);
 
 void			apply_heredoc(t_btree *tree, int child);
+char			*retrieve_var_word(char *line);
 
 // TEST ZONE
 char			**extract_content_heredoc(char *delimiter);

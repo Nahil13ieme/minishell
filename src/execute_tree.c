@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 16:58:09 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:01:29 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static char	*handle_word2(char *line, int *i)
 	return (segment);
 }
 
-static char	*retrieve_var_word(char *line)
+char	*retrieve_var_word(char *line)
 {
 	char	*segment;
 	char	*tmp;
