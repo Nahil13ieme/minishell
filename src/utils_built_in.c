@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 18:08:38 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:46:03 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_if_export(int i, char *var, char *equal_pos)
 	{
 		while (envi[i])
 		{
-			if (ft_strncmp(envi[i], var, (equal_pos - envi[i])) == 0)
+			if (ft_strncmp(envi[i], var, search_max(envi[i], var)) == 0)
 			{
 				free(envi[i]);
 				envi[i] = ft_strdup(var);
@@ -88,4 +88,16 @@ void	export_pwd(char *buff)
 	if (freeint == 0)
 		return (free(temp), free(tempold), free(buff), free(pwd));
 	return (free(temp), free(tempold), free(pwd));
+}
+
+int	search_max(char *s1, char *s2)
+{
+	int	a;
+	int	b;
+	
+	a = ft_strchr(s1, '=') - s1;
+	b = ft_strlen(s2);
+	if (a > b)
+		return (a);
+	return (b);
 }

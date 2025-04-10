@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 18:30:07 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:45:37 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ int	ft_export(char *var, int i)
 	}
 	return (0);
 }
-int	search_max(char *s1, char *s2);
 /**
  * @brief Commande built-in pour sortir une variable de ENV.
  * @param var Variable a unset.
@@ -158,16 +157,4 @@ void	ft_unset(char *var, int i)
 			i++;
 	}
 	return ;
-}
-
-int	search_max(char *s1, char *s2)
-{
-	int	a;
-	int	b;
-	
-	a = ft_strchr(s1, '=') - s1;
-	b = ft_strlen(s2);
-	if (a > b)
-		return (a);
-	return (b);
 }
