@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 15:28:53 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:58:09 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,25 +119,6 @@ static char	*retrieve_var_word(char *line)
 		free(tmp);
 	}
 	return (segment);
-}
-
-static char	**retrieve_var(char **cmd)
-{
-	char	*segment;
-	char	*line;
-	int		i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		line = cmd[i];
-		segment = retrieve_var_word(line);
-		free(line);
-		cmd[i] = ft_strdup(segment);
-		free(segment);
-		i++;
-	}
-	return (cmd);
 }
 
 void	execute_tree(t_btree *tree)

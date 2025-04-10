@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:05:46 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 15:15:27 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:56:25 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,23 @@ void	ft_if_modify_export(char *equal_pos, char *var, char **envi,
 			if (ft_strncmp(export[i], var, ft_strlen(export[i])) == 0)
 				return (free(export[i]));
 	}
+}
+
+char	**retrieve_var(char **cmd)
+{
+	char	*segment;
+	char	*line;
+	int		i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		line = cmd[i];
+		segment = retrieve_var_word(line);
+		free(line);
+		cmd[i] = ft_strdup(segment);
+		free(segment);
+		i++;
+	}
+	return (cmd);
 }

@@ -116,7 +116,7 @@ void			execute_heredoc(t_btree *tree);
 
 /* ----------------------EXECUTE_REDIRECTION-------------------------------- */
 void			exit_error(char *msg);
-int				open_fd(int count, t_btree * nodes[100]);
+int				open_fd(int count, t_btree *nodes[100]);
 //static void		execute_redir_in(t_btree *tree);
 //static void		execute_redir_out(t_btree *tree);
 //static void		execute_append(t_btree *tree);
@@ -201,7 +201,8 @@ void			set_export(void);
 void			set_path(void);
 
 /*-----------------------------UTILS_3---------------------------------------*/
-int	get_oflags(int type);
+int				get_oflags(int type);
+char			**retrieve_var(char **cmd);
 
 /*-------------------------UTILS_BUILT_IN------------------------------------*/
 int				ft_while_echo(char **args, int i, int j);
@@ -258,6 +259,6 @@ unsigned int	ft_fprintf(const char *str, ...);
 void			apply_heredoc(t_btree *tree, int child);
 
 // TEST ZONE
-char	**extract_content_heredoc(char *delimiter);
+char			**extract_content_heredoc(char *delimiter);
 
 #endif //MINISHELL_H
