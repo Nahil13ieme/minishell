@@ -17,8 +17,6 @@ tle-saut@minishell:/home/tle-saut/minishell$ echo $?
 
 ctrl \ doens't display core dumped
 
-export ?=truc  ne renvoie pas d'erreur
-
 tle-saut@minishell:/home/tle-saut/minishell$ exit a 2
 minishell: exit: a: numeric argument required
 tle-saut@minishell:/home/tle-saut/minishell$ bash
@@ -42,20 +40,6 @@ tle-saut@minishell:/home/tle-saut/minishell$ echo -n -n a
 tle-saut@c1r3p3:~/minishell$ echo -n -n a
 atle-saut@c1r3p3:~/minishell$ 
 exit
-
-
-le-saut@minishell:/home/tle-saut/minishell$ export PATH
-tle-saut@minishell:/home/tle-saut/minishell$ ls
-ls: command not found
-tle-saut@minishell:/home/tle-saut/minishell$ ^C
-tle-saut@minishell:/home/tle-saut/minishell$ 
-exit
-➜  minishell git:(main) ✗ ./minishell
-tle-saut@minishell:/home/tle-saut/minishell$ bash
-tle-saut@c1r3p3:~/minishell$ export PATH
-tle-saut@c1r3p3:~/minishell$ ls
-a  eof	errors	errors.txt  include  libft  Makefile  minishell  obj  readline.supp  readme_branch_github.txt  src  test.txt  TODO.md
-tle-saut@c1r3p3:~/minishell$ 
 
 
 tle-saut@minishell:/home/tle-saut/minishell$ cat <<a<<b<errors
