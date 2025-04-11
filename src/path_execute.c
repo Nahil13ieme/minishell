@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 14:41:37 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:03:29 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,11 @@ static int	execute_child(char *path, char **cmd)
 		waitpid(pid1, &ret, 0);
 	else if (pid1 < 0)
 		exit(EXIT_FAILURE);
-	return (ret / 256);
+	if (WIFEXITED(ret))
+		ret = WEXITSTATUS(ret);
+	else if (WIFSIGNALED(ret))
+		ret = 128 + WTERMSIG(ret);
+	return (ret);
 }
 
 void	execute_path(t_btree *tree)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 17:01:29 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:00:06 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,10 @@ static void	execute_pipeline(t_btree *tree)
 	waitpid(pid2, &tree->status, 0);
 	if (WIFEXITED(tree->status))
 		tree->status = WEXITSTATUS(tree->status);
+	else if (WIFSIGNALED(tree->status))
+		tree->status = WTERMSIG(tree->status);
+	else
+		tree->status = 1;
 }
 
 static char	*handle_word2(char *line, int *i)

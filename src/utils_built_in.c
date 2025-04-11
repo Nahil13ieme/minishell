@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_built_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/11 14:37:02 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:48:43 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ int	ft_if_export(int i, char *var, char *equal_pos)
 {
 	char	**envi;
 	int		len;
-	int		j;
 
 	(void)equal_pos;
-	j = 0;
 	len = ft_strlen(var);
 	envi = sim_glob(NULL, 'g');
 	if(search_c(var, '=') != 0)
