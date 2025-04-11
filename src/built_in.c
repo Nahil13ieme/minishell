@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/11 16:36:32 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:16:25 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,25 @@ int	ft_cd(char **args)
 	if (args[1] == NULL)
 	{
 		if (home == NULL)
-			return (free(home), ft_fprintf("Something disapear, looser\n"));
+			return (ft_fprintf("Something disapear, looser\n"));
 		free(home);
 		free(pwd);
 		home = getenv("HOME");
 		chdir(home);
 		export_pwd(buff);
 	}
-	if (pwd == NULL)
+	else if (pwd == NULL)
 		return (free(home), free(pwd), ft_fprintf("Something disapear, looser\n"));
-	if (args[1] && args[1][0] == '~')
+	else if (args[1][0] == '~')
 		return (chdir(home), free(home), free(pwd), 0);
 	else if (chdir(args[1]) == 0 && args[2] == NULL)
 	{
 		export_pwd(buff);
 		free(home);
+		free(pwd);
 	}
 	else
-		return (ft_fprintf("minishell: cd: too many arguments\n"), 1);
+		return (free(pwd), ft_fprintf("minishell: cd: too many arguments\n"), 1);
 	return (0);
 }
 

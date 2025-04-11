@@ -6,11 +6,28 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 16:24:52 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:00:35 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static void	ft_check_env(void)
+{
+	char	**tab;
+	char	*str;
+	char	*buff;
+
+	buff = NULL;
+	tab = sim_glob(NULL, 'g');
+	if(ft_tablen(tab) < 1)
+		{
+			buff = getcwd(buff, 0);
+			str = ft_strjoin("PWD=", buff);
+			ft_export(str, 0);
+		}
+	sim_glob(tab, 's');
+}
 
 void	add_shellvl(void)
 {
@@ -31,6 +48,7 @@ void	add_shellvl(void)
 	ft_export(ret, 0);
 	free(ret);
 	free(str);
+	ft_check_env();
 }
 
 void	get_env(char **envp)
