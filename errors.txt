@@ -6,15 +6,6 @@ a b
 tle-saut@c1r3p3:~/minishell$ echo "$abc"
 a     b
 
-
-tle-saut@minishell:/home/tle-saut/minishell$ sleep 4
-^C
-tle-saut@minishell:/home/tle-saut/minishell$ tle-saut@minishell:/home/tle-saut/minishell$ 
-
-tle-saut@minishell:/home/tle-saut/minishell$ ^C
-tle-saut@minishell:/home/tle-saut/minishell$ echo $?
-0 (should be 130)
-
 ctrl \ doens't display core dumped
 
 tle-saut@minishell:/home/tle-saut/minishell$ exit a 2
@@ -48,4 +39,3 @@ tle-saut@minishell:/home/tle-saut/minishell$ cat <<a<<b<errors
 > a
 cat: write error: Bad file descriptor
 
-mauvais tri dans export doit prendre en compte tout ce qui il y a avant le =
