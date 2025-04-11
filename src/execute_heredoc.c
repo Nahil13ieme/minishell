@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 00:37:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/11 17:10:36 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:18:49 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ void	set_heredoc_signals(void)
 
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
-	sa.sa_handler = heredoc_sigint; // default behavior: ^C aborts readline
+	sa.sa_handler = heredoc_sigint;
 	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN); // still ignore ^
 }
 
 char	**extract_content_heredoc(char *delimiter)
