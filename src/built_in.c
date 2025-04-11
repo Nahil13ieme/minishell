@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/11 14:46:08 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:36:32 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ int	ft_cd(char **args)
 	}
 	if (pwd == NULL)
 		return (free(home), free(pwd), ft_fprintf("Something disapear, looser\n"));
-	if (args[1][0] == '~')
+	if (args[1] && args[1][0] == '~')
 		return (chdir(home), free(home), free(pwd), 0);
-	if (chdir(args[1]) == 0 && args[2] == NULL)
+	else if (chdir(args[1]) == 0 && args[2] == NULL)
 	{
 		export_pwd(buff);
 		free(home);

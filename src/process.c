@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:26:03 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 16:55:27 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:11:09 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	apply_all_heredoc(t_btree *tree)
 {
+	
 	if (!tree)
 		return ;
 	if (tree->left)
@@ -22,6 +23,8 @@ static void	apply_all_heredoc(t_btree *tree)
 		&& tree->type != NODE_REDIR_OUT
 		&& tree->type != NODE_APPEND && tree->type != NODE_HEREDOC)
 		apply_all_heredoc(tree->right);
+	if (g_signal == SIGINT)
+		return ;
 	if (tree->type == NODE_HEREDOC)
 		apply_heredoc(tree, 1);
 }
@@ -45,7 +48,8 @@ void	process_line(char *line)
 		if (set_root(NULL, 'g'))
 		{
 			apply_all_heredoc(set_root(NULL, 'g'));
-			execute_tree(set_root(NULL, 'g'));
+			if (g_signal != SIGINT)
+				execute_tree(set_root(NULL, 'g'));
 			set_exit_code(set_root(NULL, 'g')->status);
 			set_root(NULL, 'f');
 		}

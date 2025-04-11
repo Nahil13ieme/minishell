@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 21:14:27 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:32:49 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,8 @@ int	open_fd(int count, t_btree *nodes[100])
 {
 	int	i;
 	int	fd;
-	int	pipe_fds[2];
 	int	oflags;
 	int	std;
-	int	j;
 
 	i = count - 1;
 	oflags = 0;
@@ -118,24 +116,7 @@ int	open_fd(int count, t_btree *nodes[100])
 			}
 		}
 		else
-		{
-			if (nodes[i]->heredoc == NULL)
-				nodes[i]->heredoc = extract_content_heredoc(nodes[i]->delimiter);
-			if (pipe(pipe_fds) == -1)
-				exit_error("pipe");
-			j = 0;
-			while (nodes[i]->heredoc && nodes[i]->heredoc[j])
-			{
-				write(pipe_fds[1], nodes[i]->heredoc[j],
-					ft_strlen(nodes[i]->heredoc[j]));
-				write(pipe_fds[1], "\n", 1);
-				j++;
-			}
-			close(pipe_fds[1]);
-			if (dup2(pipe_fds[0], std) == -1)
-				exit_error("dup2");
-			close(pipe_fds[0]);
-		}
+			apply_heredoc(nodes[i], 0);
 		i--;
 	}
 	return (0);

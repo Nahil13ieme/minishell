@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 00:37:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 15:25:18 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:10:36 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,32 @@
  * l'entree
  */
 
+void	heredoc_sigint(int sig)
+{
+	(void)sig;
+	g_signal = SIGINT;
+	set_exit_code(130);
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+}
+
+void	set_heredoc_signals(void)
+{
+	struct sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sa.sa_handler = heredoc_sigint; // default behavior: ^C aborts readline
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN); // still ignore ^
+}
+
 char	**extract_content_heredoc(char *delimiter)
 {
 	char	**cmd;
 	char	*line;
 	int		i;
 
+	set_heredoc_signals();
 	cmd = malloc(sizeof(char *) * 1);
 	if (!cmd)
 		exit_error("malloc");
@@ -36,6 +56,8 @@ char	**extract_content_heredoc(char *delimiter)
 	while (1)
 	{
 		line = readline("> ");
+		if (g_signal == SIGINT)
+			break ;
 		if (!line || strcmp(line, delimiter) == 0)
 			break ;
 		cmd[i] = ft_strdup(line);
