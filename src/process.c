@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:26:03 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/11 17:11:09 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:31:58 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	apply_all_heredoc(t_btree *tree)
 {
-	
 	if (!tree)
 		return ;
 	if (tree->left)

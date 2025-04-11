@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/11 17:16:25 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:33:39 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_cd(char **args)
 	char	*buff;
 	char	*home;
 	char	*pwd;
-	
+
 	home = return_env("HOME");
 	pwd = return_env("PWD");
 	buff = NULL;
@@ -69,7 +69,8 @@ int	ft_cd(char **args)
 		export_pwd(buff);
 	}
 	else if (pwd == NULL)
-		return (free(home), free(pwd), ft_fprintf("Something disapear, looser\n"));
+		return (free(home), free(pwd),
+			ft_fprintf("Something disapear, looser\n"));
 	else if (args[1][0] == '~')
 		return (chdir(home), free(home), free(pwd), 0);
 	else if (chdir(args[1]) == 0 && args[2] == NULL)
@@ -79,7 +80,8 @@ int	ft_cd(char **args)
 		free(pwd);
 	}
 	else
-		return (free(pwd), ft_fprintf("minishell: cd: too many arguments\n"), 1);
+		return (free(pwd),
+			ft_fprintf("minishell: cd: too many arguments\n"), 1);
 	return (0);
 }
 
@@ -128,6 +130,7 @@ int	ft_export(char *var, int i)
 	}
 	return (0);
 }
+
 /**
  * @brief Commande built-in pour sortir une variable de ENV.
  * @param var Variable a unset.
@@ -157,5 +160,4 @@ void	ft_unset(char *var, int i)
 		else
 			i++;
 	}
-	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/11 14:48:43 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:38:44 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,32 @@ int	ft_if_export(int i, char *var, char *equal_pos)
 	(void)equal_pos;
 	len = ft_strlen(var);
 	envi = sim_glob(NULL, 'g');
-	if(search_c(var, '=') != 0)
-			while (envi[i])
+	if (search_c(var, '=') != 0)
+	{
+		while (envi[i])
+		{
+			if (ft_strncmp(envi[i], var, search_c(var, '=')) == 0
+				&& (envi[i][search_c(var, '=')] == '='
+				|| !envi[i][search_c(var, '=')]))
 			{
-				if (ft_strncmp(envi[i], var, search_c(var, '=')) == 0 && (envi[i][search_c(var, '=')] == '=' || !envi[i][search_c(var, '=')]))
+				if (search_c(var, '=') == 0 && search_c(envi[i], '=') != 0)
+					return (0);
+				free(envi[i]);
+				envi[i] = ft_strdup(var);
+				return (0);
+			}
+			else if (ft_strncmp(envi[i], var, len) == 0 && envi[i][len] == '=')
+			{
+				if (search_c(var, '=') == 0 && search_c(envi[i], '=') != 0)
+					return (0);
+				free(envi[i]);
+				envi[i] = ft_strdup(var);
+				return (0);
+			}
+			else if (ft_strncmp(envi[i], var, len) == 0 && envi[i][len] == '\0')
+			{
+				if (search_c(var, '=') == 0 && search_c(envi[i], '=') != 0)
+					return (0);
 				{
 					free(envi[i]);
 					envi[i] = ft_strdup(var);
@@ -48,7 +70,10 @@ int	ft_if_export(int i, char *var, char *equal_pos)
 				}
 				i++;
 			}
+		}
+	}
 	else
+	{
 		while (envi[i])
 		{
 			if (ft_strncmp(envi[i], var, len) == 0 && envi[i][len] == '=')
@@ -61,6 +86,7 @@ int	ft_if_export(int i, char *var, char *equal_pos)
 			}
 			i++;
 		}
+	}
 	return (i);
 }
 

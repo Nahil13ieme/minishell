@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/11 17:00:35 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:32:10 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static void	ft_check_env(void)
 
 	buff = NULL;
 	tab = sim_glob(NULL, 'g');
-	if(ft_tablen(tab) < 1)
-		{
-			buff = getcwd(buff, 0);
-			str = ft_strjoin("PWD=", buff);
-			ft_export(str, 0);
-		}
+	if (ft_tablen(tab) < 1)
+	{
+		buff = getcwd(buff, 0);
+		str = ft_strjoin("PWD=", buff);
+		ft_export(str, 0);
+	}
 	sim_glob(tab, 's');
 }
 

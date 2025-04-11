@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/11 16:32:49 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:37:24 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,7 @@ int	open_fd(int count, t_btree *nodes[100])
 	oflags = 0;
 	while (i >= 0)
 	{
-		std = (nodes[i]->type == NODE_REDIR_IN || nodes[i]->type == NODE_HEREDOC) 
-			? STDIN_FILENO : STDOUT_FILENO;
+		std = get_std(nodes[i]);
 		oflags = get_oflags(nodes[i]->type);
 		if (nodes[i]->type != NODE_HEREDOC)
 		{
@@ -120,6 +119,19 @@ int	open_fd(int count, t_btree *nodes[100])
 		i--;
 	}
 	return (0);
+}
+
+int	get_std(t_btree *node)
+{
+	int	std;
+
+	if (node->type == NODE_REDIR_IN || node->type == NODE_HEREDOC)
+		std = STDIN_FILENO;
+	else if (node->type == NODE_REDIR_OUT || node->type == NODE_APPEND)
+		std = STDOUT_FILENO;
+	else
+		std = -1;
+	return (std);
 }
 
 static void	execute_append(t_btree *tree)

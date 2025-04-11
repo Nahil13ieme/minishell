@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:10:31 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/11 14:56:23 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:38:50 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	set_path(void)
 		i++;
 	}
 }
+
 int	ft_sort(char *str1, char *str2)
 {
 	int	i;
