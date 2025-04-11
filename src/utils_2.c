@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:10:31 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 14:46:01 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:56:23 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,10 @@ void	print_sort_export(void)
 	size = ft_tablen(tab);
 	while (i < size - 1)
 	{
-		if (tab[0][0] > tab[1][0])
-			i = 0;
-		if ((tab[i][0]) > (tab[i + 1][0]))
+		if (ft_sort(tab[i], tab[i + 1]) == 1)
 		{
-			if (tab[i + 1])
-			{
-				swap_tab(&tab[i], &tab[i + 1]);
-				i = 0;
-			}
+			swap_tab(&tab[i], &tab[i + 1]);
+			i = 0;
 		}
 		i++;
 	}
@@ -101,4 +96,16 @@ void	set_path(void)
 		}
 		i++;
 	}
+}
+int	ft_sort(char *str1, char *str2)
+{
+	int	i;
+
+	i = 0;
+	while (str1[i] && str2[i] && str1[i] == str2[i])
+		i++;
+	if (str1[i] > str2[i])
+		return (1);
+	else
+		return (0);
 }
