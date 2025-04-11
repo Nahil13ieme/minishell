@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 18:45:37 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:22:51 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	ft_export(char *var, int i)
 		return (ft_fprintf("minishell: export: %s not a valid identifier\n",
 				var), 1);
 	i = ft_if_export(i, var, equal_pos);
-	if (i != 0)
+	if (i > 0)
 	{
 		new_envp = ft_tab_realloc(envi, 1);
 		new_envp[i] = ft_strdup(var);
@@ -142,7 +142,7 @@ void	ft_unset(char *var, int i)
 		return ;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], var, search_max(envp[i], var)) == 0)
+		if (ft_strncmp(envp[i], var, search_c(envp[i], '=')) == 0)
 		{
 			j = i;
 			free(envp[i]);

@@ -208,7 +208,7 @@ char			**retrieve_var(char **cmd);
 int				ft_while_echo(char **args, int i, int j);
 int				ft_if_export(int i, char *var, char *equal_pos);
 void			export_pwd(char *buff);
-int				search_max(char *s1, char *s2);
+int				search_c(char *s1, char c);
 
 /*----------------------------UTILS_ENV--------------------------------------*/
 void			get_env(char **envp);

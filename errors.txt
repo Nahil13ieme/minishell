@@ -64,3 +64,4 @@ tle-saut@minishell:/home/tle-saut/minishell$ cat <<a<<b<errors
 > a
 cat: write error: Bad file descriptor
 
+mauvais tri dans export doit prendre en compte tout ce qui il y a avant le =

@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 18:46:03 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:37:02 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,35 +33,36 @@ int	ft_if_export(int i, char *var, char *equal_pos)
 {
 	char	**envi;
 	int		len;
+	int		j;
 
+	(void)equal_pos;
+	j = 0;
 	len = ft_strlen(var);
 	envi = sim_glob(NULL, 'g');
-	if (equal_pos)
-	{
-		while (envi[i])
-		{
-			if (ft_strncmp(envi[i], var, search_max(envi[i], var)) == 0)
+	if(search_c(var, '=') != 0)
+			while (envi[i])
 			{
-				free(envi[i]);
-				envi[i] = ft_strdup(var);
-				return (0);
+				if (ft_strncmp(envi[i], var, search_c(var, '=')) == 0 && (envi[i][search_c(var, '=')] == '=' || !envi[i][search_c(var, '=')]))
+				{
+					free(envi[i]);
+					envi[i] = ft_strdup(var);
+					return (0);
+				}
+				i++;
 			}
-			i++;
-		}
-	}
 	else
-	{
 		while (envi[i])
 		{
-			if (ft_strncmp(envi[i], var, len) == 0)
+			if (ft_strncmp(envi[i], var, len) == 0 && envi[i][len] == '=')
 			{
+				if (search_c(var, '=') == 0 && search_c(envi[i], '=') != 0)
+					return (0);
 				free(envi[i]);
 				envi[i] = ft_strdup(var);
 				return (0);
 			}
 			i++;
 		}
-	}
 	return (i);
 }
 
@@ -90,14 +91,16 @@ void	export_pwd(char *buff)
 	return (free(temp), free(tempold), free(pwd));
 }
 
-int	search_max(char *s1, char *s2)
+int	search_c(char *s1, char c)
 {
-	int	a;
-	int	b;
-	
-	a = ft_strchr(s1, '=') - s1;
-	b = ft_strlen(s2);
-	if (a > b)
-		return (a);
-	return (b);
+	int	i;
+
+	i = 0;
+	while (s1[i])
+	{
+		if (s1[i] == c)
+			return (i);
+		i++;
+	}
+	return (0);
 }
