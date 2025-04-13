@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 12:09:05 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:22:04 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	ft_pwd(void)
  * @brief Commande built-in pour exporter une variable dans ENV.
  * @param var Variable a exporter.
  */
-int	ft_export(char *var, int i)
+int	ft_export(char **var, int i)
 {
 	char	*equal_pos ;
 	char	**new_envp;
@@ -126,10 +126,7 @@ int	ft_export(char *var, int i)
 
 	envi = sim_glob(NULL, 'g');
 	if (!var)
-	{
-		print_sort_export();
-		return (0);
-	}
+		return (print_sort_export(), 0);
 	equal_pos = ft_strchr(var, '=');
 	if (var[0] == '=' || ft_isdigit(var[0]) || var[0] < 48
 		|| (var[0] > 57 && var[0] <= 63))
