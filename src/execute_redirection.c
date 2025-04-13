@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/11 17:37:24 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 12:24:04 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,18 @@ int	open_fd(int count, t_btree *nodes[100])
 		oflags = get_oflags(nodes[i]->type);
 		if (nodes[i]->type != NODE_HEREDOC)
 		{
+			if (ft_strlen(nodes[i]->file) >= 256)
+			{
+				ft_fprintf("minishell: %s: File name too long\n",
+					nodes[i]->file);
+				nodes[0]->status = 1;
+				return (-1);
+			}
+			else if (check_dir_file(nodes[i]->file) == 1)
+			{
+				nodes[0]->status = 1;
+				return (-1);
+			}
 			fd = open(nodes[i]->file, oflags, 0644);
 			if (fd == -1)
 			{

@@ -253,6 +253,7 @@ void			ft_old_pwd_replace(char *var);
 int				sim_quotes(int nbr, char c);
 
 int				check_dir(t_btree *tree);
+int				check_dir_file(char *file);
 int				ft_sort(char *str1, char *str2);
 
 /*----------------------------FT_FPRINTF-------------------------------------*/

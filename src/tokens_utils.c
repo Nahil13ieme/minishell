@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:26:49 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/09 14:13:00 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 12:20:24 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	validate_token_sequence(t_token_stream *ts)
 {
 	if (ts->size == 0)
 		return (0);
-	if (is_control(ts->tokens[0]->type))
+	if (ts->tokens[0]->type != TOKEN_WORD)
 	{
 		ft_fprintf("minishell: syntax error near unexpected token `%s'\n",
 			ts->tokens[0]->value);

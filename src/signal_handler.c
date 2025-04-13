@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 01:24:42 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/11 16:57:44 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 11:18:41 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	handle_sigint(int sig)
 {
 	(void)sig;
 	g_signal = SIGINT;
-	set_exit_code(130);
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	set_exit_code(130);
 }
 
 void	setup_child_signals(void)

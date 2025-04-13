@@ -22,9 +22,9 @@ int	main(int ac, char **av, char **env)
 	using_history();
 	get_env(env);
 	set_exit_code(0);
+	setup_signals();
 	while (1)
 	{
-		setup_signals();
 		g_signal = 0;
 		prompt = make_prompt();
 		line = readline(prompt);

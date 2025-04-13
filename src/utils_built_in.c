@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/11 17:38:44 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 11:16:03 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	ft_if_export(int i, char *var, char *equal_pos)
 				}
 				i++;
 			}
+			i++;
 		}
 	}
 	else

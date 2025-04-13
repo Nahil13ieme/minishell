@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:54:41 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 15:59:49 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/13 11:50:34 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ void	set_exit_code(int code)
 
 int	get_exit_code(void)
 {
-	return (sim_exit(0, 'g'));
+	int	code;
+
+	code = sim_exit(0, 'g');
+	return (code);
 }
 
 int	sim_exit(int code, char c)

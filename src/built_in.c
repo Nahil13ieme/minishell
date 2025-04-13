@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/11 17:33:39 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 12:09:05 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,31 @@ int	ft_cd(char **args)
 			ft_fprintf("Something disapear, looser\n"));
 	else if (args[1][0] == '~')
 		return (chdir(home), free(home), free(pwd), 0);
-	else if (chdir(args[1]) == 0 && args[2] == NULL)
+	else if (!args[2] && chdir(args[1]) == 0)
 	{
 		export_pwd(buff);
 		free(home);
 		free(pwd);
 	}
-	else
-		return (free(pwd),
-			ft_fprintf("minishell: cd: too many arguments\n"), 1);
+	else if (chdir(args[1]) == -1)
+	{
+		free(home);
+		free(pwd);
+		if (args[1][0] == '-' && args[1][1] == '\0')
+			return (ft_fprintf("minishell: cd: %s: No such file or directory\n",
+					args[1]), 1);
+		else if (args[1][0] == '-' && args[1][1] != '\0')
+			return (ft_fprintf("minishell: cd: %s: No such file or directory\n",
+					args[1]), 1);
+		ft_fprintf("minishell: cd: %s: No such file or directory\n",
+			args[1]);
+	}
+	else if (args[2])
+	{
+		free(home);
+		free(pwd);
+		return (ft_fprintf("minishell: cd: too many arguments\n"), 1);
+	}
 	return (0);
 }
 
