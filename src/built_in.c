@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 18:46:09 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 19:30:01 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,11 +145,12 @@ int	ft_export_2(char **args)
 	char	*equal_pos ;
 	char	**new_envp;
 	char	**envi;
-
+	int		exit;
 	int		i;
 	int		j;
 	
 	i = 1;
+	exit = 0;
 	if (!args[i])
 		return (print_sort_export(), 0);
 	while (args[i])
@@ -162,6 +163,8 @@ int	ft_export_2(char **args)
 			return (ft_fprintf("minishell: export: %s not a valid identifier\n",
 					args[i]), 1);
 		j = ft_if_export(j, args[i], equal_pos);
+		if (j == -1)
+			exit = 1;
 		if (j > 0)
 		{
 			new_envp = ft_tab_realloc(envi, 1);
@@ -172,7 +175,9 @@ int	ft_export_2(char **args)
 		}
 		i++;
 	}
-	return (0);
+	if (exit == 0)
+		return (0);
+	return (1);
 }
 
 /**
