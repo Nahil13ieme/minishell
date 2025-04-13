@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 17:46:25 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:46:41 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_cd(char **args)
 	if (args[1] == NULL)
 	{
 		if (home == NULL)
-			return (ft_fprintf("Something disapear, looser\n"));
+			return (free(pwd), ft_fprintf("Something disapear, looser\n"));
 		free(home);
 		free(pwd);
 		home = getenv("HOME");
