@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_built_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 18:27:29 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 19:05:44 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,19 @@ int	ft_if_export(int i, char *var, char *equal_pos)
 {
 	char	**envi;
 	int		len;
+	int		before;
 
+	before = 0;
+	while (var[i])
+	{
+		if (var[i] == '=')
+			before = 1;
+		if ((var[i] < 48 || var[i] > 57) && (var[i] < 65 || var[i] > 90) && (var[i] < 97 || var[i] > 122) && before == 0)
+			return (ft_fprintf("minishell: export: %s not a valid identifier\n",
+				var), 0);
+		i++;
+	}
+	i = 0;
 	(void)equal_pos;
 	len = ft_strlen(var);
 	envi = sim_glob(NULL, 'g');
