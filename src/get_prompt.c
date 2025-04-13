@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:23:40 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 14:44:37 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:12:47 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ char	*get_username(void)
 			name = getenv("LOGNAME");
 			if (!name)
 			{
-				name = "Fantomas";
-				ft_fprintf("User not set\n");
+				name = "????";
 			}
 		}
 	}
