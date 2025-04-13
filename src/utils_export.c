@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:34:30 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 15:14:25 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/13 14:11:28 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_while_print_export(char **tab, int i, int j)
 	printf("define -x ");
 	while (tab[i][j])
 	{
-		if (tab[i][j] == '=' && pass == 0)
+		if (tab[i][j] == '=' && pass == 0 && tab[i][j + 1] != '\"')
 		{
 			printf("=");
 			pass = 1;

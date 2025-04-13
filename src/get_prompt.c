@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:23:40 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/11 16:47:00 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/13 14:33:32 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ char	*get_username(void)
 			name = getenv("LOGNAME");
 			if (!name)
 			{
+				name = getlogin();
 				ft_fprintf("User not set\n");
-				name = "Fantomas";
 			}
 		}
 	}

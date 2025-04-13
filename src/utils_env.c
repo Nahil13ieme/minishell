@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 11:14:27 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 14:32:23 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,50 @@ void	add_shellvl(void)
 	ft_check_env();
 }
 
+char	*search_replace(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			str[i] = ' ';
+		i++;
+	}
+	return (str);
+}
+
+void	set_mini_env(void)
+{
+	char	**tab;
+	int		fd;
+	char	*str;
+
+	fd = open("/etc/environment", O_RDONLY);
+	tab = sim_glob(NULL, 'g');
+	if (tab != NULL)
+		tab = ft_tab_realloc(tab, 1);
+	else
+	{
+		tab = malloc(sizeof(char *) * 2);
+		tab[1] = "\0";
+	}
+	str = get_next_line(fd);
+	str = search_replace(str, '\"');
+	tab[0] = ft_strdup(ft_substr(str, 0, ft_strlen(str) - 4));
+	sim_glob(tab, 's');
+	ft_export(ft_strdup(getlogin()), 0);
+	sim_glob(tab, 's');
+}
+
 void	get_env(char **envp)
 {
 	int		i;
 	char	**cpy_env;
 
+	if (ft_tablen(envp) < 1)
+		return (set_mini_env());
 	i = ft_tablen(envp);
 	cpy_env = malloc(sizeof(char *) * (i + 1));
 	if (cpy_env == NULL)

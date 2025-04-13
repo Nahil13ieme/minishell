@@ -36,7 +36,7 @@
 
 # define ERR_NL "minishell: syntax error near unexpected token `newline'\n"
 # define ERR_REDIR "minishell: syntax error near unexpected token `redir'\n"
-
+# define BUFFER_SIZE 10000
 extern volatile sig_atomic_t	g_signal;
 
 /*******************************STRUCT****************************************/
@@ -265,5 +265,8 @@ char			*retrieve_var_word(char *line);
 
 // TEST ZONE
 char			**extract_content_heredoc(char *delimiter);
+
+/*------------------------------GNL------------------------------------------*/
+char	*get_next_line(int fd);
 
 #endif //MINISHELL_H
