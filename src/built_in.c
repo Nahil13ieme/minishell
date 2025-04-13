@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 16:05:29 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:46:25 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,12 +154,12 @@ int	ft_export_2(char **args)
 	int		j;
 	
 	i = 1;
+	if (!args[i])
+		return (print_sort_export(), 0);
 	while (args[i])
 	{
 		envi = sim_glob(NULL, 'g');
 		j = 0;
-		if (!args[i])
-			return (print_sort_export(), 0);
 		equal_pos = ft_strchr(args[i], '=');
 		if (args[i][0] == '=' || ft_isdigit(args[i][0]) || args[i][0] < 48
 			|| (args[i][0] > 57 && args[i][0] <= 63))
