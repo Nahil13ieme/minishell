@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 11:16:03 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:27:29 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_while_echo(char **args, int i, int j)
 			write(1, &args[i][j], 1);
 			j++;
 		}
-		if (args[i + 1])
+		if (args[i + 1] && args[i][0] != '\0')
 			write(1, " ", 1);
 		i++;
 	}
@@ -91,30 +91,32 @@ int	ft_if_export(int i, char *var, char *equal_pos)
 	return (i);
 }
 
-void	export_pwd(char *buff)
+void	export_pwd(char *buf)
 {
-	char	*tempold;
-	char	*temp;
-	char	*pwd;
-	int		freeint;
+	char	*cwd;
+	char	*oldpwd;
+	char	*env_pwd;
+	char	*pwd_entry;
 
-	freeint = 0;
-	pwd = return_env("PWD");
-	buff = getcwd(buff, 0);
-	if (buff == NULL)
-	{
-		buff = pwd;
-		freeint = 1;
-	}
-	tempold = ft_strjoin("OLDPWD=", pwd);
+	(void)buf;
+	env_pwd = return_env("PWD");
+	if (env_pwd)
+		oldpwd = ft_strjoin("OLDPWD=", env_pwd);
+	else
+		oldpwd = ft_strjoin("OLDPWD=", "");
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (free(oldpwd));
+	pwd_entry = ft_strjoin("PWD=", cwd);
 	ft_unset("OLDPWD", 0);
-	ft_export(tempold, 0);
-	temp = ft_strjoin("PWD=", buff);
-	ft_export(temp, 0);
-	if (freeint == 0)
-		return (free(temp), free(tempold), free(buff), free(pwd));
-	return (free(temp), free(tempold), free(pwd));
+	ft_export(oldpwd, 0);
+	ft_export(pwd_entry, 0);
+	free(env_pwd);
+	free(oldpwd);
+	free(pwd_entry);
+	free(cwd);
 }
+
 
 int	search_c(char *s1, char c)
 {
