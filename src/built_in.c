@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 18:17:03 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:46:09 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,21 @@ void	ft_echo(t_btree *tree)
 	int		i;
 	int		newline;
 	int		j;
-	char	**args;
 
-	args = tree->cmd;
 	i = 1;
 	newline = 1;
 	j = 0;
-	while (args[i] && args[i][j] == '-')
+	while (tree->cmd[i] && tree->cmd[i][0] == '-' && tree->cmd[i][1])
 	{
-		j = 0;
-		while (args[i][++j] == 'n')
-		{
-		}
-		if (args[i][j] == '\0')
-		{
-			newline = 0;
-			i++;
-		}
+		j = 1;
+		while (tree->cmd[i][j] == 'n')
+			j++;
+		if (tree->cmd[i][j] != '\0')
+			break ;
+		newline = 0;
+		i++;
 	}
-	j = 0;
-	i = ft_while_echo(args, i, j);
+	i = ft_while_echo(tree->cmd, i, 0);
 	if (newline)
 		printf("\n");
 }
