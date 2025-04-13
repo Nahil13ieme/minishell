@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:05:46 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/10 16:56:25 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:17:46 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,30 @@ char	**retrieve_var(char **cmd)
 {
 	char	*segment;
 	char	*line;
+	char	**ret;
 	int		i;
+	int		len;
 
 	i = 0;
+	len = 0;
+	ret = NULL;
+	if (!cmd)
+		return (NULL);
 	while (cmd[i])
 	{
 		line = cmd[i];
 		segment = retrieve_var_word(line);
 		free(line);
-		cmd[i] = ft_strdup(segment);
+		if (segment && segment[0] != 0)
+		{
+			ret = ft_tab_realloc(ret, sizeof(char *) * (len + 1));
+			ret[len] = ft_strdup(segment);
+			ret[len + 1] = NULL;
+			len++;
+		}
 		free(segment);
 		i++;
 	}
-	return (cmd);
+	free(cmd);
+	return (ret);
 }

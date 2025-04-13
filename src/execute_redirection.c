@@ -6,82 +6,58 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/13 12:24:04 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:20:28 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "minishell.h"
 
-static void	execute_append(t_btree *tree);
-static void	execute_redir_in(t_btree *tree);
-static void	execute_redir_out(t_btree *tree);
+static int	is_redirection(t_btree *tree)
+{
+	return (tree->type == NODE_REDIR_IN
+		|| tree->type == NODE_REDIR_OUT
+		|| tree->type == NODE_APPEND
+		|| tree->type == NODE_HEREDOC);
+}
 
-static void	execute_redir_in(t_btree *tree)
+static void	extract_nodes(t_btree *tree, t_btree **cmd_node, t_btree *nodes[100], int *count)
+{
+
+	*cmd_node = tree;
+	*count = 0;
+	while (*cmd_node && is_redirection(*cmd_node))
+	{
+		nodes[(*count)++] = *cmd_node;
+		*cmd_node = (*cmd_node)->left;
+	}
+}
+
+static void	execute(t_btree *tree, int std)
 {
 	t_btree	*nodes[100];
 	int		count;
 	t_btree	*cmd_node;
-	int		saved_stdin;
+	int		saved_fd;
 
-	cmd_node = tree;
 	count = 0;
-	while (cmd_node && (cmd_node->type == NODE_REDIR_IN
-			|| cmd_node->type == NODE_HEREDOC
-			|| cmd_node->type == NODE_REDIR_OUT))
-	{
-		nodes[count++] = cmd_node;
-		cmd_node = cmd_node->left;
-	}
-	saved_stdin = dup(STDIN_FILENO);
-	if (saved_stdin == -1)
+	extract_nodes(tree, &cmd_node, nodes, &count);
+	saved_fd = dup(std);
+	if (saved_fd == -1)
 		exit_error("dup");
 	if (open_fd(count, nodes) == -1)
 	{
-		if (dup2(saved_stdin, STDIN_FILENO) == -1)
+		if (dup2(saved_fd, std) == -1)
 			exit_error("dup2");
-		close(saved_stdin);
+		close(saved_fd);
 		return ;
 	}
 	if (cmd_node)
 		execute_tree(cmd_node);
 	tree->status = cmd_node->status;
-	if (dup2(saved_stdin, STDIN_FILENO) == -1)
+	if (dup2(saved_fd, std) == -1)
 		exit_error("dup2");
-	close(saved_stdin);
-}
-
-static void	execute_redir_out(t_btree *tree)
-{
-	t_btree	*nodes[100];
-	int		count;
-	t_btree	*cmd_node;
-	int		saved_stdout;
-
-	cmd_node = tree;
-	count = 0;
-	while (cmd_node && (cmd_node->type == NODE_APPEND
-			|| cmd_node->type == NODE_REDIR_OUT))
-	{
-		nodes[count++] = cmd_node;
-		cmd_node = cmd_node->left;
-	}
-	saved_stdout = dup(STDOUT_FILENO);
-	if (saved_stdout == -1)
-		exit_error("dup");
-	if (open_fd(count, nodes) == -1)
-	{
-		if (dup2(saved_stdout, STDOUT_FILENO) == -1)
-			exit_error("dup2");
-		close(saved_stdout);
-		return ;
-	}
-	if (cmd_node)
-		execute_tree(cmd_node);
-	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
-		exit_error("dup2");
-	close(saved_stdout);
-	tree->status = 0;
+	close(saved_fd);
 }
 
 int	open_fd(int count, t_btree *nodes[100])
@@ -114,8 +90,12 @@ int	open_fd(int count, t_btree *nodes[100])
 			fd = open(nodes[i]->file, oflags, 0644);
 			if (fd == -1)
 			{
-				ft_fprintf("minishell: %s: No such file or directory\n",
-					nodes[i]->file);
+				if (errno == EACCES)
+					ft_fprintf("minishell: %s: Permission denied\n",
+						nodes[i]->file);
+				else if (errno == ENOENT)
+					ft_fprintf("minishell: %s: No such file or directory\n",
+						nodes[i]->file);
 				nodes[0]->status = 1;
 				return (-1);
 			}
@@ -146,46 +126,12 @@ int	get_std(t_btree *node)
 	return (std);
 }
 
-static void	execute_append(t_btree *tree)
-{
-	t_btree	*nodes[100];
-	int		count;
-	t_btree	*cmd_node;
-	int		saved_stdout;
-
-	cmd_node = tree;
-	count = 0;
-	while (cmd_node && (cmd_node->type == NODE_APPEND
-			|| cmd_node->type == NODE_REDIR_OUT))
-	{
-		nodes[count++] = cmd_node;
-		cmd_node = cmd_node->left;
-	}
-	saved_stdout = dup(STDOUT_FILENO);
-	if (saved_stdout == -1)
-		exit_error("dup");
-	if (open_fd(count, nodes) == -1)
-	{
-		if (dup2(saved_stdout, STDOUT_FILENO) == -1)
-			exit_error("dup2");
-		close(saved_stdout);
-		return ;
-	}
-	if (cmd_node)
-		execute_tree(cmd_node);
-	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
-		exit_error("dup2");
-	close(saved_stdout);
-}
-
 void	execute_redirection(t_btree *tree)
 {
-	if (tree->type == NODE_REDIR_IN)
-		execute_redir_in(tree);
-	else if (tree->type == NODE_REDIR_OUT)
-		execute_redir_out(tree);
-	else if (tree->type == NODE_APPEND)
-		execute_append(tree);
+	if (tree->type == NODE_REDIR_OUT || tree->type == NODE_APPEND)
+		execute(tree, STDOUT_FILENO);
+	else if (tree->type == NODE_REDIR_IN)
+		execute(tree, STDIN_FILENO);
 	else if (tree->type == NODE_HEREDOC)
 		execute_heredoc(tree);
 }

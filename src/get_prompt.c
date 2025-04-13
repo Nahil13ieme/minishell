@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:23:40 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 15:12:47 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:51:50 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*make_prompt(void)
 
 	prompt = GREEN;
 	user = get_username();
-	user = ft_strjoin(user, "@minishell" WHITE ":" BLUE);
+	user = ft_strjoin(user, "@minishell" WHITE ":" MAGENTA);
 	prompt = ft_strjoin(prompt, user);
 	free(user);
 	cur_path = getcwd(NULL, 0);

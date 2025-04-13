@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 19:30:01 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/13 20:34:13 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,8 @@ int	ft_cd(char **args)
 	{
 		free(home);
 		free(pwd);
-		if (args[1][0] == '-' && args[1][1] == '\0')
-			return (ft_fprintf("minishell: cd: %s: No such file or directory\n",
-					args[1]), 1);
-		else if (args[1][0] == '-' && args[1][1] != '\0')
-			return (ft_fprintf("minishell: cd: %s: No such file or directory\n",
-					args[1]), 1);
-		ft_fprintf("minishell: cd: %s: No such file or directory\n",
-			args[1]);
+		ft_fprintf("minishell: cd: %s: No such file or directory\n", args[1]);
+		return (1);
 	}
 	else if (args[2])
 	{

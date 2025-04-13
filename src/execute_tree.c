@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/11 15:00:06 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:19:04 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,12 +139,15 @@ void	execute_tree(t_btree *tree)
 			tree->cmd[0] = ft_itoa(get_exit_code());
 		}
 		tree->cmd = retrieve_var(tree->cmd);
-		if (tree->cmd[0][0] == 0)
+		if (tree->cmd)
 		{
-			tree->status = 0;
-			return ;
+			if (tree->cmd[0][0] == 0)
+			{
+				tree->status = 0;
+				return ;
+			}
+			execute_path(tree);
 		}
-		execute_path(tree);
 	}
 	ft_if_execute_andor(tree);
 	if (tree->type == NODE_SEMICOLON)
