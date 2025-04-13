@@ -109,6 +109,7 @@ void			ft_echo(t_btree *tree);
 int				ft_cd(char **args);
 void			ft_pwd(void);
 int				ft_export(char *var, int i);
+int				ft_export_2(char **args);
 void			ft_unset(char *var, int i);
 
 /* ------------------------EXECUTE_HEREDOC---------------------------------- */

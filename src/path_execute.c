@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/13 15:19:15 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:59:30 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,8 @@ void	exec_built_in(t_btree *tree)
 		tree->status = ft_cd(tree->cmd);
 	else if (ft_strcmp(tree->cmd[0], "pwd") == 0)
 		ft_pwd();
-	else if (ft_strcmp(tree->cmd, "export") == 0)
-		tree->status = ft_export(tree->cmd[1], 0);
+	else if (ft_strcmp(tree->cmd[0], "export") == 0)
+		tree->status = ft_export_2(tree->cmd);
 	else if (ft_strcmp(tree->cmd[0], "unset") == 0)
 		ft_unset(tree->cmd[1], 0);
 	else if (ft_strcmp(tree->cmd[0], "env") == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 15:22:04 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:05:29 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	ft_pwd(void)
  * @brief Commande built-in pour exporter une variable dans ENV.
  * @param var Variable a exporter.
  */
-int	ft_export(char **var, int i)
+int	ft_export(char *var, int i)
 {
 	char	*equal_pos ;
 	char	**new_envp;
@@ -140,6 +140,41 @@ int	ft_export(char **var, int i)
 		new_envp[i + 1] = NULL;
 		sim_glob(new_envp, 's');
 		set_export();
+	}
+	return (0);
+}
+
+int	ft_export_2(char **args)
+{
+	char	*equal_pos ;
+	char	**new_envp;
+	char	**envi;
+
+	int		i;
+	int		j;
+	
+	i = 1;
+	while (args[i])
+	{
+		envi = sim_glob(NULL, 'g');
+		j = 0;
+		if (!args[i])
+			return (print_sort_export(), 0);
+		equal_pos = ft_strchr(args[i], '=');
+		if (args[i][0] == '=' || ft_isdigit(args[i][0]) || args[i][0] < 48
+			|| (args[i][0] > 57 && args[i][0] <= 63))
+			return (ft_fprintf("minishell: export: %s not a valid identifier\n",
+					args[i]), 1);
+		j = ft_if_export(j, args[i], equal_pos);
+		if (j > 0)
+		{
+			new_envp = ft_tab_realloc(envi, 1);
+			new_envp[j] = ft_strdup(args[i]);
+			new_envp[j + 1] = NULL;
+			sim_glob(new_envp, 's');
+			set_export();
+		}
+		i++;
 	}
 	return (0);
 }
