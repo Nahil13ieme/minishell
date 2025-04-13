@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:55:00 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 14:32:23 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/13 14:56:50 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,14 @@ void	set_mini_env(void)
 
 	fd = open("/etc/environment", O_RDONLY);
 	tab = sim_glob(NULL, 'g');
-	if (tab != NULL)
-		tab = ft_tab_realloc(tab, 1);
-	else
-	{
-		tab = malloc(sizeof(char *) * 2);
-		tab[1] = "\0";
-	}
+	tab = malloc(sizeof(char *) * 5);
 	str = get_next_line(fd);
 	str = search_replace(str, '\"');
 	tab[0] = ft_strdup(ft_substr(str, 0, ft_strlen(str) - 4));
-	sim_glob(tab, 's');
-	ft_export(ft_strdup(getlogin()), 0);
+	tab[1] = ft_strdup("OLDPWD");
+	tab[2] = ft_strdup("PWD");
+	tab[3] = ft_strdup("SHLVL=1");
+	tab[4] = 0;
 	sim_glob(tab, 's');
 }
 
