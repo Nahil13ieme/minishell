@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/14 07:35:36 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 07:53:47 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,11 @@ static void	execute_pipeline(t_btree *tree)
 	if (WIFEXITED(tree->status))
 		tree->status = WEXITSTATUS(tree->status);
 	else if (WIFSIGNALED(tree->status))
-		tree->status = WTERMSIG(tree->status);
+	{
+		if (WTERMSIG(tree->status) == SIGQUIT)
+			ft_fprintf("Quit (core dumped)\n");
+		tree->status = 128 + WTERMSIG(tree->status);
+	}
 	else
 		tree->status = 1;
 }

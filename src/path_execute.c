@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/13 15:59:30 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 07:53:00 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,11 @@ static int	execute_child(char *path, char **cmd)
 	if (WIFEXITED(ret))
 		ret = WEXITSTATUS(ret);
 	else if (WIFSIGNALED(ret))
+	{
+		if (WTERMSIG(ret) == SIGQUIT)
+			ft_fprintf("Quit (core dumped)\n");
 		ret = 128 + WTERMSIG(ret);
+	}
 	return (ret);
 }
 
