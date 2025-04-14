@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_built_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 19:22:42 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/14 13:53:56 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ int	ft_if_export(int i, char *var, char *equal_pos)
 	{
 		if (var[i] == '=')
 			before = 1;
-		if ((var[i] < 48 || var[i] > 57) && (var[i] < 65 || var[i] > 90) && (var[i] < 97 || var[i] > 122) && before == 0)
-			return (set_exit_code(1), ft_fprintf("minishell: export: %s not a valid identifier\n",
-				var), -1);
+		if ((var[i] < 48 || var[i] > 57) && (var[i] < 65
+				|| var[i] > 90) && (var[i] < 97 || var[i] > 122)
+			&& before == 0)
+			return (set_exit_code(1), ft_fprintf("minishell: export: %s \
+					 not avalid identifier\n", var), -1);
 		i++;
 	}
 	i = 0;
@@ -128,7 +130,6 @@ void	export_pwd(char *buf)
 	free(pwd_entry);
 	free(cwd);
 }
-
 
 int	search_c(char *s1, char c)
 {
