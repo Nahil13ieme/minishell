@@ -1,0 +1,12 @@
+cat
+errors.txt
+include
+libft
+Makefile
+minishell
+minishell_tester
+obj
+readline.supp
+readme_branch_github.txt
+src
+TODO.md

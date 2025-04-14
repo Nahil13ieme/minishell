@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:43:56 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/14 19:34:36 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 22:29:04 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static int	check_identifier(char *var, int i)
 		if (var[i] == '=')
 			before = 1;
 		if ((var[i] < 48 || var[i] > 57) && (var[i] < 65 || var[i] > 90)
-			&& (var[i] < 97 || var[i] > 122) && before == 0)
+			&& (var[i] < 95 || var[i] > 95) && (var[i] < 97 || var[i] > 122)
+			&& before == 0)
 			return (set_exit_code(1),
 				ft_fprintf("minishell: export: %s not a valid identifier\n",
 					var),
