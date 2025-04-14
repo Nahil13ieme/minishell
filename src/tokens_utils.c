@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 17:26:49 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/13 12:20:24 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 07:38:17 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ static int	validate_token_list(t_token_stream *ts)
 		{
 			if (i == ts->size - 1)
 				return (ft_putstr_fd(ERR_NL, 2), 0);
-			if (is_control(ts->tokens[i + 1]->type)
-				|| is_redir(ts->tokens[i + 1]->type))
+			if (is_control(ts->tokens[i + 1]->type))
 				return (ft_putstr_fd(ERR_REDIR, 2), 0);
 		}
 		i++;
@@ -50,7 +49,7 @@ int	validate_token_sequence(t_token_stream *ts)
 {
 	if (ts->size == 0)
 		return (0);
-	if (ts->tokens[0]->type != TOKEN_WORD)
+	if (ts->tokens[0]->type != TOKEN_WORD && !is_redir(ts->tokens[0]->type))
 	{
 		ft_fprintf("minishell: syntax error near unexpected token `%s'\n",
 			ts->tokens[0]->value);

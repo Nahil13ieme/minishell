@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/13 21:19:04 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 07:35:36 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	execute_tree(t_btree *tree)
 
 	if (tree == NULL)
 		return ;
-	if (tree->cmd)
+	if (tree->cmd && tree->cmd[0])
 	{
 		if (tree->cmd && strcmp(tree->cmd[0], "$?") == 0)
 		{
