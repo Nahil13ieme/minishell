@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/14 07:53:47 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:38:21 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ static void	execute_pipeline(t_btree *tree)
 	pid1 = 0;
 	pid2 = 0;
 	if (pipe(fd) == -1)
-	{
-		perror("pipe");
-		exit(EXIT_FAILURE);
-	}
+		exit_error("perror");
 	pid1 = execute_pid(tree->left, fd, STDOUT_FILENO);
 	pid2 = execute_pid(tree->right, fd, STDIN_FILENO);
 	close(fd[0]);
@@ -96,15 +93,11 @@ static char	*handle_word2(char *line, int *i)
 	return (segment);
 }
 
-char	*retrieve_var_word(char *line)
+char	*retrieve_var_word(char *line, char *tmp, int i)
 {
 	char	*segment;
-	char	*tmp;
 	char	*word;
-	int		i;
 
-	tmp = NULL;
-	i = 0;
 	segment = NULL;
 	while (line[i] && line[i] != ' ')
 	{
@@ -133,26 +126,7 @@ void	execute_tree(t_btree *tree)
 {
 	char	*tmp;
 
-	if (tree == NULL)
-		return ;
-	if (tree->cmd && tree->cmd[0])
-	{
-		if (tree->cmd && strcmp(tree->cmd[0], "$?") == 0)
-		{
-			free(tree->cmd[0]);
-			tree->cmd[0] = ft_itoa(get_exit_code());
-		}
-		tree->cmd = retrieve_var(tree->cmd);
-		if (tree->cmd)
-		{
-			if (tree->cmd[0][0] == 0)
-			{
-				tree->status = 0;
-				return ;
-			}
-			execute_path(tree);
-		}
-	}
+	ft_if_execute_first(tree);
 	ft_if_execute_andor(tree);
 	if (tree->type == NODE_SEMICOLON)
 	{
@@ -168,7 +142,7 @@ void	execute_tree(t_btree *tree)
 		if (tree->file)
 		{
 			tmp = tree->file;
-			tree->file = retrieve_var_word(tree->file);
+			tree->file = retrieve_var_word(tree->file, NULL, 0);
 			free(tmp);
 		}
 		execute_redirection(tree);

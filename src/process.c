@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:26:03 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/14 07:31:23 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:19:37 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,7 @@ void	process_line(char *line)
 		add_history(line);
 		ts = tokenize_input(line);
 		if (!validate_token_sequence(ts))
-		{
-			set_exit_code(2);
-			free_token_stream(ts);
-			return ;
-		}
+			return (set_exit_code(2), free_token_stream(ts));
 		set_root(parse_input(ts), 's');
 		free_token_stream(ts);
 		if (set_root(NULL, 'g'))
@@ -55,9 +51,7 @@ void	process_line(char *line)
 			set_root(NULL, 'f');
 		}
 		else
-		{
-			set_exit_code(1);
-			ft_fprintf("Error parsing input\n");
-		}
+			return ((void)(set_exit_code(1),
+				ft_fprintf("Error parsing input\n")));
 	}
 }

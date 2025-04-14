@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:05:46 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 21:17:46 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:33:28 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,23 +71,21 @@ void	ft_if_modify_export(char *equal_pos, char *var, char **envi,
 	}
 }
 
-char	**retrieve_var(char **cmd)
+char	**retrieve_var(char **cmd, int len)
 {
 	char	*segment;
 	char	*line;
 	char	**ret;
 	int		i;
-	int		len;
 
 	i = 0;
-	len = 0;
 	ret = NULL;
 	if (!cmd)
 		return (NULL);
 	while (cmd[i])
 	{
 		line = cmd[i];
-		segment = retrieve_var_word(line);
+		segment = retrieve_var_word(line, NULL, 0);
 		free(line);
 		if (segment && segment[0] != 0)
 		{
@@ -99,6 +97,5 @@ char	**retrieve_var(char **cmd)
 		free(segment);
 		i++;
 	}
-	free(cmd);
-	return (ret);
+	return (free(cmd), ret);
 }

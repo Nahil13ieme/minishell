@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:00:09 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/10 14:41:11 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:52:31 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,15 @@ t_btree	*parse_pipeline(t_token_stream *ts)
 	t_btree	*node;
 	t_btree	*right;
 
-	node = parse_redirection(ts);
+	node = parse_redirection(ts, parse_command(ts),
+			get_redirection_type(ts));
 	if (!node)
 		return (NULL);
 	while (current_token_is(ts, TOKEN_PIPE))
 	{
 		consume_token(ts);
-		right = parse_redirection(ts);
+		right = parse_redirection(ts, parse_command(ts),
+				get_redirection_type(ts));
 		node = create_node(NODE_PIPE, node, right, NULL);
 	}
 	return (node);

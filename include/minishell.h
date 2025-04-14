@@ -153,7 +153,8 @@ t_btree			*parse_input(t_token_stream *ts);
 t_btree			*parse_sequence(t_token_stream *ts);
 t_btree			*parse_logical(t_token_stream *ts);
 t_btree			*parse_pipeline(t_token_stream *ts);
-t_btree			*parse_redirection(t_token_stream *ts);
+t_btree			*parse_redirection(t_token_stream *ts, t_btree	*node,
+					t_cmd_type	type);
 
 /*---------------------------PATH_EXECUTE------------------------------------*/
 //static void	free_paths(char **paths);
@@ -205,7 +206,7 @@ void			set_path(void);
 
 /*-----------------------------UTILS_3---------------------------------------*/
 int				get_oflags(int type);
-char			**retrieve_var(char **cmd);
+char			**retrieve_var(char **cmd, int len);
 
 /*-------------------------UTILS_BUILT_IN------------------------------------*/
 int				ft_while_echo(char **args, int i, int j);
@@ -263,7 +264,7 @@ int				ft_sort(char *str1, char *str2);
 unsigned int	ft_fprintf(const char *str, ...);
 
 void			apply_heredoc(t_btree *tree, int child);
-char			*retrieve_var_word(char *line);
+char			*retrieve_var_word(char *line, char *tmp, int i);
 
 // TEST ZONE
 char			**extract_content_heredoc(char *delimiter);
@@ -271,7 +272,10 @@ char			**extract_content_heredoc(char *delimiter);
 /*------------------------------GNL------------------------------------------*/
 char			*get_next_line(int fd);
 
-void	ft_if_execute(t_btree *cmd_node, int saved_stdin, int saved_stdout,
-		 t_btree *tree);
+void			ft_if_execute(t_btree *cmd_node, int saved_stdin,
+					int saved_stdout, t_btree *tree);
+int				ft_if_execute_first(t_btree *tree);
+void			execute(t_btree *tree);
+t_cmd_type		get_redirection_type(t_token_stream *ts);
 
 #endif //MINISHELL_H

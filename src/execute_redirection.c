@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/14 14:05:31 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:40:42 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	extract_nodes(t_btree *tree, t_btree **cmd_node,
 	}
 }
 
-static void	execute(t_btree *tree)
+void	execute(t_btree *tree)
 {
 	t_btree	*nodes[100];
 	int		count;
@@ -152,27 +152,4 @@ int	open_fd(int count, t_btree *nodes[100])
 		close(fd_out);
 	}
 	return (0);
-}
-
-int	get_std(t_btree *node)
-{
-	int	std;
-
-	if (node->type == NODE_REDIR_IN || node->type == NODE_HEREDOC)
-		std = STDIN_FILENO;
-	else if (node->type == NODE_REDIR_OUT || node->type == NODE_APPEND)
-		std = STDOUT_FILENO;
-	else
-		std = -1;
-	return (std);
-}
-
-void	execute_redirection(t_btree *tree)
-{
-	if (tree->type == NODE_REDIR_OUT || tree->type == NODE_APPEND)
-		execute(tree);
-	else if (tree->type == NODE_REDIR_IN)
-		execute(tree);
-	else if (tree->type == NODE_HEREDOC)
-		execute_heredoc(tree);
 }

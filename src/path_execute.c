@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/14 07:53:00 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:26:01 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ char	*find_path(char *cmd)
 		free(path);
 		i++;
 	}
-	i = -1;
-	free_tab(paths);
-	return (NULL);
+	return (free_tab(paths), NULL);
 }
 
 static int	execute_child(char *path, char **cmd)
@@ -54,12 +52,8 @@ static int	execute_child(char *path, char **cmd)
 	{
 		setup_child_signals();
 		if (execve(path, cmd, sim_glob(NULL, 'g')) == -1)
-		{
-			free_glob();
-			set_root(NULL, 'f');
-			free(path);
-			exit(EXIT_FAILURE);
-		}
+			return (free_glob(), set_root(NULL, 'f'), free(path),
+				exit(EXIT_FAILURE), 1);
 	}
 	else if (pid1 > 0)
 		waitpid(pid1, &ret, 0);
