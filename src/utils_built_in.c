@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_built_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-saut <tle-saut@student.42perpignan>    +#+  +:+       +#+        */
+/*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 13:49:35 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 19:22:42 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/14 18:50:43 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,80 +25,6 @@ int	ft_while_echo(char **args, int i, int j)
 		if (args[i + 1] && args[i][0] != '\0')
 			write(1, " ", 1);
 		i++;
-	}
-	return (i);
-}
-
-int	ft_if_export(int i, char *var, char *equal_pos)
-{
-	char	**envi;
-	int		len;
-	int		before;
-
-	before = 0;
-	while (var[i])
-	{
-		if (var[i] == '=')
-			before = 1;
-		if ((var[i] < 48 || var[i] > 57) && (var[i] < 65 || var[i] > 90) && (var[i] < 97 || var[i] > 122) && before == 0)
-			return (set_exit_code(1), ft_fprintf("minishell: export: %s not a valid identifier\n",
-				var), -1);
-		i++;
-	}
-	i = 0;
-	(void)equal_pos;
-	len = ft_strlen(var);
-	envi = sim_glob(NULL, 'g');
-	if (search_c(var, '=') != 0)
-	{
-		while (envi[i])
-		{
-			if (ft_strncmp(envi[i], var, search_c(var, '=')) == 0
-				&& (envi[i][search_c(var, '=')] == '='
-				|| !envi[i][search_c(var, '=')]))
-			{
-				if (search_c(var, '=') == 0 && search_c(envi[i], '=') != 0)
-					return (0);
-				free(envi[i]);
-				envi[i] = ft_strdup(var);
-				return (0);
-			}
-			else if (ft_strncmp(envi[i], var, len) == 0 && envi[i][len] == '=')
-			{
-				if (search_c(var, '=') == 0 && search_c(envi[i], '=') != 0)
-					return (0);
-				free(envi[i]);
-				envi[i] = ft_strdup(var);
-				return (0);
-			}
-			else if (ft_strncmp(envi[i], var, len) == 0 && envi[i][len] == '\0')
-			{
-				if (search_c(var, '=') == 0 && search_c(envi[i], '=') != 0)
-					return (0);
-				{
-					free(envi[i]);
-					envi[i] = ft_strdup(var);
-					return (0);
-				}
-				i++;
-			}
-			i++;
-		}
-	}
-	else
-	{
-		while (envi[i])
-		{
-			if (ft_strncmp(envi[i], var, len) == 0 && envi[i][len] == '=')
-			{
-				if (search_c(var, '=') == 0 && search_c(envi[i], '=') != 0)
-					return (0);
-				free(envi[i]);
-				envi[i] = ft_strdup(var);
-				return (0);
-			}
-			i++;
-		}
 	}
 	return (i);
 }
@@ -129,7 +55,6 @@ void	export_pwd(char *buf)
 	free(cwd);
 }
 
-
 int	search_c(char *s1, char c)
 {
 	int	i;
@@ -142,4 +67,51 @@ int	search_c(char *s1, char c)
 		i++;
 	}
 	return (0);
+}
+
+int	built_in_check(char *str)
+{
+	if (ft_strcmp(str, "echo") == 0)
+		return (1);
+	else if (ft_strcmp(str, "cd") == 0)
+		return (1);
+	else if (ft_strcmp(str, "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(str, "export") == 0)
+		return (1);
+	else if (ft_strcmp(str, "unset") == 0)
+		return (1);
+	else if (ft_strcmp(str, "env") == 0)
+		return (1);
+	else if (ft_strcmp(str, "exit") == 0)
+		return (1);
+	else
+		return (0);
+}
+
+void	exec_built_in(t_btree *tree)
+{
+	int	i;
+
+	i = 1;
+	if (ft_strcmp(tree->cmd[0], "echo") == 0)
+		ft_echo(tree);
+	else if (ft_strcmp(tree->cmd[0], "cd") == 0)
+		tree->status = ft_cd(tree->cmd);
+	else if (ft_strcmp(tree->cmd[0], "pwd") == 0)
+		ft_pwd();
+	else if (ft_strcmp(tree->cmd[0], "export") == 0)
+		tree->status = ft_export_2(tree->cmd);
+	else if (ft_strcmp(tree->cmd[0], "unset") == 0)
+	{
+		while (tree->cmd[i])
+		{
+			ft_unset(tree->cmd[i], 0);
+			i++;
+		}
+	}
+	else if (ft_strcmp(tree->cmd[0], "env") == 0)
+		ft_env(sim_glob(NULL, 'g'));
+	else if (ft_strcmp(tree->cmd[0], "exit") == 0)
+		ft_exit(tree);
 }

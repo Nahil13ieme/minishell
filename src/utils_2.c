@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:10:31 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/11 17:38:50 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:34:30 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,6 @@ void	print_sort_export(void)
 		i++;
 	}
 	ft_print_env(tab, 1);
-}
-
-void	set_export(void)
-{
-	char	**env;
-	char	**cpy;
-	int		i;
-	int		len;
-
-	i = 0;
-	env = sim_glob(NULL, 'g');
-	len = ft_tablen(env);
-	cpy = (char **)malloc(sizeof(char *) * (len + 1));
-	while (i < len + 1)
-	{
-		cpy[i] = env[i];
-		i++;
-	}
-	sim_glob(cpy, 'S');
-	free(cpy);
 }
 
 void	modifi_env_export(char *var)

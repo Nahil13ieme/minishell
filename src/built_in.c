@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:51:42 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/14 08:46:32 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 18:34:37 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,35 +51,4 @@ void	ft_pwd(void)
 		printf("%s\n", cwd);
 	else
 		perror("pwd");
-}
-
-/**
- * @brief Commande built-in pour sortir une variable de ENV.
- * @param var Variable a unset.
- * @param envp Variable environement
- */
-void	ft_unset(char *var, int i)
-{
-	char	**envp;
-	int		j;
-
-	envp = sim_glob(NULL, 'g');
-	if (!var || !envp)
-		return ;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], var, search_c(envp[i], '=')) == 0)
-		{
-			j = i;
-			free(envp[i]);
-			while (envp[j + 1])
-			{
-				envp[j] = envp[j + 1];
-				j++;
-			}
-			envp[j] = NULL;
-		}
-		else
-			i++;
-	}
 }

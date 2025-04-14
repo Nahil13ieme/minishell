@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   execite_redirection3.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/25 08:54:41 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/14 18:56:06 by nbenhami         ###   ########.fr       */
+/*   Created: 2025/04/14 20:18:15 by nbenhami          #+#    #+#             */
+/*   Updated: 2025/04/14 20:18:20 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	set_exit_code(int code)
+void	check_std(int std, int *fd_in, int new_fd, int *fd_out)
 {
-	sim_exit(code, 's');
-}
-
-int	get_exit_code(void)
-{
-	int	code;
-
-	code = sim_exit(0, 'g');
-	return (code);
-}
-
-int	sim_exit(int code, char c)
-{
-	static int	global = 0;
-
-	if (c == 'g')
-		return (global);
-	else
-		global = code;
-	return (0);
+	if (std == STDIN_FILENO)
+	{
+		if (*fd_in != -1)
+			close(*fd_in);
+		*fd_in = new_fd;
+	}
+	else if (std == STDOUT_FILENO)
+	{
+		if (*fd_out != -1)
+			close(*fd_out);
+		*fd_out = new_fd;
+	}
 }

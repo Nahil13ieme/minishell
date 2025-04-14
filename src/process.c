@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:26:03 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/14 07:31:23 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 20:04:35 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static int	apply_all_heredoc(t_btree *tree)
 		return (1);
 	if (tree->type == NODE_HEREDOC)
 		apply_heredoc(tree, 1);
+	if (g_signal == SIGINT)
+		return (1);
 	return (0);
 }
 
@@ -38,11 +40,7 @@ void	process_line(char *line)
 		add_history(line);
 		ts = tokenize_input(line);
 		if (!validate_token_sequence(ts))
-		{
-			set_exit_code(2);
-			free_token_stream(ts);
-			return ;
-		}
+			return (set_exit_code(2), free_token_stream(ts));
 		set_root(parse_input(ts), 's');
 		free_token_stream(ts);
 		if (set_root(NULL, 'g'))
@@ -55,9 +53,6 @@ void	process_line(char *line)
 			set_root(NULL, 'f');
 		}
 		else
-		{
-			set_exit_code(1);
-			ft_fprintf("Error parsing input\n");
-		}
+			return (ft_fprintf("Error parsing input\n"), set_exit_code(1));
 	}
 }

@@ -118,6 +118,7 @@ void			execute_heredoc(t_btree *tree);
 /* ----------------------EXECUTE_REDIRECTION-------------------------------- */
 void			exit_error(char *msg);
 int				open_fd(int count, t_btree *nodes[100]);
+void			check_std(int std, int *fd_in, int new_fd, int *fd_out);
 int				get_std(t_btree *node);
 //static void		execute_redir_in(t_btree *tree);
 //static void		execute_redir_out(t_btree *tree);
@@ -128,7 +129,7 @@ void			execute_redirection(t_btree *tree);
 //static void		execute_and(t_btree *tree);
 //static void		execute_or(t_btree *tree);
 //static pid_t	execute_pid(t_btree *tree, int *fd, int fileno);
-//static void		execute_pipeline(t_btree *tree);
+void			execute_pipeline(t_btree *tree);
 void			execute_tree(t_btree *tree);
 
 /*-------------------------------EXIT----------------------------------------*/
@@ -157,6 +158,7 @@ t_btree			*parse_redirection(t_token_stream *ts);
 /*---------------------------PATH_EXECUTE------------------------------------*/
 //static void	free_paths(char **paths);
 char			*find_path(char *cmd);
+void			fork_child(char *path, char **cmd);
 void			exec_built_in(t_btree *tree);
 //static int	execute_child(char *path, char **cmd);
 void			execute_path(t_btree *tree);

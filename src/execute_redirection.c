@@ -6,179 +6,130 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/14 10:55:28 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 20:18:07 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "minishell.h"
 
-static int	is_redirection(t_btree *tree)
+/**
+ * @brief Vérifie si le fichier est valide pour l'ouverture
+ * @param file Le nom du fichier à vérifier
+ * @return 0 si valide, 1 si invalide
+ */
+static int	check_file_validity(char *file, t_btree *node)
 {
-	return (tree->type == NODE_REDIR_IN
-		|| tree->type == NODE_REDIR_OUT
-		|| tree->type == NODE_APPEND
-		|| tree->type == NODE_HEREDOC);
-}
-
-static void	extract_nodes(t_btree *tree, t_btree **cmd_node, t_btree *nodes[100], int *count)
-{
-
-	*cmd_node = tree;
-	*count = 0;
-	while (*cmd_node && is_redirection(*cmd_node))
+	if (ft_strlen(file) >= 256)
 	{
-		nodes[(*count)++] = *cmd_node;
-		*cmd_node = (*cmd_node)->left;
+		ft_fprintf("minishell: %s: File name too long\n", file);
+		node->status = 1;
+		return (1);
 	}
+	else if (check_dir_file(file) == 1)
+	{
+		node->status = 1;
+		return (1);
+	}
+	return (0);
 }
 
-static void execute(t_btree *tree)
+/**
+ * @brief Ouvre un fichier avec les flags appropriés
+ * @return Le descripteur de fichier ou -1 en cas d'erreur
+ */
+static int	open_file(char *file, int oflags, t_btree *node)
 {
-    t_btree  *nodes[100];
-    int      count;
-    t_btree  *cmd_node;
-    int      saved_stdin;
-    int      saved_stdout;
+	int	new_fd;
 
-    count = 0;
-    extract_nodes(tree, &cmd_node, nodes, &count);
-    
-    // Save both stdin and stdout
-    saved_stdin = dup(STDIN_FILENO);
-    saved_stdout = dup(STDOUT_FILENO);
-    
-    if (saved_stdin == -1 || saved_stdout == -1)
-        exit_error("dup");
-        
-    if (open_fd(count, nodes) == -1)
-    {
-        // Restore both descriptors on error
-        if (dup2(saved_stdin, STDIN_FILENO) == -1)
-            exit_error("dup2");
-        if (dup2(saved_stdout, STDOUT_FILENO) == -1)
-            exit_error("dup2");
-        close(saved_stdin);
-        close(saved_stdout);
-        return;
-    }
-    
-    if (cmd_node)
-        execute_tree(cmd_node);
-        
-    tree->status = cmd_node->status;
-    
-    // Always restore both descriptors
-    if (dup2(saved_stdin, STDIN_FILENO) == -1)
-        exit_error("dup2");
-    if (dup2(saved_stdout, STDOUT_FILENO) == -1)
-        exit_error("dup2");
-        
-    close(saved_stdin);
-    close(saved_stdout);
+	new_fd = open(file, oflags, 0644);
+	if (new_fd == -1)
+	{
+		if (errno == EACCES)
+			ft_fprintf("minishell: %s: Permission denied\n", file);
+		else if (errno == ENOENT)
+			ft_fprintf("minishell: %s: No such file or directory\n", file);
+		node->status = 1;
+	}
+	return (new_fd);
 }
 
-int open_fd(int count, t_btree *nodes[100])
-{
-    int i;
-    int fd_in = -1;
-    int fd_out = -1;
-    int oflags;
-    int std;
-
-    i = count - 1;
-    while (i >= 0)
-    {
-        std = get_std(nodes[i]);
-        oflags = get_oflags(nodes[i]->type);
-        
-        if (nodes[i]->type != NODE_HEREDOC)
-        {
-            if (ft_strlen(nodes[i]->file) >= 256)
-            {
-                ft_fprintf("minishell: %s: File name too long\n", nodes[i]->file);
-                nodes[0]->status = 1;
-                return (-1);
-            }
-            else if (check_dir_file(nodes[i]->file) == 1)
-            {
-                nodes[0]->status = 1;
-                return (-1);
-            }
-            
-            int new_fd = open(nodes[i]->file, oflags, 0644);
-            if (new_fd == -1)
-            {
-                if (errno == EACCES)
-                    ft_fprintf("minishell: %s: Permission denied\n", nodes[i]->file);
-                else if (errno == ENOENT)
-                    ft_fprintf("minishell: %s: No such file or directory\n", nodes[i]->file);
-                nodes[0]->status = 1;
-                
-                // Close any previously opened fds
-                if (fd_in != -1) close(fd_in);
-                if (fd_out != -1) close(fd_out);
-                return (-1);
-            }
-            
-            // Keep the most recent fd for each type of redirection
-            if (std == STDIN_FILENO)
-            {
-                if (fd_in != -1) close(fd_in);
-                fd_in = new_fd;
-            }
-            else if (std == STDOUT_FILENO)
-            {
-                if (fd_out != -1) close(fd_out);
-                fd_out = new_fd;
-            }
-        }
-        else
-        {
-            // For heredoc, apply immediately since it directly sets stdin
-            apply_heredoc(nodes[i], 0);
-            fd_in = -2; // Mark as already handled
-        }
-        i--;
-    }
-    
-    // Apply input redirection if needed
-    if (fd_in >= 0)
-    {
-        if (dup2(fd_in, STDIN_FILENO) == -1)
-            exit_error("dup2");
-        close(fd_in);
-    }
-    
-    // Apply output redirection if needed
-    if (fd_out >= 0)
-    {
-        if (dup2(fd_out, STDOUT_FILENO) == -1)
-            exit_error("dup2");
-        close(fd_out);
-    }
-    
-    return (0);
-}
-
-int	get_std(t_btree *node)
+/**
+ * @brief Gère un nœud de redirection
+ * @return 0 si OK, -1 si erreur
+ */
+static int	handle_redirection_node(t_btree *node, int *fd_in, int *fd_out)
 {
 	int	std;
+	int	oflags;
+	int	new_fd;
 
-	if (node->type == NODE_REDIR_IN || node->type == NODE_HEREDOC)
-		std = STDIN_FILENO;
-	else if (node->type == NODE_REDIR_OUT || node->type == NODE_APPEND)
-		std = STDOUT_FILENO;
-	else
-		std = -1;
-	return (std);
+	std = get_std(node);
+	oflags = get_oflags(node->type);
+	if (node->type == NODE_HEREDOC)
+	{
+		apply_heredoc(node, 0);
+		*fd_in = -1;
+		return (0);
+	}
+	if (check_file_validity(node->file, node))
+		return (-1);
+	new_fd = open_file(node->file, oflags, node);
+	if (new_fd == -1)
+		return (-1);
+	check_std(std, fd_in, new_fd, fd_out);
+	return (0);
 }
 
-void	execute_redirection(t_btree *tree)
+/**
+ * @brief Applique les redirections pour les descripteurs de fichiers
+ * @return 0 si réussi, -1 si échoué
+ */
+static int	apply_redirections(int fd_in, int fd_out)
 {
-	if (tree->type == NODE_REDIR_OUT || tree->type == NODE_APPEND)
-		execute(tree);
-	else if (tree->type == NODE_REDIR_IN)
-		execute(treecle);
-	else if (tree->type == NODE_HEREDOC)
-		execute_heredoc(tree);
+	if (fd_in >= 0)
+	{
+		if (dup2(fd_in, STDIN_FILENO) == -1)
+			exit_error("dup2");
+		close(fd_in);
+	}
+	if (fd_out >= 0)
+	{
+		if (dup2(fd_out, STDOUT_FILENO) == -1)
+			exit_error("dup2");
+		close(fd_out);
+	}
+	return (0);
+}
+
+/**
+ * @brief Ouvre les descripteurs de fichiers pour les redirections
+ * @param count Nombre de nœuds
+ * @param nodes Tableau de nœuds
+ * @return 0 si réussi, -1 si échoué
+ */
+int	open_fd(int count, t_btree *nodes[100])
+{
+	int	i;
+	int	fd_in;
+	int	fd_out;
+	int	result;
+
+	i = count - 1;
+	fd_in = -1;
+	fd_out = -1;
+	while (i >= 0)
+	{
+		result = handle_redirection_node(nodes[i], &fd_in, &fd_out);
+		if (result == -1)
+		{
+			if (fd_in != -1)
+				close(fd_in);
+			if (fd_out != -1)
+				close(fd_out);
+			return (-1);
+		}
+		i--;
+	}
+	return (apply_redirections(fd_in, fd_out));
 }

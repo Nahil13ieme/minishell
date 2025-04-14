@@ -6,11 +6,12 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:53:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/14 07:53:00 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 18:52:30 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "minishell.h"
 
 char	*find_path(char *cmd)
 {
@@ -38,9 +39,7 @@ char	*find_path(char *cmd)
 		free(path);
 		i++;
 	}
-	i = -1;
-	free_tab(paths);
-	return (NULL);
+	return (free_tab(paths), NULL);
 }
 
 static int	execute_child(char *path, char **cmd)
@@ -51,16 +50,7 @@ static int	execute_child(char *path, char **cmd)
 	pid1 = fork();
 	ret = 0;
 	if (pid1 == 0)
-	{
-		setup_child_signals();
-		if (execve(path, cmd, sim_glob(NULL, 'g')) == -1)
-		{
-			free_glob();
-			set_root(NULL, 'f');
-			free(path);
-			exit(EXIT_FAILURE);
-		}
-	}
+		fork_child(path, cmd);
 	else if (pid1 > 0)
 		waitpid(pid1, &ret, 0);
 	else if (pid1 < 0)
@@ -74,6 +64,18 @@ static int	execute_child(char *path, char **cmd)
 		ret = 128 + WTERMSIG(ret);
 	}
 	return (ret);
+}
+
+void	fork_child(char *path, char **cmd)
+{
+	setup_child_signals();
+	if (execve(path, cmd, sim_glob(NULL, 'g')) == -1)
+	{
+		free_glob();
+		set_root(NULL, 'f');
+		free(path);
+		exit(EXIT_FAILURE);
+	}
 }
 
 void	execute_path(t_btree *tree)
@@ -103,42 +105,4 @@ void	execute_path(t_btree *tree)
 		if (execve(path, tree->cmd, sim_glob(NULL, 'g')) == -1)
 			return (free(path));
 	return (free(path));
-}
-
-int	built_in_check(char *str)
-{
-	if (ft_strcmp(str, "echo") == 0)
-		return (1);
-	else if (ft_strcmp(str, "cd") == 0)
-		return (1);
-	else if (ft_strcmp(str, "pwd") == 0)
-		return (1);
-	else if (ft_strcmp(str, "export") == 0)
-		return (1);
-	else if (ft_strcmp(str, "unset") == 0)
-		return (1);
-	else if (ft_strcmp(str, "env") == 0)
-		return (1);
-	else if (ft_strcmp(str, "exit") == 0)
-		return (1);
-	else
-		return (0);
-}
-
-void	exec_built_in(t_btree *tree)
-{
-	if (ft_strcmp(tree->cmd[0], "echo") == 0)
-		ft_echo(tree);
-	else if (ft_strcmp(tree->cmd[0], "cd") == 0)
-		tree->status = ft_cd(tree->cmd);
-	else if (ft_strcmp(tree->cmd[0], "pwd") == 0)
-		ft_pwd();
-	else if (ft_strcmp(tree->cmd[0], "export") == 0)
-		tree->status = ft_export_2(tree->cmd);
-	else if (ft_strcmp(tree->cmd[0], "unset") == 0)
-		ft_unset(tree->cmd[1], 0);
-	else if (ft_strcmp(tree->cmd[0], "env") == 0)
-		ft_env(sim_glob(NULL, 'g'));
-	else if (ft_strcmp(tree->cmd[0], "exit") == 0)
-		ft_exit(tree);
 }

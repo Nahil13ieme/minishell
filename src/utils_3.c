@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:05:46 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/13 21:17:46 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:31:33 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	ft_if_modify_export(char *equal_pos, char *var, char **envi,
 char	**retrieve_var(char **cmd)
 {
 	char	*segment;
-	char	*line;
 	char	**ret;
 	int		i;
 	int		len;
@@ -86,19 +85,15 @@ char	**retrieve_var(char **cmd)
 		return (NULL);
 	while (cmd[i])
 	{
-		line = cmd[i];
-		segment = retrieve_var_word(line);
-		free(line);
-		if (segment && segment[0] != 0)
+		segment = retrieve_var_word(cmd[i]);
+		free(cmd[i++]);
+		if (segment && segment[0])
 		{
 			ret = ft_tab_realloc(ret, sizeof(char *) * (len + 1));
-			ret[len] = ft_strdup(segment);
-			ret[len + 1] = NULL;
-			len++;
+			ret[len++] = ft_strdup(segment);
+			ret[len] = NULL;
 		}
 		free(segment);
-		i++;
 	}
-	free(cmd);
-	return (ret);
+	return (free(cmd), ret);
 }
