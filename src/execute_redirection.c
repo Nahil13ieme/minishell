@@ -6,7 +6,7 @@
 /*   By: tle-saut <tle-saut@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:56:35 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/14 13:48:10 by tle-saut         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:05:31 by tle-saut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ static void	execute(t_btree *tree)
 		close(saved_stdout);
 		return ;
 	}
+	ft_if_execute(cmd_node, saved_stdin, saved_stdout, tree);
+}
+
+void	ft_if_execute(t_btree *cmd_node, int saved_stdin, int saved_stdout,
+		t_btree *tree)
+{
 	if (cmd_node)
 		execute_tree(cmd_node);
 	tree->status = cmd_node->status;

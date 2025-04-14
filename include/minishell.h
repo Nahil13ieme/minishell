@@ -271,4 +271,7 @@ char			**extract_content_heredoc(char *delimiter);
 /*------------------------------GNL------------------------------------------*/
 char			*get_next_line(int fd);
 
+void	ft_if_execute(t_btree *cmd_node, int saved_stdin, int saved_stdout,
+		 t_btree *tree);
+
 #endif //MINISHELL_H
