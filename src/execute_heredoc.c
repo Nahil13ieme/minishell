@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 00:37:37 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/11 17:18:49 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/14 08:54:43 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ char	**extract_content_heredoc(char *delimiter)
 			break ;
 		if (!line || strcmp(line, delimiter) == 0)
 			break ;
-		cmd[i] = ft_strdup(line);
-		if (!cmd[i])
-			exit_error("malloc");
-		i++;
+		cmd[i++] = ft_strdup(line);
 		cmd = ft_realloc(cmd, sizeof(char *) * (i + 1), sizeof(char *) * i);
 		cmd[i] = NULL;
 		free(line);
