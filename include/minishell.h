@@ -272,5 +272,6 @@ char			**extract_content_heredoc(char *delimiter);
 
 /*------------------------------GNL------------------------------------------*/
 char			*get_next_line(int fd);
+void			child_sigint(int sig);
 
 #endif //MINISHELL_H

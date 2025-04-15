@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 01:24:42 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/14 20:00:33 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/15 11:30:46 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,20 @@ void	handle_sigint(int sig)
 	set_exit_code(130);
 }
 
+void	child_sigint(int sig)
+{
+	set_root(NULL, 'f');
+	free_glob();
+	exit(sig);
+}
+
 void	setup_child_signals(void)
 {
 	struct sigaction	sa;
 
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = SIG_DFL;
+	sa.sa_handler = child_sigint;
 	sigaction(SIGINT, &sa, NULL);
 	sa.sa_handler = SIG_DFL;
 	sigaction(SIGQUIT, &sa, NULL);
