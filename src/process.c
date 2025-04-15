@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:26:03 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/15 10:57:15 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/15 11:48:23 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ void	process_line(char *line)
 			{
 				execute_tree(set_root(NULL, 'g'));
 				set_exit_code(set_root(NULL, 'g')->status);
+				if (g_signal == SIGINT)
+					set_exit_code(130);
 			}
 			set_root(NULL, 'f');
 		}
-		else	
+		else
 			return (ft_fprintf("Error parsing input\n"), set_exit_code(1));
 	}
 }

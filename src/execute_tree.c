@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:17:48 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/14 19:18:03 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/15 11:45:15 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ static void	handle_redirection(t_btree *tree)
 {
 	char	*tmp;
 
+	if (g_signal == SIGINT)
+		return ;
 	if (!tree->file)
 		return ;
 	tmp = tree->file;
@@ -113,15 +115,21 @@ void	execute_tree(t_btree *tree)
 {
 	if (tree == NULL)
 		return ;
+	if (g_signal == SIGINT)
+		return ;
 	if (tree->cmd && tree->cmd[0])
 		prepare_and_execute_cmd(tree);
 	ft_if_execute_andor(tree);
+	if (g_signal == SIGINT)
+		return ;
 	if (tree->type == NODE_SEMICOLON)
 	{
 		execute_tree(tree->left);
 		execute_tree(tree->right);
 		tree->status = tree->right->status;
 	}
+	if (g_signal == SIGINT)
+		return ;
 	if (tree->type == NODE_PIPE)
 		execute_pipeline(tree);
 	if (tree->type == NODE_REDIR_IN || tree->type == NODE_REDIR_OUT

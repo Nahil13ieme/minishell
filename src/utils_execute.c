@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:18:23 by tle-saut          #+#    #+#             */
-/*   Updated: 2025/04/09 13:44:25 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/15 11:44:32 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static void	execute_or(t_btree *tree)
 
 void	ft_if_execute_andor(t_btree *tree)
 {
+	if (g_signal == SIGINT)
+		return ;
 	if (tree->type == NODE_AND)
 		execute_and(tree);
 	else if (tree->type == NODE_OR)

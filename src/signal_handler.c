@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 01:24:42 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/15 11:30:46 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/15 11:48:40 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,11 @@ void	handle_sigint(int sig)
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
+	if (!set_root(NULL, 'g'))
+	{
+		g_signal = 0;
+		rl_redisplay();
+	}
 	set_exit_code(130);
 }
 
