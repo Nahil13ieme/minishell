@@ -6,7 +6,7 @@
 /*   By: nbenhami <nbenhami@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 01:24:42 by nbenhami          #+#    #+#             */
-/*   Updated: 2025/04/15 11:48:40 by nbenhami         ###   ########.fr       */
+/*   Updated: 2025/04/15 11:52:11 by nbenhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ void	setup_child_signals(void)
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = child_sigint;
 	sigaction(SIGINT, &sa, NULL);
-	sa.sa_handler = SIG_DFL;
+	sa.sa_handler = child_sigint;
 	sigaction(SIGQUIT, &sa, NULL);
 }
